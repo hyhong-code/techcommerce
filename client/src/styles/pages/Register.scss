@@ -1,0 +1,16 @@
+.register {
+  display: flex;
+  justify-content: center;
+
+  &__form {
+    width: 90%;
+    max-width: 25rem;
+
+    &__heading {
+      margin-bottom: 1rem;
+    }
+    &__input {
+      margin-bottom: 1rem;
+    }
+  }
+}
