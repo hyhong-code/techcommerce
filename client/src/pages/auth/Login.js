@@ -3,9 +3,9 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 
 import { Typography, Input, Button, message } from "antd";
-import { MailOutlined } from "@ant-design/icons";
+import { MailOutlined, GoogleOutlined } from "@ant-design/icons";
 
-import { login } from "../../redux/actions/user";
+import { login, loginWithGoogle } from "../../redux/actions/user";
 
 const { Title } = Typography;
 
@@ -20,6 +20,7 @@ const Register = () => {
   const [formData, setFormData] = useState(INITIAL_FORM_DATA);
   const { email, password } = formData;
   const [loading, setLoading] = useState();
+  const [googleLoading, setGoogleLoading] = useState();
 
   const handleChange = (evt) => {
     const { name, value } = evt.target;
@@ -39,6 +40,17 @@ const Register = () => {
     }
 
     setLoading(false);
+  };
+
+  const handleGoogle = async () => {
+    setGoogleLoading(true);
+    try {
+      await dispatch(loginWithGoogle(() => history.push("/")));
+      message.success(`Welcome back!`, 6);
+    } catch (error) {
+      message.error(error.message, 6);
+    }
+    setGoogleLoading(false);
   };
 
   return (
@@ -70,6 +82,7 @@ const Register = () => {
         />
 
         <Button
+          className="login__form__submit"
           type="primary"
           loading={loading}
           disabled={!(email && password.length >= 8)}
@@ -80,6 +93,20 @@ const Register = () => {
           icon={<MailOutlined />}
         >
           Login
+        </Button>
+
+        <Button
+          type="primary"
+          danger
+          loading={googleLoading}
+          htmlType="button"
+          block
+          shape="round"
+          size="large"
+          icon={<GoogleOutlined />}
+          onClick={handleGoogle}
+        >
+          Login with Google
         </Button>
       </form>
     </div>

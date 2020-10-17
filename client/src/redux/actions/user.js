@@ -1,4 +1,4 @@
-import { auth } from "../../services/firebase";
+import { auth, googleAuthProvider } from "../../services/firebase";
 
 import { USER_LOADED, USER_LOGGED_OUT } from "./index";
 
@@ -79,6 +79,18 @@ export const completeRegister = (
 export const login = ({ email, password }, callback) => async (dispatch) => {
   try {
     const { user } = await auth.signInWithEmailAndPassword(email, password);
+    await dispatch(loadUser(user, callback));
+  } catch (error) {
+    throw error;
+  }
+};
+
+/**
+ * Logs user in with google provider, then loads user to state
+ */
+export const loginWithGoogle = (callback) => async (dispatch) => {
+  try {
+    const { user } = await auth.signInWithPopup(googleAuthProvider);
     await dispatch(loadUser(user, callback));
   } catch (error) {
     throw error;
