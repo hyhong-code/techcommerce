@@ -34,6 +34,7 @@ export const register = (email) => async (dispatch) => {
 
   try {
     await auth.sendSignInLinkToEmail(email, registerConfig);
+    console.log("lksdjflsjfksjf");
     localStorage.setItem("SIGN_UP_EMAIL", email);
   } catch (error) {
     dispatch(authError());
@@ -109,6 +110,9 @@ export const logout = (callback) => async (dispatch) => {
   try {
     await auth.signOut();
     dispatch({ type: USER_LOGGED_OUT });
+
+    // Clears token from localStorage
+    localStorage.removeItem("ACCESS_TOKEN");
     if (callback) callback();
   } catch (error) {
     dispatch(authError());
@@ -116,6 +120,28 @@ export const logout = (callback) => async (dispatch) => {
   }
 };
 
+/**
+ * Clears the user piece of state
+ * Sets isInitializing to false for custom route components
+ */
 export const authError = () => (dispatch) => {
+  // Clears token from localStorage
+  localStorage.removeItem("ACCESS_TOKEN");
   dispatch({ type: AUTH_ERROR });
+};
+
+/**
+ * Sends user an email link to reset password
+ */
+export const forgotPassword = (email) => async (dispatch) => {
+  try {
+    const passwordResetConfig = {
+      url: process.env.REACT_APP_PASSWORD_RESET_REDIRECT_URL,
+      handleCodeInApp: true,
+    };
+    await auth.sendPasswordResetEmail(email, passwordResetConfig);
+  } catch (error) {
+    dispatch(authError());
+    throw error;
+  }
 };

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 
 import { Typography, Input, Button, message } from "antd";
 
@@ -9,13 +10,14 @@ const { Title } = Typography;
 const Register = () => {
   const [email, setEmail] = useState();
   const [loading, setLoading] = useState();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
     setLoading(true);
 
     try {
-      await register(email);
+      await dispatch(register(email));
       message.success(
         `Email link sent to ${email}, please click on the link to complete registration.`,
         6

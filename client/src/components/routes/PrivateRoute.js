@@ -5,7 +5,6 @@ import { Spin } from "antd";
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
   const { user, isInitializing } = useSelector(({ user }) => user);
-  console.log({ user }, { isInitializing });
   return isInitializing ? (
     <Spin size="large" />
   ) : user ? (

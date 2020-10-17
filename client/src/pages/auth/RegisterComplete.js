@@ -45,7 +45,6 @@ const RegisterComplete = () => {
         )
       );
     } catch (error) {
-      console.log(error);
       message.error(error.message, 6);
     }
 

@@ -1,23 +1,25 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 
 import { Typography, Input, Button, message } from "antd";
 
-import { register } from "../../redux/actions/user";
+import { forgotPassword } from "../../redux/actions/user";
 
 const { Title } = Typography;
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState();
   const [loading, setLoading] = useState();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
     setLoading(true);
 
     try {
-      console.log(email);
+      await dispatch(forgotPassword(email));
       message.success(
-        `Email link sent to ${email}, please click on the link to complete registration.`,
+        `Password reset link sent to ${email}, please click on the link to proceed.`,
         6
       );
       setEmail("");
