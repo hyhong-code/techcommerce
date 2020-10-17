@@ -5,7 +5,7 @@ import { USER_LOADED, USER_LOGGED_OUT } from "./index";
 /**
  * Load user into redux state, store access token into localStorage
  */
-export const loadUser = (user) => async (dispatch) => {
+export const loadUser = (user, callback) => async (dispatch) => {
   try {
     // Get access token from firebase
     const { token } = await user.getIdTokenResult();
@@ -15,6 +15,8 @@ export const loadUser = (user) => async (dispatch) => {
 
     // Update state
     dispatch({ type: USER_LOADED, payload: { email: user.email, token } });
+
+    if (callback) callback();
   } catch (error) {
     console.error(error);
   }
@@ -38,7 +40,7 @@ export const register = async (email) => {
 };
 
 /**
- * Complete user registration
+ * Complete user registration, then loads user to state
  */
 export const completeRegister = (
   { email, emailLink, password },
@@ -72,12 +74,25 @@ export const completeRegister = (
 };
 
 /**
+ * Logs user in, then loads user to state
+ */
+export const login = ({ email, password }, callback) => async (dispatch) => {
+  try {
+    const { user } = await auth.signInWithEmailAndPassword(email, password);
+    await dispatch(loadUser(user, callback));
+  } catch (error) {
+    throw error;
+  }
+};
+
+/**
  * Log user log out the application
  */
-export const logout = () => async (dispatch) => {
+export const logout = (callback) => async (dispatch) => {
   try {
     await auth.signOut();
     dispatch({ type: USER_LOGGED_OUT });
+    if (callback) callback();
   } catch (error) {
     console.error(error);
   }

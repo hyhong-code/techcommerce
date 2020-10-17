@@ -1,6 +1,10 @@
 .header {
   display: flex;
 
+  &__item--user {
+    margin-left: auto !important;
+  }
+
   &__item--login {
     margin-left: auto !important;
   }

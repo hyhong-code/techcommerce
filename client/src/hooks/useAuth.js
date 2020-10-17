@@ -19,7 +19,7 @@ const useAuth = () => {
     });
 
     return unsubscribe;
-  }, []);
+  }, [dispatch]);
 
   return null;
 };

@@ -82,7 +82,7 @@ const RegisterComplete = () => {
         <Button
           type="primary"
           loading={loading}
-          disabled={!(email && password)}
+          disabled={!(email && password.length >= 8)}
           htmlType="submit"
         >
           Complete Register
