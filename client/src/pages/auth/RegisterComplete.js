@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-
-import { useLocation, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import { Typography, Input, Button, message } from "antd";
 
-import { auth, googleAuthProvider } from "../../services/firebase";
+import { completeRegister } from "../../redux/actions/user";
 
 const { Title } = Typography;
 
@@ -15,6 +15,7 @@ const INITIAL_FORM_DATA = {
 
 const RegisterComplete = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const [formData, setFormData] = useState(INITIAL_FORM_DATA);
   const { email, password } = formData;
@@ -35,32 +36,14 @@ const RegisterComplete = () => {
   const handleSubmit = async (evt) => {
     evt.preventDefault();
     setLoading(true);
+
     try {
-      if (password.length < 8) {
-        throw new Error("Password must be at least 8 characters.");
-      }
-
-      const result = await auth.signInWithEmailLink(
-        email,
-        window.location.href
+      const emailLink = window.location.href;
+      await dispatch(
+        completeRegister({ email, emailLink, password }, () =>
+          history.push("/")
+        )
       );
-
-      if (result.user.emailVerified) {
-        localStorage.removeItem("SIGN_UP_EMAIL");
-
-        // Set a password for user
-        const user = auth.currentUser;
-        await user.updatePassword(password);
-
-        // Get a token to use for backend
-        const idTokenResult = await user.getIdTokenResult();
-        console.log(idTokenResult);
-
-        // Redirect user
-        history.push("/");
-      }
-
-      console.log(result);
     } catch (error) {
       console.log(error);
       message.error(error.message, 6);

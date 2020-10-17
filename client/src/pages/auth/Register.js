@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { Typography, Input, Button, message } from "antd";
 
-import { auth, googleAuthProvider } from "../../services/firebase";
+import { register } from "../../redux/actions/user";
 
 const { Title } = Typography;
 
@@ -14,14 +14,8 @@ const Register = () => {
     evt.preventDefault();
     setLoading(true);
 
-    const config = {
-      handleCodeInApp: true,
-      url: process.env.REACT_APP_REGISTER_REDIRECT_URL,
-    };
-
     try {
-      await auth.sendSignInLinkToEmail(email, config);
-      localStorage.setItem("SIGN_UP_EMAIL", email);
+      await register(email);
       message.success(
         `Email link sent to ${email}, please click on the link to complete registration.`,
         6

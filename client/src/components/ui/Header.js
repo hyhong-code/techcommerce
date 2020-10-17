@@ -7,11 +7,15 @@ import {
   UserOutlined,
   UserAddOutlined,
 } from "@ant-design/icons";
+import { useSelector, useDispatch } from "react-redux";
 
+import { logout } from "../../redux/actions/user";
 const { SubMenu, Item } = Menu;
 
 const Header = () => {
   const [current, setCurrent] = useState("home");
+  const dispatch = useDispatch();
+  const user = useSelector(({ user: { user } }) => user);
 
   return (
     <Menu
@@ -24,10 +28,18 @@ const Header = () => {
         <Link to="/">Home</Link>
       </Item>
 
-      <SubMenu key="username" icon={<SettingOutlined />} title="Username">
-        <Item key="setting:1">Option 1</Item>
-        <Item key="setting:2">Option 2</Item>
-      </SubMenu>
+      {user && (
+        <SubMenu
+          key="username"
+          icon={<SettingOutlined />}
+          title={user.email.split("@")[0]}
+        >
+          <Item key="setting:1" onClick={() => dispatch(logout())}>
+            Logout
+          </Item>
+          <Item key="setting:2">Option 2</Item>
+        </SubMenu>
+      )}
 
       <Item key="login" icon={<UserOutlined />} className="header__item--login">
         <Link to="/login">Login</Link>
