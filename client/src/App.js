@@ -5,7 +5,10 @@ import Home from "./pages/Home";
 import Register from "./pages/auth/Register";
 import RegisterComplete from "./pages/auth/RegisterComplete";
 import Login from "./pages/auth/Login";
+import ForgotPassword from "./pages/auth/ForgotPassword";
 import Header from "./components/ui/Header";
+// import PrivateRoute from "./components/routes/PrivateRoute";
+import PublicRoute from "./components/routes/PublicRoute";
 import useAuth from "./hooks/useAuth";
 
 const App = () => {
@@ -14,9 +17,14 @@ const App = () => {
     <Fragment>
       <Header />
       <Switch>
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/register" component={Register} />
-        <Route exact path="/register/complete" component={RegisterComplete} />
+        <PublicRoute exact path="/login" component={Login} />
+        <PublicRoute exact path="/register" component={Register} />
+        <PublicRoute
+          exact
+          path="/register/complete"
+          component={RegisterComplete}
+        />
+        <PublicRoute exact path="/forgot-password" component={ForgotPassword} />
         <Route exact path="/" component={Home} />
       </Switch>
     </Fragment>

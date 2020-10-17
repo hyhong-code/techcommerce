@@ -1,6 +1,6 @@
 import { auth, googleAuthProvider } from "../../services/firebase";
 
-import { USER_LOADED, USER_LOGGED_OUT } from "./index";
+import { AUTH_ERROR, USER_LOADED, USER_LOGGED_OUT } from "./index";
 
 /**
  * Load user into redux state, store access token into localStorage
@@ -18,6 +18,7 @@ export const loadUser = (user, callback) => async (dispatch) => {
 
     if (callback) callback();
   } catch (error) {
+    dispatch(authError());
     console.error(error);
   }
 };
@@ -25,7 +26,7 @@ export const loadUser = (user, callback) => async (dispatch) => {
 /**
  * Registe user via email and send them a verification link
  */
-export const register = async (email) => {
+export const register = (email) => async (dispatch) => {
   const registerConfig = {
     handleCodeInApp: true,
     url: process.env.REACT_APP_REGISTER_REDIRECT_URL,
@@ -35,6 +36,7 @@ export const register = async (email) => {
     await auth.sendSignInLinkToEmail(email, registerConfig);
     localStorage.setItem("SIGN_UP_EMAIL", email);
   } catch (error) {
+    dispatch(authError());
     throw error;
   }
 };
@@ -69,6 +71,7 @@ export const completeRegister = (
       throw new Error("Something went wrong, try again later.");
     }
   } catch (error) {
+    dispatch(authError());
     throw error;
   }
 };
@@ -81,6 +84,7 @@ export const login = ({ email, password }, callback) => async (dispatch) => {
     const { user } = await auth.signInWithEmailAndPassword(email, password);
     await dispatch(loadUser(user, callback));
   } catch (error) {
+    dispatch(authError());
     throw error;
   }
 };
@@ -93,6 +97,7 @@ export const loginWithGoogle = (callback) => async (dispatch) => {
     const { user } = await auth.signInWithPopup(googleAuthProvider);
     await dispatch(loadUser(user, callback));
   } catch (error) {
+    dispatch(authError());
     throw error;
   }
 };
@@ -106,6 +111,11 @@ export const logout = (callback) => async (dispatch) => {
     dispatch({ type: USER_LOGGED_OUT });
     if (callback) callback();
   } catch (error) {
+    dispatch(authError());
     console.error(error);
   }
+};
+
+export const authError = () => (dispatch) => {
+  dispatch({ type: AUTH_ERROR });
 };

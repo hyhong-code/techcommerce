@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { Typography, Input, Button, message } from "antd";
 import { MailOutlined, GoogleOutlined } from "@ant-design/icons";
@@ -82,7 +83,7 @@ const Register = () => {
         />
 
         <Button
-          className="login__form__submit"
+          className="login__form__btn"
           type="primary"
           loading={loading}
           disabled={!(email && password.length >= 8)}
@@ -96,6 +97,7 @@ const Register = () => {
         </Button>
 
         <Button
+          className="login__form__btn"
           type="primary"
           danger
           loading={googleLoading}
@@ -108,6 +110,10 @@ const Register = () => {
         >
           Login with Google
         </Button>
+
+        <Link className="login__form__forgot" to="/forgot-password">
+          Forgot password
+        </Link>
       </form>
     </div>
   );

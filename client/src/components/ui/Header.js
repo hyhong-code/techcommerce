@@ -40,7 +40,7 @@ const Header = () => {
           <Item
             key="setting:1"
             icon={<LoginOutlined />}
-            onClick={() => dispatch(logout(() => history.pushState("/login")))}
+            onClick={() => dispatch(logout(() => history.push("/login")))}
           >
             Logout
           </Item>
