@@ -1,4 +1,4 @@
-import { AUTH_ERROR, USER_LOADED, USER_LOGGED_OUT } from "../actions";
+import { USER_LOADED, USER_LOGGED_OUT } from "../actions";
 
 const INITIAL_STATE = {
   user: null,
@@ -11,7 +11,6 @@ export default (state = INITIAL_STATE, action) => {
     case USER_LOADED:
       return { ...state, user: payload, isInitializing: false };
     case USER_LOGGED_OUT:
-    case AUTH_ERROR:
       return { ...state, user: null, isInitializing: false };
     default:
       return state;

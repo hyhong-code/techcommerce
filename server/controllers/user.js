@@ -1,5 +1,5 @@
 const User = require("../models/User");
 
-exports.createUpdateUser = async (req, res, next) => {
-  res.send("hello");
+exports.loadUser = async (req, res, next) => {
+  res.status(200).json({ user: req.user });
 };

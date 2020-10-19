@@ -1,6 +1,8 @@
 import { auth, googleAuthProvider } from "../../services/firebase";
 
-import { AUTH_ERROR, USER_LOADED, USER_LOGGED_OUT } from "./index";
+import { USER_LOADED, USER_LOGGED_OUT } from "./index";
+import setTokenHeader from "../../utils/setTokenHeader";
+import axios from "axios";
 
 /**
  * Load user into redux state, store access token into localStorage
@@ -12,13 +14,17 @@ export const loadUser = (user, callback) => async (dispatch) => {
 
     // Store token into local storage
     localStorage.setItem("ACCESS_TOKEN", token);
+    setTokenHeader(token);
+
+    // Load user from database
+    const res = await axios.get(`${process.env.REACT_APP_API}/users`);
 
     // Update state
-    dispatch({ type: USER_LOADED, payload: { email: user.email, token } });
+    dispatch({ type: USER_LOADED, payload: res.data.user });
 
     if (callback) callback();
   } catch (error) {
-    dispatch(authError());
+    dispatch(logout());
     console.error(error);
   }
 };
@@ -37,7 +43,7 @@ export const register = (email) => async (dispatch) => {
     console.log("lksdjflsjfksjf");
     localStorage.setItem("SIGN_UP_EMAIL", email);
   } catch (error) {
-    dispatch(authError());
+    dispatch(logout());
     throw error;
   }
 };
@@ -72,7 +78,7 @@ export const completeRegister = (
       throw new Error("Something went wrong, try again later.");
     }
   } catch (error) {
-    dispatch(authError());
+    dispatch(logout());
     throw error;
   }
 };
@@ -85,7 +91,7 @@ export const login = ({ email, password }, callback) => async (dispatch) => {
     const { user } = await auth.signInWithEmailAndPassword(email, password);
     await dispatch(loadUser(user, callback));
   } catch (error) {
-    dispatch(authError());
+    dispatch(logout());
     throw error;
   }
 };
@@ -98,7 +104,7 @@ export const loginWithGoogle = (callback) => async (dispatch) => {
     const { user } = await auth.signInWithPopup(googleAuthProvider);
     await dispatch(loadUser(user, callback));
   } catch (error) {
-    dispatch(authError());
+    dispatch(logout());
     throw error;
   }
 };
@@ -108,26 +114,23 @@ export const loginWithGoogle = (callback) => async (dispatch) => {
  */
 export const logout = (callback) => async (dispatch) => {
   try {
-    await auth.signOut();
-    dispatch({ type: USER_LOGGED_OUT });
-
     // Clears token from localStorage
     localStorage.removeItem("ACCESS_TOKEN");
+
+    // Clear token from axios headers
+    setTokenHeader(null);
+
+    // Clear user from state
+    dispatch({ type: USER_LOGGED_OUT });
+
+    // Redirect
     if (callback) callback();
+
+    // Sign out from firebase
+    await auth.signOut();
   } catch (error) {
-    dispatch(authError());
     console.error(error);
   }
-};
-
-/**
- * Clears the user piece of state
- * Sets isInitializing to false for custom route components
- */
-export const authError = () => (dispatch) => {
-  // Clears token from localStorage
-  localStorage.removeItem("ACCESS_TOKEN");
-  dispatch({ type: AUTH_ERROR });
 };
 
 /**
@@ -141,7 +144,7 @@ export const forgotPassword = (email) => async (dispatch) => {
     };
     await auth.sendPasswordResetEmail(email, passwordResetConfig);
   } catch (error) {
-    dispatch(authError());
+    dispatch(logout());
     throw error;
   }
 };
