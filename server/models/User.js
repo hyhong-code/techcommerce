@@ -2,12 +2,10 @@ const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema(
   {
-    name: {
-      type: String,
-    },
     email: {
       type: String,
       required: true,
+      unique: true,
       index: true,
     },
     role: {
@@ -16,12 +14,17 @@ const UserSchema = new mongoose.Schema(
       default: "subscriber",
       enum: ["subscriber", "admin"],
     },
-    cart: {
-      type: Array,
-      default: [],
+    name: {
+      type: String,
+      trim: true,
     },
     address: {
       type: String,
+      trim: true,
+    },
+    cart: {
+      type: Array,
+      default: [],
     },
     // wishlist: {
     //   type: [{ type: mongoose.Schema.ObjectId, ref: "Product" }],

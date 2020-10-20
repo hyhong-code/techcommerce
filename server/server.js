@@ -7,6 +7,7 @@ const connectDB = require("./config/db");
 
 // Routers
 const userRouter = require("./routes/user");
+const categoryRouter = require("./routes/categories");
 
 const app = express();
 connectDB();
@@ -18,6 +19,7 @@ app.use(express.json());
 
 // Mount routers
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/categories", categoryRouter);
 
 const port = process.env.PORT || 8000;
 app.listen(port, () => console.log(`Server up on port ${port}...`));
