@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 import { Typography, Input, Button, message } from "antd";
@@ -16,7 +15,6 @@ const INITIAL_FORM_DATA = {
 };
 
 const Register = () => {
-  const history = useHistory();
   const dispatch = useDispatch();
   const [formData, setFormData] = useState(INITIAL_FORM_DATA);
   const { email, password } = formData;
@@ -31,27 +29,24 @@ const Register = () => {
   const handleSubmit = async (evt) => {
     evt.preventDefault();
     setLoading(true);
-
     try {
-      await dispatch(login({ email, password }, () => history.push("/")));
+      await dispatch(login({ email, password }));
       message.success(`Welcome back, ${email.split("@")[0]}!`, 6);
-      setFormData(INITIAL_FORM_DATA);
     } catch (error) {
+      setLoading(false);
       message.error(error.message, 6);
     }
-
-    setLoading(false);
   };
 
   const handleGoogle = async () => {
     setGoogleLoading(true);
     try {
-      await dispatch(loginWithGoogle(() => history.push("/")));
+      await dispatch(loginWithGoogle());
       message.success(`Welcome back!`, 6);
     } catch (error) {
+      setGoogleLoading(false);
       message.error(error.message, 6);
     }
-    setGoogleLoading(false);
   };
 
   return (

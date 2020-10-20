@@ -7,7 +7,7 @@ import axios from "axios";
 /**
  * Load user into redux state, store access token into localStorage
  */
-export const loadUser = (user, callback) => async (dispatch) => {
+export const loadUser = (user) => async (dispatch) => {
   try {
     // Get access token from firebase
     const { token } = await user.getIdTokenResult();
@@ -21,11 +21,9 @@ export const loadUser = (user, callback) => async (dispatch) => {
 
     // Update state
     dispatch({ type: USER_LOADED, payload: res.data.user });
-
-    if (callback) callback();
   } catch (error) {
     dispatch(logout());
-    console.error(error);
+    console.log("❌ LOAD_USER_ERROR", error);
   }
 };
 
@@ -51,10 +49,9 @@ export const register = (email) => async (dispatch) => {
 /**
  * Complete user registration, then loads user to state
  */
-export const completeRegister = (
-  { email, emailLink, password },
-  callback
-) => async (dispatch) => {
+export const completeRegister = ({ email, emailLink, password }) => async (
+  dispatch
+) => {
   try {
     if (password.length < 8) {
       throw new Error("Password must be at least 8 characters.");
@@ -71,9 +68,6 @@ export const completeRegister = (
 
       // Get a token to use for backend
       await dispatch(loadUser(user));
-
-      // Use callback to redirect user
-      if (callback) callback();
     } else {
       throw new Error("Something went wrong, try again later.");
     }
@@ -86,10 +80,10 @@ export const completeRegister = (
 /**
  * Logs user in, then loads user to state
  */
-export const login = ({ email, password }, callback) => async (dispatch) => {
+export const login = ({ email, password }) => async (dispatch) => {
   try {
     const { user } = await auth.signInWithEmailAndPassword(email, password);
-    await dispatch(loadUser(user, callback));
+    await dispatch(loadUser(user));
   } catch (error) {
     dispatch(logout());
     throw error;
@@ -99,10 +93,10 @@ export const login = ({ email, password }, callback) => async (dispatch) => {
 /**
  * Logs user in with google provider, then loads user to state
  */
-export const loginWithGoogle = (callback) => async (dispatch) => {
+export const loginWithGoogle = () => async (dispatch) => {
   try {
     const { user } = await auth.signInWithPopup(googleAuthProvider);
-    await dispatch(loadUser(user, callback));
+    await dispatch(loadUser(user));
   } catch (error) {
     dispatch(logout());
     throw error;
@@ -112,7 +106,7 @@ export const loginWithGoogle = (callback) => async (dispatch) => {
 /**
  * Log user log out the application
  */
-export const logout = (callback) => async (dispatch) => {
+export const logout = () => async (dispatch) => {
   try {
     // Clears token from localStorage
     localStorage.removeItem("ACCESS_TOKEN");
@@ -122,9 +116,6 @@ export const logout = (callback) => async (dispatch) => {
 
     // Clear user from state
     dispatch({ type: USER_LOGGED_OUT });
-
-    // Redirect
-    if (callback) callback();
 
     // Sign out from firebase
     await auth.signOut();

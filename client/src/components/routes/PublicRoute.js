@@ -5,12 +5,15 @@ import { Spin } from "antd";
 
 const PublicRoute = ({ component: Component, ...rest }) => {
   const { user, isInitializing } = useSelector(({ user }) => user);
+
   return isInitializing ? (
     <Spin size="large" />
   ) : !user ? (
     <Route {...rest} component={Component} />
+  ) : user.role === "subscriber" ? (
+    <Redirect to="/user" />
   ) : (
-    <Redirect to="/" />
+    user.role === "admin" && <Redirect to="/admin" />
   );
 };
 

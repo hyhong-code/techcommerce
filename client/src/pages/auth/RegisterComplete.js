@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import { Typography, Input, Button, message } from "antd";
@@ -14,7 +13,6 @@ const INITIAL_FORM_DATA = {
 };
 
 const RegisterComplete = () => {
-  const history = useHistory();
   const dispatch = useDispatch();
 
   const [formData, setFormData] = useState(INITIAL_FORM_DATA);
@@ -36,19 +34,13 @@ const RegisterComplete = () => {
   const handleSubmit = async (evt) => {
     evt.preventDefault();
     setLoading(true);
-
     try {
       const emailLink = window.location.href;
-      await dispatch(
-        completeRegister({ email, emailLink, password }, () =>
-          history.push("/")
-        )
-      );
+      await dispatch(completeRegister({ email, emailLink, password }));
     } catch (error) {
+      setLoading(false);
       message.error(error.message, 6);
     }
-
-    setLoading(false);
   };
 
   return (
