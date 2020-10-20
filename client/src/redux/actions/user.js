@@ -139,3 +139,15 @@ export const forgotPassword = (email) => async (dispatch) => {
     throw error;
   }
 };
+
+/**
+ * Update user's password
+ */
+export const updatePassword = (newPassword) => async (dispatch) => {
+  try {
+    await auth.currentUser.updatePassword(newPassword);
+  } catch (error) {
+    dispatch(logout());
+    throw error;
+  }
+};

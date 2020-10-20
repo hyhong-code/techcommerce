@@ -38,6 +38,7 @@ $lg: 1200px; // <=1200px Desktops
 }
 
 @import "./components/Header.scss";
+@import "./components/user/Password.scss";
 
 @import "./pages/Register.scss";
 @import "./pages/RegisterComplete.scss";
