@@ -7,7 +7,9 @@ import RegisterComplete from "./pages/auth/RegisterComplete";
 import Login from "./pages/auth/Login";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import Header from "./components/ui/Header";
-// import PrivateRoute from "./components/routes/PrivateRoute";
+import History from "./pages/user/History";
+import UserRoute from "./components/routes/UserRoute";
+import AdminRoute from "./components/routes/AdminRoute";
 import PublicRoute from "./components/routes/PublicRoute";
 import useAuth from "./hooks/useAuth";
 
@@ -25,6 +27,7 @@ const App = () => {
           component={RegisterComplete}
         />
         <PublicRoute exact path="/forgot-password" component={ForgotPassword} />
+        <UserRoute exact path="/user/history" component={History} />
         <Route exact path="/" component={Home} />
       </Switch>
     </Fragment>

@@ -1,0 +1,6 @@
+.history {
+  @include container;
+  @include page-padding-vert;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}

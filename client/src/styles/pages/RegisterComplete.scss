@@ -1,4 +1,5 @@
 .register-complete {
+  @include page-padding-vert;
   display: flex;
   justify-content: center;
 
