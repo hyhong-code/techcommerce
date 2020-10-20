@@ -1,6 +1,9 @@
 const router = require("express").Router();
 
-const { createValidator } = require("../utils/validatiors/category");
+const {
+  createValidator,
+  updateValidator,
+} = require("../utils/validatiors/category");
 const validate = require("../middlewares/validate");
 
 const {
@@ -16,7 +19,7 @@ const limitTo = require("../middlewares/limitTo");
 router
   .route("/:slug")
   .get(getCategory)
-  .put(auth, limitTo("admin"), updateCategory)
+  .put(auth, limitTo("admin"), updateValidator, validate, updateCategory)
   .delete(auth, limitTo("admin"), deleteCategory);
 router
   .route("/")
