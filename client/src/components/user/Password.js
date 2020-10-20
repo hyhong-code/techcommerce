@@ -40,7 +40,12 @@ const Password = () => {
         onChange={(evt) => setPassword(evt.target.value)}
       />
 
-      <Button type="primary" htmlType="submit" loading={loading}>
+      <Button
+        type="primary"
+        htmlType="submit"
+        loading={loading}
+        disabled={password.length < 8}
+      >
         Update
       </Button>
     </form>

@@ -38,7 +38,6 @@ export const register = (email) => async (dispatch) => {
 
   try {
     await auth.sendSignInLinkToEmail(email, registerConfig);
-    console.log("lksdjflsjfksjf");
     localStorage.setItem("SIGN_UP_EMAIL", email);
   } catch (error) {
     dispatch(logout());
@@ -148,6 +147,18 @@ export const updatePassword = (newPassword) => async (dispatch) => {
     await auth.currentUser.updatePassword(newPassword);
   } catch (error) {
     dispatch(logout());
+    throw error;
+  }
+};
+
+/**
+ * Request success if user is admin
+ */
+export const checkIsAdmin = async () => {
+  try {
+    setTokenHeader(localStorage.getItem("ACCESS_TOKEN"));
+    await axios.get(`${process.env.REACT_APP_API}/users/admin`);
+  } catch (error) {
     throw error;
   }
 };

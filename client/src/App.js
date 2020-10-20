@@ -9,6 +9,7 @@ import ForgotPassword from "./pages/auth/ForgotPassword";
 import Header from "./components/ui/Header";
 import User from "./pages/user/User";
 import UserRoute from "./components/routes/UserRoute";
+import AdminRoute from "./components/routes/AdminRoute";
 import PublicRoute from "./components/routes/PublicRoute";
 import useAuth from "./hooks/useAuth";
 
@@ -28,6 +29,7 @@ const App = () => {
         <PublicRoute exact path="/forgot-password" component={ForgotPassword} />
         <UserRoute exact path="/user/:subroute" component={User} />
         <Route exact path="/" component={Home} />
+        <AdminRoute exact path="/admin" component={() => <h1>admin</h1>} />
       </Switch>
     </Fragment>
   );
