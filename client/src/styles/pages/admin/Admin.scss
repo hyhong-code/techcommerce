@@ -1,0 +1,7 @@
+.admin {
+  @include container;
+  @include page-padding-vert;
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  grid-gap: 2rem;
+}

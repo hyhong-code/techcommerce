@@ -157,7 +157,7 @@ export const updatePassword = (newPassword) => async (dispatch) => {
 export const checkIsAdmin = async () => {
   try {
     setTokenHeader(localStorage.getItem("ACCESS_TOKEN"));
-    await axios.get(`${process.env.REACT_APP_API}/users/admin`);
+    await axios.get(`${process.env.REACT_APP_API}/users/is-admin`);
   } catch (error) {
     throw error;
   }

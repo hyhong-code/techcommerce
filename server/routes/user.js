@@ -5,6 +5,6 @@ const { loadUser, isAdmin } = require("../controllers/user");
 const auth = require("../middlewares/auth");
 
 router.route("/").get(auth, loadUser);
-router.route("/admin").get(auth, isAdmin);
+router.route("/is-admin").get(auth, isAdmin);
 
 module.exports = router;

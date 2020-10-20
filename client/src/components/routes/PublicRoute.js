@@ -13,7 +13,7 @@ const PublicRoute = ({ component: Component, ...rest }) => {
   ) : user.role === "subscriber" ? (
     <Redirect to="/user/history" />
   ) : (
-    user.role === "admin" && <Redirect to="/admin/dashboard" />
+    user.role === "admin" && <Redirect to="/admin/categories" />
   );
 };
 
