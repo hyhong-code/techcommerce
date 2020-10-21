@@ -26,6 +26,7 @@ const Header = () => {
       mode="horizontal"
       className="header"
     >
+      {/* Brand */}
       <Item key="home" icon={<AppstoreOutlined />}>
         <Link to="/">Home</Link>
       </Item>
@@ -37,17 +38,27 @@ const Header = () => {
           icon={<SettingOutlined />}
           title={user.email.split("@")[0]}
         >
+          {/* Dashboard Link*/}
+          <Item key="dashboard">
+            <Link
+              to={user.role === "admin" ? "/admin/categories" : "/user/history"}
+            >
+              Dashboard
+            </Link>
+          </Item>
+
+          {/* Logout */}
           <Item
-            key="setting:1"
+            key="logout"
             icon={<LoginOutlined />}
-            onClick={() => dispatch(logout(() => history.push("/login")))}
+            onClick={() => dispatch(logout())}
           >
             Logout
           </Item>
-          <Item key="setting:2">Option 2</Item>
         </SubMenu>
       )}
 
+      {/* Login and Register */}
       {!user && (
         <Fragment>
           <Item

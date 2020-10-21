@@ -4,7 +4,14 @@ import { Menu } from "antd";
 
 const { Item } = Menu;
 
-const SIDE_NAV_OPTIONS = [{ href: "/admin/categories", label: "Categories" }];
+const SIDE_NAV_OPTIONS = [
+  { href: "/admin/categories", label: "Categories" },
+  { href: "/admin/sub", label: "Sub Category" },
+  { href: "/admin/product", label: "Product" },
+  { href: "/admin/products", label: "Products" },
+  { href: "/admin/coupons", label: "Coupons" },
+  { href: "/admin/password", label: "Password" },
+];
 
 const SideNav = () => {
   const location = useLocation();
