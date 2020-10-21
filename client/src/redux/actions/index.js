@@ -1,4 +1,10 @@
-export const USER_LOGGED_IN = "USER_LOGGED_IN";
+// User
 export const USER_LOGGED_OUT = "USER_LOGGED_OUT";
 export const USER_LOADED = "USER_LOADED";
-export const AUTH_ERROR = "AUTH_ERROR";
+
+// Category
+export const CATEGORY_CREATED = "CATEGORY_CREATED";
+export const CATEGORY_FETCHED = "CATEGORY_FETCHED";
+export const CATEGORY_UPDATED = "CATEGORY_UPDATED";
+export const CATEGORY_DELETED = "CATEGORY_DELETED";
+export const CATEGORY_LISTED = "CATEGORY_LISTED";
