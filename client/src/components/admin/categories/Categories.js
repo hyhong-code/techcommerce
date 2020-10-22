@@ -33,7 +33,7 @@ const Categories = () => {
         {/* Search Input */}
         <Input
           prefix={<SearchOutlined />}
-          placeholder="Filter..."
+          placeholder="Filter categories..."
           allowClear
           value={filterKeyword}
           onChange={(evt) => setFilterKeyword(evt.target.value)}

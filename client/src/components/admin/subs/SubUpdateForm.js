@@ -3,10 +3,10 @@ import { useDispatch } from "react-redux";
 import { message, Input, Button } from "antd";
 
 import formatErrorMsg from "../../../utils/formatErrorMsg";
-import { updateCategory } from "../../../redux/actions/category";
+import { updateSub } from "../../../redux/actions/sub";
 
-const UpdateForm = ({ category, onClosePopover }) => {
-  const [name, setName] = useState(category.name);
+const UpdateForm = ({ sub, onClosePopover }) => {
+  const [name, setName] = useState(sub.name);
   const [loading, setLoading] = useState("");
   const dispatch = useDispatch();
 
@@ -14,9 +14,9 @@ const UpdateForm = ({ category, onClosePopover }) => {
     evt.preventDefault();
     setLoading(true);
     try {
-      await dispatch(updateCategory(category, name));
+      await dispatch(updateSub(sub, name));
       message.success(
-        `${category.name}'s name is successfully changed to ${name}.`,
+        `${sub.name}'s name is successfully changed to ${name}.`,
         6
       );
       setName("");

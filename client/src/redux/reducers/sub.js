@@ -1,10 +1,4 @@
-import {
-  SUB_CREATED,
-  SUB_FETCHED,
-  SUB_UPDATED,
-  SUB_DELETED,
-  SUB_LISTED,
-} from "../actions";
+import { SUB_CREATED, SUB_UPDATED, SUB_DELETED, SUB_LISTED } from "../actions";
 
 const INITIAL_STATE = {
   subs: null,

@@ -39,12 +39,11 @@ $lg: 1200px; // <=1200px Desktops
 
 @import "./components/Header.scss";
 @import "./components/user/Password.scss";
-@import "./components/admin/categories/CreateCategory.scss";
 @import "./components/admin/categories/Categories.scss";
 @import "./components/admin/categories/UpdateCategory.scss";
 @import "./components/admin/categories/CategoryTag.scss";
 @import "./components/admin/subs/Subs.scss";
-@import "./components/admin/subs/CreateSub.scss";
+@import "./components/admin/subs/SubTag.scss";
 
 @import "./pages/Register.scss";
 @import "./pages/RegisterComplete.scss";

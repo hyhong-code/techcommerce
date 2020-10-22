@@ -48,7 +48,10 @@ export const updateSub = (oldSub, newName) => async (dispatch) => {
 
     dispatch({
       type: SUB_UPDATED,
-      payload: res.data.sub,
+      payload: {
+        id: oldSub._id,
+        newSub: res.data.sub,
+      },
     });
   } catch (error) {
     console.error(`[❌ updateSub]`, error);
@@ -73,8 +76,6 @@ export const deleteSub = (slug) => async (dispatch) => {
 export const listSubs = () => async (dispatch) => {
   try {
     const res = await axios.get(`${process.env.REACT_APP_API}/subs`);
-
-    console.log(res.data.subs);
 
     dispatch({
       type: SUB_LISTED,

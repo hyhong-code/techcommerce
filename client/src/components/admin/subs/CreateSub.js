@@ -15,7 +15,6 @@ const CreateSub = () => {
   const { categories } = useSelector(({ category }) => category);
 
   const handleSelectCategory = (value) => {
-    console.log(value);
     setSelectedCategorySlug(value);
   };
 
@@ -40,13 +39,10 @@ const CreateSub = () => {
   return (
     <form className="create-sub" onSubmit={handleSubmit}>
       <Space direction="vertical" size="middle">
-        <Title level={2} className="create-sub__title">
-          Create Sub Category
-        </Title>
+        <Title level={2}>Create Sub Category</Title>
 
         {/* Input */}
         <Input
-          className="create-sub__input"
           placeholder="Enter a sub category name"
           type="text"
           autoFocus
