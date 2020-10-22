@@ -15,6 +15,9 @@ const {
 } = require("../controllers/cateogries");
 const auth = require("../middlewares/auth");
 const limitTo = require("../middlewares/limitTo");
+const subsRouter = require("../routes/subs");
+
+router.use("/:slug/subs", subsRouter);
 
 router
   .route("/:slug")
