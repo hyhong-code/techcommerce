@@ -4,8 +4,8 @@ import { Tag, message, Popover } from "antd";
 import { Modal } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 
-import { deleteCategory } from "../../redux/actions/cateogry";
-import UpdateForm from "./UpdateForm";
+import { deleteCategory } from "../../../redux/actions/cateogry";
+import UpdateForm from "./CategoryUpdateForm";
 
 const { confirm } = Modal;
 

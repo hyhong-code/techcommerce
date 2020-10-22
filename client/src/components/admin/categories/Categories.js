@@ -5,7 +5,7 @@ import CreateCategory from "./CreateCategory";
 import CategoryTag from "./CategoryTag";
 import { Typography, Space, Input } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
-import useFilter from "../../hooks/useFilter";
+import useFilter from "../../../hooks/useFilter";
 const { Title } = Typography;
 
 const Categories = () => {
