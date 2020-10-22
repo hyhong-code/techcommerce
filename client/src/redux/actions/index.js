@@ -8,3 +8,10 @@ export const CATEGORY_FETCHED = "CATEGORY_FETCHED";
 export const CATEGORY_UPDATED = "CATEGORY_UPDATED";
 export const CATEGORY_DELETED = "CATEGORY_DELETED";
 export const CATEGORY_LISTED = "CATEGORY_LISTED";
+
+// Sub
+export const SUB_CREATED = "SUB_CREATED";
+export const SUB_FETCHED = "SUB_FETCHED";
+export const SUB_UPDATED = "SUB_UPDATED";
+export const SUB_DELETED = "SUB_DELETED";
+export const SUB_LISTED = "SUB_LISTED";

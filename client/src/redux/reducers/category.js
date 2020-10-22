@@ -14,8 +14,10 @@ export default (state = INITIAL_STATE, action) => {
   switch (type) {
     case CATEGORY_LISTED:
       return { ...state, categories: payload };
+
     case CATEGORY_CREATED:
       return { ...state, categories: [payload, ...state.categories] };
+
     case CATEGORY_UPDATED:
       const { id, newCategory } = payload;
       return {
@@ -24,6 +26,7 @@ export default (state = INITIAL_STATE, action) => {
           category._id === id ? newCategory : category
         ),
       };
+
     case CATEGORY_DELETED:
       return {
         ...state,

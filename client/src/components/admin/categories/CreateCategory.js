@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { Typography, Input, Button, message } from "antd";
 
 import formatErrorMsg from "../../../utils/formatErrorMsg";
-import { createCategory } from "../../../redux/actions/cateogry";
+import { createCategory } from "../../../redux/actions/category";
 
 const { Title } = Typography;
 

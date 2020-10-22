@@ -6,7 +6,7 @@ import {
   CATEGORY_LISTED,
   CATEGORY_UPDATED,
   CATEGORY_FETCHED,
-} from "../actions/index";
+} from "./index";
 
 export const createCategory = (name) => async (dispatch) => {
   try {

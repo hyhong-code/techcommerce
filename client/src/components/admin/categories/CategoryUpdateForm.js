@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { message, Input, Button } from "antd";
 
 import formatErrorMsg from "../../../utils/formatErrorMsg";
-import { updateCategory } from "../../../redux/actions/cateogry";
+import { updateCategory } from "../../../redux/actions/category";
 
 const UpdateForm = ({ category, onClosePopover }) => {
   const [name, setName] = useState("");

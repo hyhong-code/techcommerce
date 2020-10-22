@@ -1,6 +1,7 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
+import { listCategories } from "../../../redux/actions/category";
 import CreateCategory from "./CreateCategory";
 import CategoryTag from "./CategoryTag";
 import { Typography, Space, Input } from "antd";
@@ -9,6 +10,12 @@ import useFilter from "../../../hooks/useFilter";
 const { Title } = Typography;
 
 const Categories = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(listCategories());
+  }, [dispatch]);
+
   const { categories } = useSelector(({ category }) => category);
   const { filter, filterKeyword, setFilterKeyword } = useFilter();
 

@@ -7,7 +7,10 @@ exports.createSub = async (req, res, next) => {
     const { name } = req.body;
 
     // Handle category not found
-    const category = await Category.findOne({ slug: categorySlug });
+    const category = await Category.findOne({ slug: categorySlug }).sort({
+      createdAt: -1,
+    });
+
     if (!category) {
       return res.status(404).json({
         errors: [{ msg: `Category with slug ${categorySlug} not found.` }],
