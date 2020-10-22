@@ -1,0 +1,50 @@
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { Typography, Input, Button, message } from "antd";
+
+import { createCategory } from "../../redux/actions/cateogry";
+
+const { Title } = Typography;
+
+const CreateCategory = () => {
+  const dispatch = useDispatch();
+  const [name, setName] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (evt) => {
+    evt.preventDefault();
+    setLoading(true);
+    try {
+      await dispatch(createCategory(name));
+      setName("");
+      message.success(`${name} is successfully added.`, 6);
+    } catch (error) {
+      message.error(error.message, 6);
+    }
+    setLoading(false);
+  };
+
+  return (
+    <form className="create-category" onSubmit={handleSubmit}>
+      <Title level={2} className="create-category__title">
+        Create Category
+      </Title>
+
+      <Input
+        className="create-category__input"
+        placeholder="Enter a category name"
+        type="text"
+        autoFocus
+        value={name}
+        disabled={loading}
+        onChange={(evt) => setName(evt.target.value)}
+      />
+
+      <Button type="primary" htmlType="submit" loading={loading}>
+        Update
+      </Button>
+    </form>
+  );
+};
+
+export default CreateCategory;

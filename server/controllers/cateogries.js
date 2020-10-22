@@ -43,7 +43,7 @@ exports.getCategory = async (req, res, next) => {
     const category = await Category.findOne({ slug });
     if (!category) {
       return res
-        .status(400)
+        .status(404)
         .json({ errors: [{ msg: `Category with slug ${slug} not found.` }] });
     }
 
@@ -61,11 +61,19 @@ exports.updateCategory = async (req, res, next) => {
     const { slug } = req.params;
     const { name } = req.body;
 
+    // Handle duplicate name
+    let category = await Category.findOne({ name });
+    if (category) {
+      return res.status(400).json({
+        errors: [{ msg: `Category with name ${name} already exists.` }],
+      });
+    }
+
     // Handle category not found.
-    let category = await Category.findOne({ slug });
+    category = await Category.findOne({ slug });
     if (!category) {
       return res
-        .status(400)
+        .status(404)
         .json({ errors: [{ msg: `Category with slug ${slug} not found.` }] });
     }
 
@@ -90,7 +98,7 @@ exports.deleteCategory = async (req, res, next) => {
     let category = await Category.findOne({ slug });
     if (!category) {
       return res
-        .status(400)
+        .status(404)
         .json({ errors: [{ msg: `Category with slug ${slug} not found.` }] });
     }
 

@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Menu } from "antd";
 import {
   AppstoreOutlined,
@@ -14,7 +14,6 @@ import { logout } from "../../redux/actions/user";
 const { SubMenu, Item } = Menu;
 
 const Header = () => {
-  const history = useHistory();
   const [current, setCurrent] = useState("home");
   const dispatch = useDispatch();
   const user = useSelector(({ user: { user } }) => user);

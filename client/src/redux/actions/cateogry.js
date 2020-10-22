@@ -19,7 +19,7 @@ export const createCategory = (name) => async (dispatch) => {
       payload: res.data.category,
     });
   } catch (error) {
-    console.erroe(`[❌ createCategory]`, error);
+    console.error(`[❌ createCategory]`, error);
     throw error;
   }
 };
@@ -34,23 +34,26 @@ export const fetchCategory = (slug) => async (dispatch) => {
       payload: res.data.category,
     });
   } catch (error) {
-    console.erroe(`[❌ fetchCategory]`, error);
+    console.error(`[❌ fetchCategory]`, error);
     throw error;
   }
 };
 
-export const updateCategory = (slug, name) => async (dispatch) => {
+export const updateCategory = (oldCategory, newName) => async (dispatch) => {
   try {
     const res = await axios.put(
-      `${process.env.REACT_APP_API}/categories/${slug}`,
-      { name }
+      `${process.env.REACT_APP_API}/categories/${oldCategory.slug}`,
+      { name: newName }
     );
     dispatch({
       type: CATEGORY_UPDATED,
-      payload: res.data.category,
+      payload: {
+        id: oldCategory._id,
+        newCategory: res.data.category,
+      },
     });
   } catch (error) {
-    console.erroe(`[❌ updateCategory]`, error);
+    console.error(`[❌ updateCategory]`, error);
     throw error;
   }
 };
@@ -63,7 +66,7 @@ export const deleteCategory = (slug) => async (dispatch) => {
       payload: slug,
     });
   } catch (error) {
-    console.erroe(`[❌ deleteCategory]`, error);
+    console.error(`[❌ deleteCategory]`, error);
     throw error;
   }
 };
@@ -77,7 +80,7 @@ export const listCategories = () => async (dispatch) => {
       payload: res.data.categories,
     });
   } catch (error) {
-    console.erroe(`[❌ listCategories]`, error);
+    console.error(`[❌ listCategories]`, error);
     throw error;
   }
 };

@@ -1,16 +1,17 @@
 import React, { useEffect } from "react";
 import { Route, Switch } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { listCategories } from "../../redux/actions/cateogry";
 
 import SideNav from "../../components/admin/SideNav";
+import Categories from "../../components/admin/Categories";
 
 const Admin = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(listCategories());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="admin">
@@ -19,11 +20,7 @@ const Admin = () => {
       </div>
       <div>
         <Switch>
-          <Route
-            exact
-            path="/admin/categories"
-            component={() => <h1>Categories</h1>}
-          />
+          <Route exact path="/admin/category" component={Categories} />
         </Switch>
       </div>
     </div>

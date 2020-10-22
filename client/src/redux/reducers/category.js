@@ -15,18 +15,19 @@ export default (state = INITIAL_STATE, action) => {
     case CATEGORY_LISTED:
       return { ...state, categories: payload };
     case CATEGORY_CREATED:
-      return { ...state, categories: [...state.categories, payload] };
+      return { ...state, categories: [payload, ...state.categories] };
     case CATEGORY_UPDATED:
+      const { id, newCategory } = payload;
       return {
         ...state,
         categories: state.categories.map((category) =>
-          category.slug === payload.slug ? payload : category
+          category._id === id ? newCategory : category
         ),
       };
     case CATEGORY_DELETED:
       return {
         ...state,
-        categoreis: state.categories.filter(
+        categories: state.categories.filter(
           (category) => category.slug !== payload
         ),
       };
