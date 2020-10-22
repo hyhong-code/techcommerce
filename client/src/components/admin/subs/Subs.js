@@ -1,9 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
+
+import { listSubs } from "../../../redux/actions/sub";
+import { listCategories } from "../../../redux/actions/category";
+import CreateSub from "./CreateSub";
 
 const Subs = () => {
   const dispatch = useDispatch();
-  return <div className="subs">Subs</div>;
+
+  useEffect(() => {
+    dispatch(listCategories());
+    dispatch(listSubs());
+  }, []);
+
+  return (
+    <div className="subs">
+      <CreateSub />
+    </div>
+  );
 };
 
 export default Subs;

@@ -11,7 +11,7 @@ import {
 export const createSub = (categorySlug, name) => async (dispatch) => {
   try {
     const res = await axios.post(
-      `${process.env.REACT_APP_API}/${categorySlug}/subs`,
+      `${process.env.REACT_APP_API}/categories/${categorySlug}/subs`,
       { name }
     );
 
@@ -61,7 +61,7 @@ export const deleteSub = (slug) => async (dispatch) => {
     await axios.delete(`${process.env.REACT_APP_API}/subs/${slug}`);
 
     dispatch({
-      type: SUB_UPDATED,
+      type: SUB_DELETED,
       payload: slug,
     });
   } catch (error) {
@@ -73,6 +73,8 @@ export const deleteSub = (slug) => async (dispatch) => {
 export const listSubs = () => async (dispatch) => {
   try {
     const res = await axios.get(`${process.env.REACT_APP_API}/subs`);
+
+    console.log(res.data.subs);
 
     dispatch({
       type: SUB_LISTED,

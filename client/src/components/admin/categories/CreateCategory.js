@@ -45,7 +45,12 @@ const CreateCategory = () => {
         onChange={(evt) => setName(evt.target.value)}
       />
 
-      <Button type="primary" htmlType="submit" loading={loading}>
+      <Button
+        type="primary"
+        htmlType="submit"
+        loading={loading}
+        disabled={!name}
+      >
         Update
       </Button>
     </form>
