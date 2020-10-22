@@ -1,5 +1,12 @@
 .update-category {
+  display: flex;
+  flex-direction: column;
+
   &__input {
+    margin-bottom: 0.5rem;
+  }
+
+  &__select {
     margin-bottom: 0.5rem;
   }
 }

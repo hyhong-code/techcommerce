@@ -59,33 +59,43 @@ exports.getSub = async (req, res, next) => {
 };
 
 exports.updateSub = async (req, res, next) => {
+  const { slug } = req.params;
+  const { name, parent } = req.body;
   try {
-    const { slug } = req.params;
-    const { name } = req.body;
-
-    // Handle du
-    let sub = await Sub.findOne({ name });
-    if (sub) {
-      return res.status(400).json({
-        errors: [{ msg: `Sub category with name ${name} already exits.` }],
-      });
-    }
-
     // Handle sub category not found
-    sub = await Sub.findOne({ slug });
+    let sub = await Sub.findOne({ slug });
     if (!sub) {
       return res.status(404).json({
         errors: [{ msg: `Sub category with slug ${slug} not found.` }],
       });
     }
 
+    // Handle parent category not exists
+    let newCategory;
+    if (parent) {
+      newCategory = await Category.findOne({ slug: parent });
+      if (!newCategory) {
+        return res.status(404).json({
+          errors: [{ msg: `Parent category not found.` }],
+        });
+      }
+    }
+
     // Update sub category
     sub.name = name;
+    if (parent) {
+      sub.parent = newCategory._id;
+    }
     sub = await sub.save({ validateBeforeSave: true });
 
     res.status(200).json({ sub });
   } catch (error) {
     console.error("[❌ updateSub ERROR]", error);
+    if (error.code === 11000) {
+      return res.status(400).json({
+        errors: [{ msg: `Sub category with name ${name} already exits.` }],
+      });
+    }
     res
       .status(500)
       .json({ errors: [{ msg: "Something went wrong, try again later." }] });

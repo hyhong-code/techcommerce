@@ -39,11 +39,11 @@ export const getSub = (slug) => async (dispatch) => {
   }
 };
 
-export const updateSub = (oldSub, newName) => async (dispatch) => {
+export const updateSub = (oldSub, newName, newParent) => async (dispatch) => {
   try {
     const res = await axios.put(
       `${process.env.REACT_APP_API}/subs/${oldSub.slug}`,
-      { name: newName }
+      { name: newName, parent: newParent }
     );
 
     dispatch({

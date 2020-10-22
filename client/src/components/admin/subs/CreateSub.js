@@ -14,10 +14,6 @@ const CreateSub = () => {
   const [loading, setLoading] = useState(false);
   const { categories } = useSelector(({ category }) => category);
 
-  const handleSelectCategory = (value) => {
-    setSelectedCategorySlug(value);
-  };
-
   const handleSubmit = async (evt) => {
     evt.preventDefault();
     if (!selectedCategorySlug) {
@@ -55,7 +51,7 @@ const CreateSub = () => {
         {/* Select */}
         <Select
           placeholder="Select a category"
-          onChange={handleSelectCategory}
+          onChange={setSelectedCategorySlug}
           value={selectedCategorySlug}
           style={{ width: 200 }}
           disabled={loading}
