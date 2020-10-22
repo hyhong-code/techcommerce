@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { message, Input, Button } from "antd";
 
-import formatErrorMsg from "../../../utils/formatErrorMsg";
-import { updateCategory } from "../../../redux/actions/category";
+import formatErrorMsg from "../../utils/formatErrorMsg";
+import { updateSub } from "../../redux/actions/sub";
+import { updateCategory } from "../../redux/actions/category";
 
-const UpdateForm = ({ category, onClosePopover }) => {
-  const [name, setName] = useState(category.name);
+const UpdateForm = ({ collectionItem, onClosePopover, collectionType }) => {
+  const [name, setName] = useState(collectionItem.name);
   const [loading, setLoading] = useState("");
   const dispatch = useDispatch();
 
@@ -14,9 +15,13 @@ const UpdateForm = ({ category, onClosePopover }) => {
     evt.preventDefault();
     setLoading(true);
     try {
-      await dispatch(updateCategory(category, name));
+      await dispatch(
+        collectionType === "category"
+          ? updateCategory(collectionItem, name)
+          : collectionType === "sub" && updateSub(collectionItem, name)
+      );
       message.success(
-        `${category.name}'s name is successfully changed to ${name}.`,
+        `${collectionItem.name}'s name is successfully changed to ${name}.`,
         6
       );
       setName("");

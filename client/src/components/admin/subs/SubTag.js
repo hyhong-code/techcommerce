@@ -5,7 +5,7 @@ import { Modal } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 
 import { deleteSub } from "../../../redux/actions/sub";
-import UpdateForm from "./SubUpdateForm";
+import UpdateForm from "../CollectionUpdateForm";
 const { confirm } = Modal;
 
 const TAG_COLORS = ["magenta", "volcano", "cyan", "geekblue", "purple"];
@@ -42,8 +42,9 @@ const SubTag = ({ sub }) => {
     <Popover
       content={
         <UpdateForm
-          sub={sub}
+          collectionItem={sub}
           onClosePopover={() => setPopUpdateVisible(false)}
+          collectionType="sub"
         />
       }
       title="Update Name"

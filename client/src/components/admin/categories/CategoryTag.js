@@ -5,7 +5,7 @@ import { Modal } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 
 import { deleteCategory } from "../../../redux/actions/category";
-import UpdateForm from "./CategoryUpdateForm";
+import UpdateForm from "../CollectionUpdateForm";
 
 const { confirm } = Modal;
 
@@ -43,8 +43,9 @@ const CategoryTag = ({ category }) => {
     <Popover
       content={
         <UpdateForm
-          category={category}
+          collectionItem={category}
           onClosePopover={() => setPopUpdateVisible(false)}
+          collectionType="category"
         />
       }
       title="Update Name"
