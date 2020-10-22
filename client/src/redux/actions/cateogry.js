@@ -13,7 +13,6 @@ export const createCategory = (name) => async (dispatch) => {
     const res = await axios.post(`${process.env.REACT_APP_API}/categories`, {
       name,
     });
-    console.log(res.data.category);
     dispatch({
       type: CATEGORY_CREATED,
       payload: res.data.category,
@@ -74,7 +73,6 @@ export const deleteCategory = (slug) => async (dispatch) => {
 export const listCategories = () => async (dispatch) => {
   try {
     const res = await axios.get(`${process.env.REACT_APP_API}/categories`);
-    console.log(res.data.categories);
     dispatch({
       type: CATEGORY_LISTED,
       payload: res.data.categories,

@@ -6,7 +6,6 @@ const { Item } = Menu;
 
 const SIDE_NAV_OPTIONS = [
   { href: "/admin/categories", label: "Categories" },
-  { href: "/admin/category", label: "Create Category" },
   { href: "/admin/sub", label: "Sub Category" },
   { href: "/admin/product", label: "Product" },
   { href: "/admin/products", label: "Products" },

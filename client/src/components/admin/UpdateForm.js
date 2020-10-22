@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { message, Input, Button } from "antd";
 
+import formatErrorMsg from "../../utils/formatErrorMsg";
 import { updateCategory } from "../../redux/actions/cateogry";
 
 const UpdateForm = ({ category, onClosePopover }) => {
@@ -21,7 +22,7 @@ const UpdateForm = ({ category, onClosePopover }) => {
       setName("");
       onClosePopover();
     } catch (error) {
-      message.error(error.message, 6);
+      message.error(formatErrorMsg(error), 6);
     }
     setLoading(false);
   };

@@ -20,7 +20,7 @@ const Admin = () => {
       </div>
       <div>
         <Switch>
-          <Route exact path="/admin/category" component={Categories} />
+          <Route exact path="/admin/categories" component={Categories} />
         </Switch>
       </div>
     </div>

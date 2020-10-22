@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { Typography, Input, Button, message } from "antd";
 
+import formatErrorMsg from "../../utils/formatErrorMsg";
 import { createCategory } from "../../redux/actions/cateogry";
 
 const { Title } = Typography;
@@ -10,16 +11,18 @@ const CreateCategory = () => {
   const dispatch = useDispatch();
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
+  const inputRef = useRef();
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
     setLoading(true);
     try {
       await dispatch(createCategory(name));
+      inputRef.current.focus();
       setName("");
       message.success(`${name} is successfully added.`, 6);
     } catch (error) {
-      message.error(error.message, 6);
+      message.error(formatErrorMsg(error), 6);
     }
     setLoading(false);
   };
@@ -31,10 +34,12 @@ const CreateCategory = () => {
       </Title>
 
       <Input
+        ref={inputRef}
         className="create-category__input"
         placeholder="Enter a category name"
         type="text"
         autoFocus
+        allowClear
         value={name}
         disabled={loading}
         onChange={(evt) => setName(evt.target.value)}

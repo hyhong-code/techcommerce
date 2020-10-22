@@ -3,11 +3,14 @@ import { useSelector } from "react-redux";
 
 import CreateCategory from "./CreateCategory";
 import CategoryTag from "./CategoryTag";
-import { Typography, Space } from "antd";
+import { Typography, Space, Input } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
+import useFilter from "../../hooks/useFilter";
 const { Title } = Typography;
 
 const Categories = () => {
-  const categories = useSelector(({ category: { categories } }) => categories);
+  const { categories } = useSelector(({ category }) => category);
+  const { filter, filterKeyword, setFilterKeyword } = useFilter();
 
   return (
     <Space direction="vertical" size="large" className="categories">
@@ -15,12 +18,24 @@ const Categories = () => {
       <CreateCategory />
 
       {/* Category Tags */}
-      <div>
-        <Title level={2}>Categories</Title>
-        {categories?.map((category) => (
+      <Space direction="vertical">
+        <Title level={2} className="categories__tags-title">
+          Categories
+        </Title>
+
+        {/* Search Input */}
+        <Input
+          prefix={<SearchOutlined />}
+          placeholder="Filter..."
+          allowClear
+          value={filterKeyword}
+          onChange={(evt) => setFilterKeyword(evt.target.value)}
+        />
+
+        {filter(categories, "name").map((category) => (
           <CategoryTag category={category} key={category._id} />
         ))}
-      </div>
+      </Space>
     </Space>
   );
 };
