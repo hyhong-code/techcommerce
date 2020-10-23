@@ -1,51 +1,128 @@
 import React, { useEffect, useState } from "react";
-import { Typography, Space, Input, Select } from "antd";
+import { Typography, Space, Input, Select, Radio, Button, message } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 
 import { listCategories } from "../../../redux/actions/category";
 import { listSubs } from "../../../redux/actions/sub";
-
+import { createProduct } from "../../../redux/actions/product";
 import ImageUploader from "../../ui/ImageUploader";
 import useImageUploader from "../../../hooks/useImageUploader";
+import fileResizer from "../../../utils/fileResizer";
 
 const { Title } = Typography;
 const { TextArea } = Input;
 const { Option } = Select;
 
+const PRODUCT_BRANDS = ["Apple", "Samsung", "Microsoft", "Lenovo", "ASUS"];
+const PRODUCT_COLORS = ["Black", "Brown", "Silver", "White", "Blue"];
+
 const CreateProducts = () => {
   const dispatch = useDispatch();
+
+  // Re-fetch updated category and sub category options
   useEffect(() => {
     dispatch(listCategories());
     dispatch(listSubs());
   }, [dispatch]);
 
+  // Get category and sub category state from redux
   const [categories, subs] = useSelector(({ category, sub }) => [
     category.categories,
     sub.subs,
   ]);
-  const { fileList, setFileList, preview, setPreview } = useImageUploader();
 
+  // Form States
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [price, setPrice] = useState("");
+  const [price, setPrice] = useState(null);
+  const [quantity, setQuantity] = useState(null);
   const [selectedCategorySlug, setSelectedCategorySlug] = useState(null);
-  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [selectedSubSlugs, setSelectedSubSlugs] = useState([]);
+  const [selectedBrand, setSelectedBrand] = useState(null);
+  const [selectedColor, setSelectedColor] = useState(null);
+  const { fileList, setFileList, preview, setPreview } = useImageUploader();
+  const [isShipping, setIsShipping] = useState(true);
 
+  // Other states
+  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  // Reset selected sub categories upon changing cateogry
   useEffect(() => {
     setSelectedSubSlugs([]);
   }, [selectedCategorySlug]);
 
+  // Change category
   const handleCategoryChange = (value, target) => {
     setSelectedCategorySlug(value);
     setSelectedCategoryId(target.key);
   };
 
+  // Change sub category
   const handleSubsChange = (value) => {
     setSelectedSubSlugs(value);
   };
 
-  const handleCreateProduct = () => {};
+  // Change brand
+  const handleBrandChange = (value) => {
+    setSelectedBrand(value);
+  };
+
+  // Change color
+  const handleColorChange = (value) => {
+    setSelectedColor(value);
+  };
+
+  // Disparch create product action
+  const handleCreateProduct = async (evt) => {
+    evt.preventDefault();
+    setLoading(true);
+    try {
+      // Handle missing fields
+      if (
+        !(
+          name &&
+          description &&
+          price &&
+          quantity &&
+          selectedCategorySlug &&
+          selectedSubSlugs.length &&
+          fileList.length &&
+          selectedColor &&
+          selectedBrand
+        )
+      ) {
+        setLoading(false);
+        return message.error("All fields are required", 6);
+      }
+
+      // Tranform images into base64
+      const imagesPromises = fileList.map((file) =>
+        fileResizer(file.originFileObj)
+      );
+      const images = await Promise.all(imagesPromises);
+
+      // Build formdata
+      const formdata = {
+        title: name,
+        description,
+        price,
+        quantity,
+        category: selectedCategorySlug,
+        subs: selectedSubSlugs,
+        images,
+        color: selectedColor,
+        brand: selectedBrand,
+        shipping: isShipping,
+      };
+
+      // Dispatch
+      await dispatch(createProduct(formdata));
+    } catch (error) {
+      console.error(error);
+    }
+    setLoading(false);
+  };
 
   return (
     <form className="create-products" onSubmit={handleCreateProduct}>
@@ -78,6 +155,41 @@ const CreateProducts = () => {
           prefix={<span style={{ color: "#d9d9d9" }}>$</span>}
         />
 
+        {/* Product Quantity */}
+        <Input
+          placeholder="Enter quantity"
+          type="number"
+          allowClear
+          onChange={(evt) => setQuantity(evt.target.value)}
+          value={quantity}
+        />
+
+        {/* Product brand select */}
+        <Select
+          placeholder="Select a brand"
+          onChange={handleBrandChange}
+          value={selectedBrand}
+        >
+          {PRODUCT_BRANDS.map((brand) => (
+            <Option key={brand} value={brand}>
+              {brand}
+            </Option>
+          ))}
+        </Select>
+
+        {/* Product color select */}
+        <Select
+          placeholder="Select a color"
+          onChange={handleColorChange}
+          value={selectedColor}
+        >
+          {PRODUCT_COLORS.map((color) => (
+            <Option key={color} value={color}>
+              {color}
+            </Option>
+          ))}
+        </Select>
+
         {/* Product category select */}
         <Select
           placeholder="Select a category"
@@ -109,6 +221,15 @@ const CreateProducts = () => {
             ))}
         </Select>
 
+        {/* Shipping or Non-shipping */}
+        <Radio.Group
+          onChange={(evt) => setIsShipping(evt.target.value)}
+          value={isShipping}
+        >
+          <Radio value={true}>Shipping</Radio>
+          <Radio value={false}>Non-shippin</Radio>
+        </Radio.Group>
+
         {/* Upload image */}
         <ImageUploader
           fileList={fileList}
@@ -117,6 +238,10 @@ const CreateProducts = () => {
           preview={preview}
           setPreview={setPreview}
         />
+
+        <Button htmlType="submit" type="primary" loading={loading}>
+          Create
+        </Button>
       </Space>
     </form>
   );

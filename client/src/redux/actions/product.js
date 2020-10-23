@@ -14,15 +14,15 @@ import getBase64Url from "../../utils/getBase64Url";
 
 export const createProduct = (formdata) => async (dispatch) => {
   try {
-    const res = await axios.post(`${process.env.REACT_APP_API}/products`, {
-      ...formdata,
-    });
-
-    console.log(res.data);
-    dispatch({
-      type: PRODUCT_CREATED,
-      payload: res.data.product,
-    });
+    console.log(formdata);
+    // const res = await axios.post(`${process.env.REACT_APP_API}/products`, {
+    //   ...formdata,
+    // });
+    // console.log(res.data);
+    // dispatch({
+    //   type: PRODUCT_CREATED,
+    //   payload: res.data.product,
+    // });
   } catch (error) {
     console.error("[❌ createProduct]", error);
     throw error;

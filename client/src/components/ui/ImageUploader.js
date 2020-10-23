@@ -45,7 +45,7 @@ const ImageUploader = ({
         {fileList.length >= fileListLength ? null : (
           <div>
             <PlusOutlined />
-            <div className="image-uploader__button">Upload</div>
+            <div className="image-uploader__button">Upload Images</div>
           </div>
         )}
       </Upload>
