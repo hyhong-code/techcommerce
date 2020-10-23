@@ -10,7 +10,7 @@ import {
 } from "../actions";
 
 const INITIAL_STATE = {
-  products: null,
+  products: [],
   uploader: {
     fileList: [],
     preview: {

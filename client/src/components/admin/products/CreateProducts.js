@@ -8,6 +8,7 @@ import { createProduct } from "../../../redux/actions/product";
 import ImageUploader from "../../ui/ImageUploader";
 import useImageUploader from "../../../hooks/useImageUploader";
 import fileResizer from "../../../utils/fileResizer";
+import formatErrorMsg from "../../../utils/formatErrorMsg";
 
 const { Title } = Typography;
 const { TextArea } = Input;
@@ -75,15 +76,17 @@ const CreateProducts = () => {
 
   // Check if all fields are filled
   const validationPassed = () =>
-    name &&
-    description &&
-    price &&
-    quantity &&
-    selectedCategorySlug &&
-    selectedSubSlugs.length &&
-    fileList.length &&
-    selectedColor &&
-    selectedBrand;
+    !!(
+      name &&
+      description &&
+      price &&
+      quantity &&
+      selectedCategorySlug &&
+      selectedSubSlugs.length &&
+      fileList.length &&
+      selectedColor &&
+      selectedBrand
+    );
 
   // Disparch create product action
   const handleCreateProduct = async (evt) => {
@@ -118,10 +121,25 @@ const CreateProducts = () => {
 
       // Dispatch
       await dispatch(createProduct(formdata));
+      message.success(`Product ${name} has been successfully created.`, 6);
+      resetForm();
     } catch (error) {
-      console.error(error);
+      message.error(formatErrorMsg(error), 6);
     }
     setLoading(false);
+  };
+
+  const resetForm = () => {
+    setName("");
+    setDescription("");
+    setPrice(null);
+    setQuantity(null);
+    setSelectedCategorySlug(null);
+    setSelectedSubSlugs([]);
+    setSelectedBrand(null);
+    setSelectedColor(null);
+    setFileList([]);
+    setIsShipping(true);
   };
 
   return (
