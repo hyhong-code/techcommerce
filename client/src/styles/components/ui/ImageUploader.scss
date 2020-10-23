@@ -1,0 +1,10 @@
+.image-uploader {
+  &__button {
+    margin-top: 0.5rem;
+  }
+
+  &__preview-image {
+    display: block;
+    width: 100%;
+  }
+}

@@ -9,6 +9,7 @@ const connectDB = require("./config/db");
 const userRouter = require("./routes/user");
 const categoryRouter = require("./routes/categories");
 const subRouter = require("./routes/subs");
+const productRouter = require("./routes/product");
 
 const app = express();
 connectDB();
@@ -22,6 +23,7 @@ app.use(express.json());
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/categories", categoryRouter);
 app.use("/api/v1/subs", subRouter);
+app.use("/api/v1/products", productRouter);
 
 const port = process.env.PORT || 8000;
 app.listen(port, () => console.log(`Server up on port ${port}...`));

@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const slugify = require("slugify");
 
 const productSchema = new mongoose.Schema(
   {
@@ -35,7 +36,7 @@ const productSchema = new mongoose.Schema(
     },
     subs: [
       {
-        type: mongoose.Schema.Object,
+        type: mongoose.Schema.ObjectId,
         ref: "Sub",
         required: true,
       },
@@ -65,5 +66,13 @@ const productSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+// Generate slug for product before validation
+productSchema.pre("validate", function (next) {
+  if (!this.isNew || this.isModified("name")) {
+    this.slug = slugify(this.name);
+  }
+  next();
+});
 
 module.exports = mongoose.model("Product", productSchema);
