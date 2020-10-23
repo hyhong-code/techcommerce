@@ -10,6 +10,7 @@ const ImageUploader = ({
   preview,
   setPreview,
   fileListLength = 4,
+  disabled = false,
 }) => {
   const { previewVisible, previewImage, previewTitle } = preview;
 
@@ -36,6 +37,7 @@ const ImageUploader = ({
   return (
     <div className="image-uploader">
       <Upload
+        disabled={disabled}
         action={getBase64Url}
         listType="picture-card"
         fileList={fileList}

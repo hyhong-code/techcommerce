@@ -1,10 +1,60 @@
 const Product = require("../models/Product");
+const Category = require("../models/Category");
+const Sub = require("../models/Sub");
+
+const { s3UploadImage, s3DeleteImage } = require("../utils/s3");
 
 exports.createProduct = async (req, res, next) => {
+  console.log(req.body);
+  const {
+    title,
+    category: selectedCategory,
+    subs: selectedSubs,
+    images: uploadedImages,
+  } = req.body;
   try {
-    console.log(req.body);
+    console.log(title, selectedCategory, selectedSubs);
 
-    const product = await Product.create(req.body);
+    // Handle duplicate name
+    let product = await Product.findOne({ title });
+    if (product) {
+      return res.status(400).json({
+        errors: [{ msg: `Product with name ${title} already exists.` }],
+      });
+    }
+
+    // Handle category not exists
+    const category = await Category.findOne({ slug: selectedCategory });
+    if (!category) {
+      return res.status(404).json({
+        errors: [{ msg: `Category with slug ${selectedCategory} not found.` }],
+      });
+    }
+
+    // Handle no sub categories
+    const subs = await Sub.find({ slug: { $in: selectedSubs } });
+    if (!subs.length) {
+      return res.status(400).json({
+        errors: [{ msg: `At least 1 sub category is required.` }],
+      });
+    }
+
+    // Upload Images
+    const uploadPromises = uploadedImages.map((image) =>
+      s3UploadImage(image, "products")
+    );
+    const images = (await Promise.all(uploadPromises)).map((image) => ({
+      key: image.Key,
+      url: image.Location,
+    }));
+
+    // Create product in DB
+    product = await Product.create({
+      ...req.body,
+      images,
+      category,
+      subs,
+    });
 
     res.status(201).json({ product });
   } catch (error) {

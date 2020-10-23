@@ -42,8 +42,22 @@ const productSchema = new mongoose.Schema(
       },
     ],
     quantity: Number,
-    sold: { type: Number, default: 0 },
-    images: { type: Array },
+    sold: {
+      type: Number,
+      default: 0,
+    },
+    images: [
+      {
+        key: {
+          type: String,
+          required: true,
+        },
+        url: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
     shipping: { type: Boolean },
     color: {
       type: String,
@@ -69,8 +83,8 @@ const productSchema = new mongoose.Schema(
 
 // Generate slug for product before validation
 productSchema.pre("validate", function (next) {
-  if (!this.isNew || this.isModified("name")) {
-    this.slug = slugify(this.name);
+  if (this.isNew || this.isModified("title")) {
+    this.slug = slugify(this.title);
   }
   next();
 });

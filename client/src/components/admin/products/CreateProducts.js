@@ -73,25 +73,25 @@ const CreateProducts = () => {
     setSelectedColor(value);
   };
 
+  // Check if all fields are filled
+  const validationPassed = () =>
+    name &&
+    description &&
+    price &&
+    quantity &&
+    selectedCategorySlug &&
+    selectedSubSlugs.length &&
+    fileList.length &&
+    selectedColor &&
+    selectedBrand;
+
   // Disparch create product action
   const handleCreateProduct = async (evt) => {
     evt.preventDefault();
     setLoading(true);
     try {
       // Handle missing fields
-      if (
-        !(
-          name &&
-          description &&
-          price &&
-          quantity &&
-          selectedCategorySlug &&
-          selectedSubSlugs.length &&
-          fileList.length &&
-          selectedColor &&
-          selectedBrand
-        )
-      ) {
+      if (!validationPassed()) {
         setLoading(false);
         return message.error("All fields are required", 6);
       }
@@ -135,6 +135,7 @@ const CreateProducts = () => {
           allowClear
           onChange={(evt) => setName(evt.target.value)}
           value={name}
+          disabled={loading}
         />
 
         {/* Product Description */}
@@ -143,6 +144,7 @@ const CreateProducts = () => {
           allowClear
           onChange={(evt) => setDescription(evt.target.value)}
           value={description}
+          disabled={loading}
         />
 
         {/* Product Price */}
@@ -153,6 +155,7 @@ const CreateProducts = () => {
           onChange={(evt) => setPrice(evt.target.value)}
           value={price}
           prefix={<span style={{ color: "#d9d9d9" }}>$</span>}
+          disabled={loading}
         />
 
         {/* Product Quantity */}
@@ -162,6 +165,7 @@ const CreateProducts = () => {
           allowClear
           onChange={(evt) => setQuantity(evt.target.value)}
           value={quantity}
+          disabled={loading}
         />
 
         {/* Product brand select */}
@@ -169,6 +173,7 @@ const CreateProducts = () => {
           placeholder="Select a brand"
           onChange={handleBrandChange}
           value={selectedBrand}
+          disabled={loading}
         >
           {PRODUCT_BRANDS.map((brand) => (
             <Option key={brand} value={brand}>
@@ -182,6 +187,7 @@ const CreateProducts = () => {
           placeholder="Select a color"
           onChange={handleColorChange}
           value={selectedColor}
+          disabled={loading}
         >
           {PRODUCT_COLORS.map((color) => (
             <Option key={color} value={color}>
@@ -195,6 +201,7 @@ const CreateProducts = () => {
           placeholder="Select a category"
           onChange={handleCategoryChange}
           value={selectedCategorySlug}
+          disabled={loading}
         >
           {categories?.map((category) => (
             <Option key={category._id} value={category.slug}>
@@ -211,6 +218,7 @@ const CreateProducts = () => {
           style={{ width: "100%" }}
           value={selectedSubSlugs}
           onChange={handleSubsChange}
+          disabled={loading}
         >
           {subs
             ?.filter((sub) => sub.parent === selectedCategoryId)
@@ -225,6 +233,7 @@ const CreateProducts = () => {
         <Radio.Group
           onChange={(evt) => setIsShipping(evt.target.value)}
           value={isShipping}
+          disabled={loading}
         >
           <Radio value={true}>Shipping</Radio>
           <Radio value={false}>Non-shippin</Radio>
@@ -237,9 +246,15 @@ const CreateProducts = () => {
           fileListLength={4}
           preview={preview}
           setPreview={setPreview}
+          disabled={loading}
         />
 
-        <Button htmlType="submit" type="primary" loading={loading}>
+        <Button
+          htmlType="submit"
+          type="primary"
+          loading={loading}
+          disabled={!validationPassed()}
+        >
           Create
         </Button>
       </Space>
