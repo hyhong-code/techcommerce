@@ -4,6 +4,7 @@ import {
   PRODUCT_UPDATED,
   PRODUCT_DELETED,
   PRODUCTS_LISTED,
+  CLEAR_EDITING_PRODUCT,
 } from "../actions";
 
 const INITIAL_STATE = {
@@ -33,6 +34,12 @@ export default (state = INITIAL_STATE, action) => {
           product._id === payload._id ? payload : product
         ),
         currentUpdatingProduct: payload,
+      };
+
+    case CLEAR_EDITING_PRODUCT:
+      return {
+        ...state,
+        currentUpdatingProduct: null,
       };
 
     case PRODUCTS_LISTED:

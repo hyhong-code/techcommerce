@@ -10,7 +10,7 @@ const Products = () => {
 
   useEffect(() => {
     dispatch(listProducts());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="admin-products">

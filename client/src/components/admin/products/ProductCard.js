@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 
 import formatErrorMsg from "../../../utils/formatErrorMsg";
 import { deleteProduct } from "../../../redux/actions/product";
+import ImageFadeIn from "react-image-fade-in";
 
 const { Meta } = Card;
 const { confirm } = Modal;
@@ -43,7 +44,8 @@ const ProductCard = ({ product }) => {
       <Card
         className="admin-product-card"
         cover={
-          <img
+          <ImageFadeIn
+            transition={1000}
             className="admin-product-card__image"
             alt={product.title}
             src={product.images[0].url}

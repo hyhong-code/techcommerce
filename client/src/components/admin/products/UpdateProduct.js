@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import ImageFadeIn from "react-image-fade-in";
 import { Typography, Space, Input, Select, Radio, Button, message } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 
-import { useParams } from "react-router-dom";
-
 import { listCategories } from "../../../redux/actions/category";
 import { listSubs } from "../../../redux/actions/sub";
-import { updateProduct, getProduct } from "../../../redux/actions/product";
+import {
+  updateProduct,
+  getProduct,
+  clearEditingProduct,
+} from "../../../redux/actions/product";
 import ImageUploader from "../../ui/ImageUploader";
 import useImageUploader from "../../../hooks/useImageUploader";
 import fileResizer from "../../../utils/fileResizer";
@@ -29,7 +33,11 @@ const UpdateProduct = () => {
     dispatch(getProduct(params.slug));
     dispatch(listCategories());
     dispatch(listSubs());
-  }, [dispatch]);
+
+    return () => {
+      dispatch(clearEditingProduct());
+    };
+  }, [dispatch, params.slug]);
 
   // Grad state from redux
   const [
@@ -61,6 +69,7 @@ const UpdateProduct = () => {
 
   useEffect(() => {
     if (selectedCategorySlug) {
+      // Set sub category selections whenever category changed
       setSubOptions(
         subs.filter(
           (sub) =>
@@ -71,9 +80,14 @@ const UpdateProduct = () => {
         )
       );
     }
-  }, [selectedCategorySlug]);
 
-  // Pre-fill form state
+    if (selectedCategorySlug !== product?.category.slug) {
+      // Clearout selected sub categories whenever category changed
+      setSelectedSubSlugs([]);
+    }
+  }, [selectedCategorySlug, categories, product, subs]);
+
+  // Pre-fill form state when page loaded
   useEffect(() => {
     if (product) {
       setName(product?.title);
@@ -158,6 +172,7 @@ const UpdateProduct = () => {
       // Dispatch
       await dispatch(updateProduct(product.slug, formdata));
       message.success(`Product ${name} has been successfully updated.`, 6);
+      setFileList([]);
     } catch (error) {
       message.error(formatErrorMsg(error), 6);
     }
@@ -281,7 +296,11 @@ const UpdateProduct = () => {
         <div className="update-product__images">
           {existingImages.map((image, idx) => (
             <div key={idx} className="update-product__images__item">
-              <img src={image.url} alt={product.title} />
+              <ImageFadeIn
+                transition={1000}
+                src={image.url}
+                alt={product.title}
+              />
               <Button
                 onClick={() =>
                   setExistingImages((prev) =>
@@ -313,7 +332,7 @@ const UpdateProduct = () => {
           loading={loading}
           disabled={!validationPassed()}
         >
-          Create
+          Update
         </Button>
       </Space>
     </form>

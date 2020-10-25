@@ -6,6 +6,7 @@ import {
   PRODUCT_FETCHED,
   PRODUCTS_LISTED,
   PRODUCT_UPDATED,
+  CLEAR_EDITING_PRODUCT,
 } from "../actions";
 
 export const createProduct = (formdata) => async (dispatch) => {
@@ -77,4 +78,10 @@ export const listProducts = () => async (dispatch) => {
   } catch (error) {
     throw error;
   }
+};
+
+export const clearEditingProduct = () => (dispatch) => {
+  dispatch({
+    type: CLEAR_EDITING_PRODUCT,
+  });
 };
