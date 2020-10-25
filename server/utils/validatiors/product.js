@@ -1,6 +1,6 @@
 const { body } = require("express-validator");
 
-exports.createValidators = [
+const common = [
   body("title")
     .not()
     .isEmpty()
@@ -27,13 +27,28 @@ exports.createValidators = [
 
   body("quantity").not().isEmpty().withMessage("A quantity is required."),
 
+  body("color").not().isEmpty().withMessage("A color is required."),
+
+  body("brand").not().isEmpty().withMessage("A brand is required."),
+];
+
+exports.createValidators = [
+  ...common,
   body("images")
     .custom(
       (imagesArray) => imagesArray instanceof Array && imagesArray.length > 0
     )
     .withMessage("At least an image is required."),
+];
 
-  body("color").not().isEmpty().withMessage("A color is required."),
-
-  body("brand").not().isEmpty().withMessage("A brand is required."),
+exports.updateValidators = [
+  ...common,
+  body("newImages")
+    .custom(
+      (imagesArray, { req }) =>
+        imagesArray instanceof Array &&
+        req.body.existingImages instanceof Array &&
+        imagesArray.length + req.body.existingImages.length > 0
+    )
+    .withMessage("At least an image is required."),
 ];

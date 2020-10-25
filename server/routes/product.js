@@ -9,13 +9,16 @@ const {
 } = require("../controllers/products");
 const auth = require("../middlewares/auth");
 const limitTo = require("../middlewares/limitTo");
-const { createValidators } = require("../utils/validatiors/product");
+const {
+  createValidators,
+  updateValidators,
+} = require("../utils/validatiors/product");
 const validate = require("../middlewares/validate");
 
 router
   .route("/:slug")
   .get(getProduct)
-  .put(auth, limitTo("admin"), updateProduct)
+  .put(auth, limitTo("admin"), updateValidators, validate, updateProduct)
   .delete(auth, limitTo("admin"), deleteProduct);
 router
   .route("/")
