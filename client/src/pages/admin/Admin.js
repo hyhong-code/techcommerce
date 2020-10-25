@@ -4,8 +4,9 @@ import { Route, Switch } from "react-router-dom";
 import SideNav from "../../components/admin/SideNav";
 import Categories from "../../components/admin/categories/Categories";
 import Subs from "../../components/admin/subs/Subs";
-import CreateProducts from "../../components/admin/products/CreateProducts";
 import Products from "../../components/admin/products/Products";
+import UpdateProduct from "../../components/admin/products/UpdateProduct";
+import CreateProducts from "../../components/admin/products/CreateProducts";
 
 const Admin = () => {
   return (
@@ -17,8 +18,9 @@ const Admin = () => {
         <Switch>
           <Route exact path="/admin/categories" component={Categories} />
           <Route exact path="/admin/subs" component={Subs} />
-          <Route exact path="/admin/product" component={CreateProducts} />
+          <Route exact path="/admin/products/:slug" component={UpdateProduct} />
           <Route exact path="/admin/products" component={Products} />
+          <Route exact path="/admin/product" component={CreateProducts} />
         </Switch>
       </div>
     </div>

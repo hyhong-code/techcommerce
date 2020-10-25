@@ -8,6 +8,7 @@ import {
 
 const INITIAL_STATE = {
   products: [],
+  currentUpdatingProduct: null,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -18,16 +19,34 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         products: [payload, ...state.products],
       };
+
+    case PRODUCT_FETCHED:
+      return {
+        ...state,
+        currentUpdatingProduct: payload,
+      };
+
+    case PRODUCT_UPDATED:
+      return {
+        ...state,
+        products: state.products.map((product) =>
+          product._id === payload._id ? payload : product
+        ),
+        currentUpdatingProduct: payload,
+      };
+
     case PRODUCTS_LISTED:
       return {
         ...state,
         products: payload,
       };
+
     case PRODUCT_DELETED:
       return {
         ...state,
         products: state.products.filter((product) => product.slug !== payload),
       };
+
     default:
       return state;
   }

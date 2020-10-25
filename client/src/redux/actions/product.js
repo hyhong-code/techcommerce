@@ -23,12 +23,43 @@ export const createProduct = (formdata) => async (dispatch) => {
   }
 };
 
+export const getProduct = (slug) => async (dispatch) => {
+  try {
+    const res = await axios.get(
+      `${process.env.REACT_APP_API}/products/${slug}`
+    );
+
+    dispatch({
+      type: PRODUCT_FETCHED,
+      payload: res.data.product,
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const deleteProduct = (slug) => async (dispatch) => {
   try {
     await axios.delete(`${process.env.REACT_APP_API}/products/${slug}`);
     dispatch({
       type: PRODUCT_DELETED,
       payload: slug,
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateProduct = (slug, formdata) => async (dispatch) => {
+  try {
+    const res = await axios.put(
+      `${process.env.REACT_APP_API}/products/${slug}`,
+      formdata
+    );
+
+    dispatch({
+      type: PRODUCT_UPDATED,
+      payload: res.data.product,
     });
   } catch (error) {
     throw error;

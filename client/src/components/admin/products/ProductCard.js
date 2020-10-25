@@ -1,12 +1,14 @@
 import React, { Fragment } from "react";
-import { Card, Modal } from "antd";
+import { Card, Modal, message } from "antd";
 import {
   EditOutlined,
   DeleteOutlined,
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 
+import formatErrorMsg from "../../../utils/formatErrorMsg";
 import { deleteProduct } from "../../../redux/actions/product";
 
 const { Meta } = Card;
@@ -25,7 +27,13 @@ const ProductCard = ({ product }) => {
       cancelText: "Cancel",
       maskClosable: true,
       async onOk() {
-        await dispatch(deleteProduct(product.slug));
+        try {
+          await dispatch(deleteProduct(product.slug));
+          message.success(`${product.title} successfully deleted.`, 6);
+        } catch (error) {
+          message.error(formatErrorMsg(error), 6);
+          throw error; // So the modal does not auto close
+        }
       },
     });
   };
@@ -42,7 +50,12 @@ const ProductCard = ({ product }) => {
           />
         }
         actions={[
-          <EditOutlined key="edit" className="admin-product-card__edit-icon" />,
+          <Link to={`/admin/products/${product.slug}`}>
+            <EditOutlined
+              key="edit"
+              className="admin-product-card__edit-icon"
+            />
+          </Link>,
           <DeleteOutlined
             key="delete"
             onClick={showDeletePopup}

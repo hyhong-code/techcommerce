@@ -29,7 +29,7 @@ const App = () => {
         />
         <PublicRoute exact path="/forgot-password" component={ForgotPassword} />
         <UserRoute exact path="/user/:subroute" component={User} />
-        <AdminRoute exact path="/admin/:subroute" component={Admin} />
+        <AdminRoute path="/admin/:subroute" component={Admin} />
         <Route exact path="/" component={Home} />
       </Switch>
     </Fragment>
