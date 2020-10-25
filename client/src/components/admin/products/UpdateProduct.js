@@ -2,7 +2,16 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import ImageFadeIn from "react-image-fade-in";
-import { Typography, Space, Input, Select, Radio, Button, message } from "antd";
+import {
+  Typography,
+  Space,
+  Input,
+  Select,
+  Radio,
+  Button,
+  message,
+  Spin,
+} from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 
 import { listCategories } from "../../../redux/actions/category";
@@ -44,10 +53,12 @@ const UpdateProduct = () => {
     categories,
     subs,
     product,
+    updateProductLoading,
   ] = useSelector(({ category, sub, product }) => [
     category.categories,
     sub.subs,
     product.currentUpdatingProduct,
+    product.currentUpdatingLoading,
   ]);
 
   // Pre populate form states
@@ -179,7 +190,9 @@ const UpdateProduct = () => {
     setLoading(false);
   };
 
-  return (
+  return updateProductLoading ? (
+    <Spin size="large" />
+  ) : (
     <form className="update-product" onSubmit={handleUpdateProduct}>
       <Space direction="vertical" size="middle">
         <Title level={2}>Update Product</Title>

@@ -7,6 +7,8 @@ import {
   PRODUCTS_LISTED,
   PRODUCT_UPDATED,
   CLEAR_EDITING_PRODUCT,
+  SET_UPDATE_LOADING,
+  CLEAR_UPDATE_LOADING,
 } from "../actions";
 
 export const createProduct = (formdata) => async (dispatch) => {
@@ -37,6 +39,9 @@ export const getProduct = (slug) => async (dispatch) => {
   } catch (error) {
     throw error;
   }
+  dispatch({
+    type: CLEAR_UPDATE_LOADING,
+  });
 };
 
 export const deleteProduct = (slug) => async (dispatch) => {
@@ -83,5 +88,8 @@ export const listProducts = () => async (dispatch) => {
 export const clearEditingProduct = () => (dispatch) => {
   dispatch({
     type: CLEAR_EDITING_PRODUCT,
+  });
+  dispatch({
+    type: SET_UPDATE_LOADING,
   });
 };

@@ -5,11 +5,14 @@ import {
   PRODUCT_DELETED,
   PRODUCTS_LISTED,
   CLEAR_EDITING_PRODUCT,
+  SET_UPDATE_LOADING,
+  CLEAR_UPDATE_LOADING,
 } from "../actions";
 
 const INITIAL_STATE = {
   products: [],
   currentUpdatingProduct: null,
+  currentUpdatingLoading: true,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -42,16 +45,28 @@ export default (state = INITIAL_STATE, action) => {
         currentUpdatingProduct: null,
       };
 
-    case PRODUCTS_LISTED:
+    case SET_UPDATE_LOADING:
       return {
         ...state,
-        products: payload,
+        currentUpdatingLoading: true,
+      };
+
+    case CLEAR_UPDATE_LOADING:
+      return {
+        ...state,
+        currentUpdatingLoading: false,
       };
 
     case PRODUCT_DELETED:
       return {
         ...state,
         products: state.products.filter((product) => product.slug !== payload),
+      };
+
+    case PRODUCTS_LISTED:
+      return {
+        ...state,
+        products: payload,
       };
 
     default:

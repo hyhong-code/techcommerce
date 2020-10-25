@@ -10,7 +10,6 @@ import {
 
 export const createSub = (categorySlug, name) => async (dispatch) => {
   try {
-    console.log(categorySlug);
     const res = await axios.post(
       `${process.env.REACT_APP_API}/categories/${categorySlug}/subs`,
       { name }
