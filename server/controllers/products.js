@@ -79,7 +79,32 @@ exports.updateProduct = async (req, res, next) => {
 
 exports.deleteProduct = async (req, res, next) => {
   try {
-  } catch (error) {}
+    const { slug } = req.params;
+
+    // Handle product not found
+    let product = await Product.findOne({ slug });
+    if (!product) {
+      return res
+        .status(404)
+        .json({ errors: [{ msg: `Product with slug ${slug} not found.` }] });
+    }
+
+    // Delete images from S3
+    const deleteImagePromises = product.images.map((image) =>
+      s3DeleteImage(image.key)
+    );
+    await Promise.all(deleteImagePromises);
+
+    // Delete product from DB
+    await Product.findByIdAndDelete(product._id);
+
+    res.status(200).json({ msg: `${product.title} is successfully deleted.` });
+  } catch (error) {
+    console.error("[❌ deleteProduct ERROR]", error);
+    res
+      .status(500)
+      .json({ errors: [{ msg: "Something went wrong, try again later." }] });
+  }
 };
 
 exports.listProducts = async (req, res, next) => {

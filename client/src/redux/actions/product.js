@@ -23,6 +23,18 @@ export const createProduct = (formdata) => async (dispatch) => {
   }
 };
 
+export const deleteProduct = (slug) => async (dispatch) => {
+  try {
+    await axios.delete(`${process.env.REACT_APP_API}/products/${slug}`);
+    dispatch({
+      type: PRODUCT_DELETED,
+      payload: slug,
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const listProducts = () => async (dispatch) => {
   try {
     const res = await axios.get(`${process.env.REACT_APP_API}/products`);

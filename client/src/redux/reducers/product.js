@@ -23,7 +23,11 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         products: payload,
       };
-
+    case PRODUCT_DELETED:
+      return {
+        ...state,
+        products: state.products.filter((product) => product.slug !== payload),
+      };
     default:
       return state;
   }
