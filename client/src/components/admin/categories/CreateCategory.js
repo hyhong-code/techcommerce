@@ -29,29 +29,29 @@ const CreateCategory = () => {
 
   return (
     <form className="create-category" onSubmit={handleSubmit}>
-      <Space direction="vertical" size="middle">
-        <Title level={2}>Create Category</Title>
+      <Title level={2}>Create Category</Title>
 
-        <Input
-          ref={inputRef}
-          placeholder="Enter a category name"
-          type="text"
-          autoFocus
-          allowClear
-          value={name}
-          disabled={loading}
-          onChange={(evt) => setName(evt.target.value)}
-        />
+      <Input
+        ref={inputRef}
+        placeholder="Enter a category name"
+        type="text"
+        autoFocus
+        allowClear
+        value={name}
+        disabled={loading}
+        onChange={(evt) => setName(evt.target.value)}
+        className="create-category__input"
+      />
 
-        <Button
-          type="primary"
-          htmlType="submit"
-          loading={loading}
-          disabled={!name}
-        >
-          Update
-        </Button>
-      </Space>
+      <Button
+        type="primary"
+        htmlType="submit"
+        loading={loading}
+        disabled={!name}
+        className="create-category__button"
+      >
+        Update
+      </Button>
     </form>
   );
 };

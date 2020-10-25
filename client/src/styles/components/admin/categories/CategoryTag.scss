@@ -1,6 +1,8 @@
 .category-tag {
   cursor: pointer;
   padding: 0.25rem 0.75rem;
+  align-self: flex-start;
+  margin-bottom: 0.5rem;
 
   .ant-tag-close-icon {
     margin-left: 0.75rem;

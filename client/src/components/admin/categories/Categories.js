@@ -20,30 +20,30 @@ const Categories = () => {
   const { filter, filterKeyword, setFilterKeyword } = useFilter();
 
   return (
-    <Space direction="vertical" size="large" className="categories">
+    <div className="categories">
       {/* Category form */}
       <CreateCategory />
 
       {/* Category Tags */}
-      <Space direction="vertical">
-        <Title level={2} className="categories__tags-title">
-          Categories
-        </Title>
 
-        {/* Search Input */}
-        <Input
-          prefix={<SearchOutlined />}
-          placeholder="Filter categories..."
-          allowClear
-          value={filterKeyword}
-          onChange={(evt) => setFilterKeyword(evt.target.value)}
-        />
+      <Title level={2} className="categories__tags-title">
+        Categories
+      </Title>
 
-        {filter(categories, "name").map((category) => (
-          <CategoryTag category={category} key={category._id} />
-        ))}
-      </Space>
-    </Space>
+      {/* Search Input */}
+      <Input
+        prefix={<SearchOutlined />}
+        placeholder="Filter categories..."
+        allowClear
+        value={filterKeyword}
+        onChange={(evt) => setFilterKeyword(evt.target.value)}
+        className="categories__tag-input"
+      />
+
+      {filter(categories, "name").map((category) => (
+        <CategoryTag category={category} key={category._id} />
+      ))}
+    </div>
   );
 };
 
