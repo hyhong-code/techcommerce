@@ -3,22 +3,11 @@ import {
   PRODUCT_FETCHED,
   PRODUCT_UPDATED,
   PRODUCT_DELETED,
-  PRODUCT_LISTED,
-  IMAGE_PREVIEWED,
-  IMAGE_PREVIEW_CANCELED,
-  IMAGE_LIST_CHANGED,
+  PRODUCTS_LISTED,
 } from "../actions";
 
 const INITIAL_STATE = {
   products: [],
-  uploader: {
-    fileList: [],
-    preview: {
-      previewVisible: false,
-      previewImage: "",
-      previewTitle: "",
-    },
-  },
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -29,7 +18,7 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         products: [payload, ...state.products],
       };
-    case PRODUCT_LISTED:
+    case PRODUCTS_LISTED:
       return {
         ...state,
         products: payload,

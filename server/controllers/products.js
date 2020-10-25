@@ -82,5 +82,12 @@ exports.deleteProduct = async (req, res, next) => {
 
 exports.listProducts = async (req, res, next) => {
   try {
-  } catch (error) {}
+    const products = await Product.find();
+    res.status(200).json({ products });
+  } catch (error) {
+    console.error("[❌ listProducts ERROR]", error);
+    res
+      .status(500)
+      .json({ errors: [{ msg: "Something went wrong, try again later." }] });
+  }
 };
