@@ -1,0 +1,22 @@
+.admin-product-card {
+  overflow: hidden;
+
+  .ant-card-meta-description {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__image {
+    height: 150px;
+    object-fit: cover;
+  }
+
+  &__edit-icon {
+    color: $color-warning !important;
+  }
+
+  &__delete-icon {
+    color: $color-danger !important;
+  }
+}

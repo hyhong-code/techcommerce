@@ -56,6 +56,8 @@ exports.createProduct = async (req, res, next) => {
       subs,
     });
 
+    // Populate category and subs
+    product = await product.populate("category subs").execPopulate();
     res.status(201).json({ product });
   } catch (error) {
     console.error("[❌ createProduct ERROR]", error);
@@ -82,7 +84,7 @@ exports.deleteProduct = async (req, res, next) => {
 
 exports.listProducts = async (req, res, next) => {
   try {
-    const products = await Product.find();
+    const products = await Product.find().sort({ createdAt: -1 });
     res.status(200).json({ products });
   } catch (error) {
     console.error("[❌ listProducts ERROR]", error);

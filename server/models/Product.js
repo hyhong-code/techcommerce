@@ -89,4 +89,10 @@ productSchema.pre("validate", function (next) {
   next();
 });
 
+// Populate category and subs
+productSchema.pre(/^find/, function (next) {
+  this.populate("category subs");
+  next();
+});
+
 module.exports = mongoose.model("Product", productSchema);

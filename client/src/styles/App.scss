@@ -12,6 +12,9 @@ $sm: 768px; // <=768px Phones Landscape
 $md: 992px; // <=992px Tablets
 $lg: 1200px; // <=1200px Desktops
 
+$color-warning: #ffc53d;
+$color-danger: #ff4d4f;
+
 // Mixins
 @mixin container {
   width: 100%;
@@ -51,6 +54,8 @@ $lg: 1200px; // <=1200px Desktops
 @import "./components/admin/subs/Subs.scss";
 @import "./components/admin/subs/SubTag.scss";
 @import "./components/admin/products/CreateProducts.scss";
+@import "./components/admin/products/Products.scss";
+@import "./components/admin/products/ProductCard.scss";
 
 // Auth pages
 @import "./pages/Register.scss";

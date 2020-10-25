@@ -14,7 +14,6 @@ export const createProduct = (formdata) => async (dispatch) => {
       `${process.env.REACT_APP_API}/products`,
       formdata
     );
-    console.log(res.data.product);
     dispatch({
       type: PRODUCT_CREATED,
       payload: res.data.product,
@@ -27,8 +26,6 @@ export const createProduct = (formdata) => async (dispatch) => {
 export const listProducts = () => async (dispatch) => {
   try {
     const res = await axios.get(`${process.env.REACT_APP_API}/products`);
-
-    console.log(res.data.products);
 
     dispatch({
       type: PRODUCTS_LISTED,

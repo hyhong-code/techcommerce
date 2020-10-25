@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Typography, Space, Input, Select, Radio, Button, message } from "antd";
 import { useSelector, useDispatch } from "react-redux";
+import { Typography, Space, Input, Select, Radio, Button, message } from "antd";
 
 import { listCategories } from "../../../redux/actions/category";
 import { listSubs } from "../../../redux/actions/sub";
@@ -41,8 +41,8 @@ const CreateProducts = () => {
   const [selectedSubSlugs, setSelectedSubSlugs] = useState([]);
   const [selectedBrand, setSelectedBrand] = useState(null);
   const [selectedColor, setSelectedColor] = useState(null);
-  const { fileList, setFileList, preview, setPreview } = useImageUploader();
   const [isShipping, setIsShipping] = useState(true);
+  const { fileList, setFileList, preview, setPreview } = useImageUploader();
 
   // Other states
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
@@ -154,6 +154,7 @@ const CreateProducts = () => {
           onChange={(evt) => setName(evt.target.value)}
           value={name}
           disabled={loading}
+          autoFocus
         />
 
         {/* Product Description */}
