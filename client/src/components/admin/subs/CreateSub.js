@@ -34,44 +34,46 @@ const CreateSub = () => {
 
   return (
     <form className="create-sub" onSubmit={handleSubmit}>
-      <Space direction="vertical" size="middle">
-        <Title level={2}>Create Sub Category</Title>
+      <Title level={2} className="create-sub__title">
+        Create Sub Category
+      </Title>
 
-        {/* Input */}
-        <Input
-          placeholder="Enter a sub category name"
-          type="text"
-          autoFocus
-          allowClear
-          value={name}
-          disabled={loading}
-          onChange={(evt) => setName(evt.target.value)}
-        />
+      {/* Input */}
+      <Input
+        placeholder="Enter a sub category name"
+        type="text"
+        autoFocus
+        allowClear
+        value={name}
+        disabled={loading}
+        onChange={(evt) => setName(evt.target.value)}
+        className="create-sub__name-input"
+      />
 
-        {/* Select */}
-        <Select
-          placeholder="Select a category"
-          onChange={setSelectedCategorySlug}
-          value={selectedCategorySlug}
-          style={{ width: 200 }}
-          disabled={loading}
-        >
-          {categories?.map((category) => (
-            <Option key={category._id} value={category.slug}>
-              {category.name}
-            </Option>
-          ))}
-        </Select>
+      {/* Select */}
+      <Select
+        placeholder="Select a category"
+        onChange={setSelectedCategorySlug}
+        value={selectedCategorySlug}
+        disabled={loading}
+        className="create-sub__category-input"
+      >
+        {categories?.map((category) => (
+          <Option key={category._id} value={category.slug}>
+            {category.name}
+          </Option>
+        ))}
+      </Select>
 
-        <Button
-          type="primary"
-          htmlType="submit"
-          loading={loading}
-          disabled={!(name && selectedCategorySlug)}
-        >
-          Create
-        </Button>
-      </Space>
+      <Button
+        type="primary"
+        htmlType="submit"
+        loading={loading}
+        disabled={!(name && selectedCategorySlug)}
+        className="create-sub__button"
+      >
+        Create
+      </Button>
     </form>
   );
 };

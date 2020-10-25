@@ -1,0 +1,18 @@
+.create-sub {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+
+  &__name-input {
+    margin-bottom: 1rem;
+  }
+
+  &__category-input {
+    margin-bottom: 1rem;
+  }
+
+  &__button {
+    margin-bottom: 1rem;
+    align-self: flex-start;
+  }
+}

@@ -22,31 +22,31 @@ const Subs = () => {
   }, [dispatch]);
 
   return (
-    <Space className="subs" direction="vertical" size="middle">
+    <div className="subs">
       {/* Create Sub form */}
       <CreateSub />
 
       {/* Category Tags */}
-      <Space direction="vertical">
-        <Title level={2} className="subs-title">
-          Sub Categories
-        </Title>
 
-        {/* Search Input */}
-        <Input
-          prefix={<SearchOutlined />}
-          placeholder="Filter sub categories..."
-          allowClear
-          value={filterKeyword}
-          onChange={(evt) => setFilterKeyword(evt.target.value)}
-        />
+      <Title level={2} className="subs-title">
+        Sub Categories
+      </Title>
 
-        {/* Sub tags */}
-        {filter(subs, "name").map((sub) => (
-          <SubTag sub={sub} key={sub._id} />
-        ))}
-      </Space>
-    </Space>
+      {/* Search Input */}
+      <Input
+        prefix={<SearchOutlined />}
+        placeholder="Filter sub categories..."
+        allowClear
+        value={filterKeyword}
+        onChange={(evt) => setFilterKeyword(evt.target.value)}
+        className="subs__filter-input"
+      />
+
+      {/* Sub tags */}
+      {filter(subs, "name").map((sub) => (
+        <SubTag sub={sub} key={sub._id} />
+      ))}
+    </div>
   );
 };
 
