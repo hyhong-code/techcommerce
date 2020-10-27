@@ -188,7 +188,21 @@ exports.deleteProduct = async (req, res, next) => {
 exports.listProducts = async (req, res, next) => {
   try {
     const limit = parseInt(req.query.limit) || 10;
-    const products = await Product.find().limit(limit).sort({ createdAt: -1 });
+    const order = req.query.order && req.query.order === "asc" ? 1 : -1;
+
+    const sort = {};
+    switch (req.query.type) {
+      case "new-arrival":
+        sort.createdAt = order;
+        break;
+      case "best-selling":
+        sort.sold = order;
+      default:
+        sort.createdAt = order;
+        break;
+    }
+
+    const products = await Product.find().limit(limit).sort(sort);
     res.status(200).json({ products });
   } catch (error) {
     console.error("[❌ listProducts ERROR]", error);

@@ -9,6 +9,10 @@ import {
   PRODUCT_UPDATED,
   CLEAR_CURRENT_PRODUCT,
   SET_CURRENT_PRODUCT_LOADING,
+  LIST_BEST_SELLINGS,
+  CLEAR_BEST_SELLINGS,
+  LIST_NEW_ARRIVALS,
+  CLEAR_NEW_ARRIVALS,
 } from "../actions";
 
 export const createProduct = (formdata) => async (dispatch) => {
@@ -87,6 +91,46 @@ export const listProducts = () => async (dispatch) => {
     console.error(`[❌ listProducts]`, error);
     throw error;
   }
+};
+
+export const listBestSellings = (limit = 10) => async (dispatch) => {
+  try {
+    const res = await axios.get(
+      `${process.env.REACT_APP_API}/products?type=best-selling&order=desc&limit=${limit}`
+    );
+
+    dispatch({
+      type: LIST_BEST_SELLINGS,
+      payload: res.data.products,
+    });
+  } catch (error) {
+    console.error(`[❌ listBestSellings]`, error);
+    throw error;
+  }
+};
+
+export const clearBestSellings = () => (dispatch) => {
+  dispatch({ type: CLEAR_BEST_SELLINGS });
+};
+
+export const listNewArrival = (limit = 10) => async (dispatch) => {
+  try {
+    const res = await axios.get(
+      `${process.env.REACT_APP_API}/products?type=new-arrival&order=desc&limit=${limit}`
+    );
+
+    dispatch({
+      type: LIST_NEW_ARRIVALS,
+      payload: res.data.products,
+    });
+  } catch (error) {
+    console.error(`[❌ listNewArrival]`, error);
+    throw error;
+  }
+};
+
+export const clearNewArrivals = () => (dispatch) => {
+  dispatch({ type: CLEAR_NEW_ARRIVALS });
 };
 
 export const leaveCurrentProduct = () => (dispatch) => {

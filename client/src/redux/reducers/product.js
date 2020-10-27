@@ -7,10 +7,18 @@ import {
   CLEAR_CURRENT_PRODUCT,
   SET_CURRENT_PRODUCT_LOADING,
   SET_LIST_PRODUCTS_LOADING,
+  LIST_BEST_SELLINGS,
+  LIST_NEW_ARRIVALS,
+  CLEAR_BEST_SELLINGS,
+  CLEAR_NEW_ARRIVALS,
 } from "../actions";
 
 const INITIAL_STATE = {
   products: [],
+  latestArrivals: [],
+  latestArrivalsLoading: true,
+  bestSellings: [],
+  bestSellingsLoading: true,
   listProductsLoading: false,
   currentProduct: null,
   currentProductLoading: true,
@@ -70,6 +78,34 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         products: payload,
         listProductsLoading: false,
+      };
+
+    case LIST_BEST_SELLINGS:
+      return {
+        ...state,
+        bestSellings: payload,
+        bestSellingsLoading: false,
+      };
+
+    case CLEAR_BEST_SELLINGS:
+      return {
+        ...state,
+        bestSellings: [],
+        bestSellingsLoading: true,
+      };
+
+    case LIST_NEW_ARRIVALS:
+      return {
+        ...state,
+        latestArrivals: payload,
+        latestArrivalsLoading: false,
+      };
+
+    case CLEAR_NEW_ARRIVALS:
+      return {
+        ...state,
+        latestArrivals: [],
+        latestArrivalsLoading: true,
       };
 
     default:
