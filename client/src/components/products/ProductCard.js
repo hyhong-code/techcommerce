@@ -19,11 +19,11 @@ const ProductCard = ({ product }) => {
         />
       }
       actions={[
-        <Link to={`/products/${product.slug}`}>
+        <Link key={1} to={`/products/${product.slug}`}>
           <EyeOutlined className="product-card__eye-icon" />
           <p>Details</p>
         </Link>,
-        <Fragment>
+        <Fragment key={2}>
           <ShoppingCartOutlined className="product-card__cart-icon" />
           <p>Add to cart</p>
         </Fragment>,

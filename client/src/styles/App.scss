@@ -52,6 +52,9 @@ $color-lightgrey: #eee;
 // Home page
 @import "./pages/home.scss";
 
+// Product page
+@import "./pages/Product.scss";
+
 // User page
 @import "./pages/user/User.scss";
 
@@ -80,6 +83,9 @@ $color-lightgrey: #eee;
 @import "./components/home/ProductCard.scss";
 @import "./components/home/NewArrivals.scss";
 @import "./components/home/BestSellings.scss";
+
+// Product components
+@import "./components/Product/ProductInfo.scss";
 
 // ui
 @import "./components/ui/Header.scss";

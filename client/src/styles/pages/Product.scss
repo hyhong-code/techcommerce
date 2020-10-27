@@ -1,0 +1,22 @@
+.product {
+  @include container;
+  display: grid;
+  grid-template-columns: 5fr 4fr;
+  grid-gap: 2rem;
+
+  &__images {
+    &__item {
+      display: block !important;
+      width: 100% !important;
+      object-fit: cover !important;
+    }
+
+    .slide img {
+      height: 500px !important;
+    }
+
+    .thumb img {
+      height: 50px !important;
+    }
+  }
+}

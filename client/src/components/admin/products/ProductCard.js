@@ -52,14 +52,14 @@ const ProductCard = ({ product }) => {
           />
         }
         actions={[
-          <Link to={`/admin/products/${product.slug}`}>
+          <Link key={1} to={`/admin/products/${product.slug}`}>
             <EditOutlined
               key="edit"
               className="admin-product-card__edit-icon"
             />
           </Link>,
           <DeleteOutlined
-            key="delete"
+            key={2}
             onClick={showDeletePopup}
             className="admin-product-card__delete-icon"
           />,

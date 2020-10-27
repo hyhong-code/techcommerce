@@ -146,7 +146,7 @@ export const clearNewArrivals = () => (dispatch) => {
   dispatch({ type: CLEAR_NEW_ARRIVALS });
 };
 
-export const leaveCurrentProduct = () => (dispatch) => {
+export const clearCurrentProduct = () => (dispatch) => {
   dispatch({
     type: CLEAR_CURRENT_PRODUCT,
   });

@@ -10,7 +10,7 @@ import { listSubs } from "../../../redux/actions/sub";
 import {
   updateProduct,
   getProduct,
-  leaveCurrentProduct,
+  clearCurrentProduct,
 } from "../../../redux/actions/product";
 import ImageUploader from "../../ui/ImageUploader";
 import useImageUploader from "../../../hooks/useImageUploader";
@@ -35,7 +35,7 @@ const UpdateProduct = () => {
     dispatch(listSubs());
 
     return () => {
-      dispatch(leaveCurrentProduct());
+      dispatch(clearCurrentProduct());
     };
   }, [dispatch, params.slug]);
 
