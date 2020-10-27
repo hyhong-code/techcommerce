@@ -18,7 +18,7 @@ const { confirm } = Modal;
 const ProductCard = ({ product }) => {
   const dispatch = useDispatch();
 
-  const showDeletePopup = (evt, category) => {
+  const showDeletePopup = (evt) => {
     evt.preventDefault();
     confirm({
       icon: <ExclamationCircleOutlined />,

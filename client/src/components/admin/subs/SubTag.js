@@ -6,9 +6,9 @@ import { ExclamationCircleOutlined } from "@ant-design/icons";
 
 import { deleteSub } from "../../../redux/actions/sub";
 import UpdateForm from "../CollectionUpdateForm";
-const { confirm } = Modal;
+import randomTagColor from "../../../utils/randomTagColor";
 
-const TAG_COLORS = ["magenta", "volcano", "cyan", "geekblue", "purple"];
+const { confirm } = Modal;
 
 const SubTag = ({ sub }) => {
   const dispatch = useDispatch();
@@ -56,7 +56,7 @@ const SubTag = ({ sub }) => {
       <Tag
         closable
         onClose={(evt) => showDeletePopup(evt, sub)}
-        color={TAG_COLORS[Math.floor(Math.random() * TAG_COLORS.length)]}
+        color={randomTagColor()}
         className="sub-tag"
       >
         {sub.name}

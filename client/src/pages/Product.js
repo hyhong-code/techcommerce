@@ -45,6 +45,11 @@ const Product = () => {
 
       {/* Product info */}
       <div className="product__information">
+        <div className="product__information__lead">
+          <h1>
+            {currentProduct?.title} - <span>${currentProduct?.price}</span>
+          </h1>
+        </div>
         <ProductInfo product={currentProduct} />
       </div>
     </div>

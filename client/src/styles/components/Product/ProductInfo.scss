@@ -10,8 +10,14 @@
         justify-content: space-between;
         margin-bottom: 1rem;
 
+        &__tags {
+          display: flex;
+        }
+
         .ant-tag {
-          margin: 0;
+          &:last-of-type {
+            margin-right: 0;
+          }
         }
       }
     }

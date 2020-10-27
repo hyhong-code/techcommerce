@@ -6,6 +6,8 @@ import {
   HeartOutlined,
   StarOutlined,
 } from "@ant-design/icons";
+import randomTagColor from "../../utils/randomTagColor";
+
 const { Meta } = Card;
 
 const ProductInfo = ({ product }) => {
@@ -43,7 +45,7 @@ const ProductInfo = ({ product }) => {
             </p>
           }
         />
-        <div className="product-info__card__inner">
+        <ul className="product-info__card__inner">
           {/* Price */}
           <div className="product-info__card__inner__row">
             <span>Price</span>
@@ -51,49 +53,53 @@ const ProductInfo = ({ product }) => {
           </div>
 
           {/* Category */}
-          <div className="product-info__card__inner__row">
+          <li className="product-info__card__inner__row">
             <span>Category</span>
-            <Tag>{product?.category.name}</Tag>
-          </div>
+            <Tag color={randomTagColor()}>{product?.category.name}</Tag>
+          </li>
 
           {/* Sub categories */}
-          <div className="product-info__card__inner__row">
+          <li className="product-info__card__inner__row">
             <span>Sub category</span>
-            {product?.subs.map((sub) => (
-              <Tag key={sub._id}>{sub.name}</Tag>
-            ))}
-          </div>
+            <div className="product-info__card__inner__row__tags">
+              {product?.subs.map((sub) => (
+                <Tag color={randomTagColor()} key={sub._id}>
+                  {sub.name}
+                </Tag>
+              ))}
+            </div>
+          </li>
 
           {/* Shipping */}
-          <div className="product-info__card__inner__row">
+          <li className="product-info__card__inner__row">
             <span>Shipping</span>
             <span>{product?.shipping ? "Yes" : "No"}</span>
-          </div>
+          </li>
 
           {/* Brand */}
-          <div className="product-info__card__inner__row">
+          <li className="product-info__card__inner__row">
             <span>Brand</span>
             <span>{product?.brand}</span>
-          </div>
+          </li>
 
           {/* Color */}
-          <div className="product-info__card__inner__row">
+          <li className="product-info__card__inner__row">
             <span>Color</span>
             <span>{product?.color}</span>
-          </div>
+          </li>
 
           {/* Quantity available */}
-          <div className="product-info__card__inner__row">
+          <li className="product-info__card__inner__row">
             <span>Availability</span>
             <span>{product?.quantity}</span>
-          </div>
+          </li>
 
           {/* Quantity sold */}
-          <div className="product-info__card__inner__row">
+          <li className="product-info__card__inner__row">
             <span>Sold</span>
             <span>{product?.sold}</span>
-          </div>
-        </div>
+          </li>
+        </ul>
       </Card>
     </div>
   );

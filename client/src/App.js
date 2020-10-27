@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
 import { Route, Switch } from "react-router-dom";
+import { BackTop } from "antd";
 
 import Home from "./pages/Home";
 import Product from "./pages/Product";
@@ -34,6 +35,7 @@ const App = () => {
         <Route exact path="/products/:slug" component={Product} />
         <Route exact path="/" component={Home} />
       </Switch>
+      <BackTop />
     </Fragment>
   );
 };

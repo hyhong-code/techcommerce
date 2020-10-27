@@ -1,5 +1,6 @@
 .product {
   @include container;
+  @include page-padding-vert;
   display: grid;
   grid-template-columns: 5fr 4fr;
   grid-gap: 2rem;
@@ -17,6 +18,25 @@
 
     .thumb img {
       height: 50px !important;
+    }
+  }
+
+  &__information {
+    &__lead {
+      background-color: $color-lightgrey;
+      padding: 2rem;
+      margin-bottom: 1rem;
+
+      h1 {
+        font-size: 1.75rem;
+        text-align: center;
+        font-weight: bold;
+        color: lighten(#000, 25);
+
+        span {
+          color: $color-success;
+        }
+      }
     }
   }
 }

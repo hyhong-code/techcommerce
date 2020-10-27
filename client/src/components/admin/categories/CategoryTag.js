@@ -6,10 +6,9 @@ import { ExclamationCircleOutlined } from "@ant-design/icons";
 
 import { deleteCategory } from "../../../redux/actions/category";
 import UpdateForm from "../CollectionUpdateForm";
+import randomTagColor from "../../../utils/randomTagColor";
 
 const { confirm } = Modal;
-
-const TAG_COLORS = ["magenta", "volcano", "cyan", "geekblue", "purple"];
 
 const CategoryTag = ({ category }) => {
   const dispatch = useDispatch();
@@ -57,7 +56,7 @@ const CategoryTag = ({ category }) => {
       <Tag
         closable
         onClose={(evt) => showDeletePopup(evt, category)}
-        color={TAG_COLORS[Math.floor(Math.random() * TAG_COLORS.length)]}
+        color={randomTagColor()}
         className="category-tag"
       >
         {category.name}
