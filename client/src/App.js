@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import { Route, Switch } from "react-router-dom";
 
 import Home from "./pages/Home";
-import Products from "./pages/Products";
+import Product from "./pages/Product";
 import Register from "./pages/auth/Register";
 import RegisterComplete from "./pages/auth/RegisterComplete";
 import Login from "./pages/auth/Login";
@@ -31,8 +31,8 @@ const App = () => {
         <PublicRoute exact path="/forgot-password" component={ForgotPassword} />
         <UserRoute exact path="/user/:subroute" component={User} />
         <AdminRoute path="/admin/:subroute" component={Admin} />
+        <Route exact path="/products/:slug" component={Product} />
         <Route exact path="/" component={Home} />
-        <Route exact path="/products/:slug" component={Products} />
       </Switch>
     </Fragment>
   );

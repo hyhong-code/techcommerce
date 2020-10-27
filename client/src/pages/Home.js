@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Spin } from "antd";
 
+import LoadingCards from "../components/ui/LoadingCards";
+import Typewriter from "../components/ui/Typewriter";
 import ProductCard from "../components/products/ProductCard";
 import { listProducts } from "../redux/actions/product";
 
@@ -18,17 +19,21 @@ const Home = () => {
 
   return (
     <div className="home">
-      <div className="home__lead"></div>
+      <div className="home__lead">
+        <Typewriter
+          text={["Latest Products", "New Arrivals", "Best Sellers"]}
+        />
+      </div>
 
-      {listProductsLoading ? (
-        <Spin size="large" />
-      ) : (
-        <div className="home__products">
-          {products.map((product) => (
+      <div className="home__products">
+        {listProductsLoading ? (
+          <LoadingCards count={7} />
+        ) : (
+          products?.map((product) => (
             <ProductCard key={product._id} product={product} />
-          ))}
-        </div>
-      )}
+          ))
+        )}
+      </div>
     </div>
   );
 };

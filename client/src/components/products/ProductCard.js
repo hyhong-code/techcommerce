@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Card } from "antd";
 import { EyeOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import ImageFadeIn from "react-image-fade-in";
@@ -21,8 +21,12 @@ const ProductCard = ({ product }) => {
       actions={[
         <Link to={`/products/${product.slug}`}>
           <EyeOutlined className="product-card__eye-icon" />
+          <p>Details</p>
         </Link>,
-        <ShoppingCartOutlined className="product-card__cart-icon" />,
+        <Fragment>
+          <ShoppingCartOutlined className="product-card__cart-icon" />
+          <p>Add to cart</p>
+        </Fragment>,
       ]}
     >
       <Meta
