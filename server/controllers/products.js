@@ -203,7 +203,8 @@ exports.listProducts = async (req, res, next) => {
     }
 
     const products = await Product.find().limit(limit).sort(sort);
-    res.status(200).json({ products });
+    const count = await Product.countDocuments();
+    res.status(200).json({ products, count });
   } catch (error) {
     console.error("[❌ listProducts ERROR]", error);
     res

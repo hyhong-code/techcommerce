@@ -15,6 +15,7 @@ import {
 
 const INITIAL_STATE = {
   products: [],
+  productCount: 0,
   latestArrivals: [],
   latestArrivalsLoading: true,
   bestSellings: [],
@@ -76,14 +77,16 @@ export default (state = INITIAL_STATE, action) => {
     case PRODUCTS_LISTED:
       return {
         ...state,
-        products: payload,
+        products: payload.products,
+        productCount: payload.count,
         listProductsLoading: false,
       };
 
     case LIST_BEST_SELLINGS:
       return {
         ...state,
-        bestSellings: payload,
+        bestSellings: payload.products,
+        productCount: payload.count,
         bestSellingsLoading: false,
       };
 
@@ -97,7 +100,8 @@ export default (state = INITIAL_STATE, action) => {
     case LIST_NEW_ARRIVALS:
       return {
         ...state,
-        latestArrivals: payload,
+        latestArrivals: payload.products,
+        productCount: payload.count,
         latestArrivalsLoading: false,
       };
 

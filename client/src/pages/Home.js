@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import LoadingCards from "../components/ui/LoadingCards";
 import Typewriter from "../components/ui/Typewriter";
 import ProductCard from "../components/products/ProductCard";
+import NewArrivals from "../components/products/NewArrivals";
 import { listProducts } from "../redux/actions/product";
 
 const Home = () => {
@@ -34,6 +35,8 @@ const Home = () => {
           ))
         )}
       </div>
+
+      <NewArrivals />
     </div>
   );
 };

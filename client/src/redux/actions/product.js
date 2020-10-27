@@ -85,7 +85,10 @@ export const listProducts = () => async (dispatch) => {
 
     dispatch({
       type: PRODUCTS_LISTED,
-      payload: res.data.products,
+      payload: {
+        products: res.data.products,
+        count: res.data.count,
+      },
     });
   } catch (error) {
     console.error(`[❌ listProducts]`, error);
@@ -101,7 +104,10 @@ export const listBestSellings = (limit = 10) => async (dispatch) => {
 
     dispatch({
       type: LIST_BEST_SELLINGS,
-      payload: res.data.products,
+      payload: {
+        products: res.data.products,
+        count: res.data.count,
+      },
     });
   } catch (error) {
     console.error(`[❌ listBestSellings]`, error);
@@ -121,7 +127,10 @@ export const listNewArrival = (limit = 10) => async (dispatch) => {
 
     dispatch({
       type: LIST_NEW_ARRIVALS,
-      payload: res.data.products,
+      payload: {
+        products: res.data.products,
+        count: res.data.count,
+      },
     });
   } catch (error) {
     console.error(`[❌ listNewArrival]`, error);
