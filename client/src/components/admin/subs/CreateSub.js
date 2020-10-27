@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Typography, Select, Input, Button, message, Space } from "antd";
+import { Typography, Select, Input, Button, message } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 
 import formatErrorMsg from "../../../utils/formatErrorMsg";

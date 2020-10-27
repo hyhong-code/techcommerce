@@ -2,16 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import ImageFadeIn from "react-image-fade-in";
-import {
-  Typography,
-  Space,
-  Input,
-  Select,
-  Radio,
-  Button,
-  message,
-  Spin,
-} from "antd";
+import { Typography, Input, Select, Radio, Button, message, Spin } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 
 import { listCategories } from "../../../redux/actions/category";
@@ -194,160 +185,171 @@ const UpdateProduct = () => {
     <Spin size="large" />
   ) : (
     <form className="update-product" onSubmit={handleUpdateProduct}>
-      <Space direction="vertical" size="middle">
-        <Title level={2}>Update Product</Title>
+      <Title level={2} className="update-product__title">
+        Update Product
+      </Title>
 
-        {/* Product Name */}
-        <Input
-          placeholder="Enter a name"
-          allowClear
-          onChange={(evt) => setName(evt.target.value)}
-          value={name}
-          disabled={loading}
-          autoFocus
-        />
+      {/* Product Name */}
+      <Input
+        placeholder="Enter a name"
+        allowClear
+        onChange={(evt) => setName(evt.target.value)}
+        value={name}
+        disabled={loading}
+        autoFocus
+        className="update-product__input"
+      />
 
-        {/* Product Description */}
-        <TextArea
-          placeholder="Enter a description"
-          allowClear
-          onChange={(evt) => setDescription(evt.target.value)}
-          value={description}
-          disabled={loading}
-        />
+      {/* Product Description */}
+      <TextArea
+        placeholder="Enter a description"
+        allowClear
+        onChange={(evt) => setDescription(evt.target.value)}
+        value={description}
+        disabled={loading}
+        className="update-product__input"
+      />
 
-        {/* Product Price */}
-        <Input
-          placeholder="Enter a price"
-          type="number"
-          allowClear
-          onChange={(evt) => setPrice(evt.target.value)}
-          value={price}
-          prefix={<span style={{ color: "#d9d9d9" }}>$</span>}
-          disabled={loading}
-        />
+      {/* Product Price */}
+      <Input
+        placeholder="Enter a price"
+        type="number"
+        allowClear
+        onChange={(evt) => setPrice(evt.target.value)}
+        value={price}
+        prefix={<span style={{ color: "#d9d9d9" }}>$</span>}
+        disabled={loading}
+        className="update-product__input"
+      />
 
-        {/* Product Quantity */}
-        <Input
-          placeholder="Enter quantity"
-          type="number"
-          allowClear
-          onChange={(evt) => setQuantity(evt.target.value)}
-          value={quantity}
-          disabled={loading}
-        />
+      {/* Product Quantity */}
+      <Input
+        placeholder="Enter quantity"
+        type="number"
+        allowClear
+        onChange={(evt) => setQuantity(evt.target.value)}
+        value={quantity}
+        disabled={loading}
+        className="update-product__input"
+      />
 
-        {/* Product brand select */}
-        <Select
-          placeholder="Select a brand"
-          onChange={handleBrandChange}
-          value={selectedBrand}
-          disabled={loading}
-        >
-          {PRODUCT_BRANDS.map((brand) => (
-            <Option key={brand} value={brand}>
-              {brand}
-            </Option>
-          ))}
-        </Select>
+      {/* Product brand select */}
+      <Select
+        placeholder="Select a brand"
+        onChange={handleBrandChange}
+        value={selectedBrand}
+        disabled={loading}
+        className="update-product__input"
+      >
+        {PRODUCT_BRANDS.map((brand) => (
+          <Option key={brand} value={brand}>
+            {brand}
+          </Option>
+        ))}
+      </Select>
 
-        {/* Product color select */}
-        <Select
-          placeholder="Select a color"
-          onChange={handleColorChange}
-          value={selectedColor}
-          disabled={loading}
-        >
-          {PRODUCT_COLORS.map((color) => (
-            <Option key={color} value={color}>
-              {color}
-            </Option>
-          ))}
-        </Select>
+      {/* Product color select */}
+      <Select
+        placeholder="Select a color"
+        onChange={handleColorChange}
+        value={selectedColor}
+        disabled={loading}
+        className="update-product__input"
+      >
+        {PRODUCT_COLORS.map((color) => (
+          <Option key={color} value={color}>
+            {color}
+          </Option>
+        ))}
+      </Select>
 
-        {/* Product category select */}
-        <Select
-          placeholder="Select a category"
-          onChange={handleCategoryChange}
-          value={selectedCategorySlug}
-          disabled={loading}
-        >
-          {categories?.map((category) => (
-            <Option key={category._id} value={category.slug}>
-              {category.name}
-            </Option>
-          ))}
-        </Select>
+      {/* Product category select */}
+      <Select
+        placeholder="Select a category"
+        onChange={handleCategoryChange}
+        value={selectedCategorySlug}
+        disabled={loading}
+        className="update-product__input"
+      >
+        {categories?.map((category) => (
+          <Option key={category._id} value={category.slug}>
+            {category.name}
+          </Option>
+        ))}
+      </Select>
 
-        {/* Product sub category multi-select */}
-        <Select
-          mode="multiple"
-          allowClear
-          placeholder="Please select sub categories"
-          style={{ width: "100%" }}
-          value={selectedSubSlugs}
-          onChange={handleSubsChange}
-          disabled={loading}
-        >
-          {subOptions.map((sub) => (
-            <Option key={sub._id} value={sub.slug}>
-              {sub.name}
-            </Option>
-          ))}
-        </Select>
+      {/* Product sub category multi-select */}
+      <Select
+        mode="multiple"
+        allowClear
+        placeholder="Please select sub categories"
+        style={{ width: "100%" }}
+        value={selectedSubSlugs}
+        onChange={handleSubsChange}
+        disabled={loading}
+        className="update-product__input"
+      >
+        {subOptions.map((sub) => (
+          <Option key={sub._id} value={sub.slug}>
+            {sub.name}
+          </Option>
+        ))}
+      </Select>
 
-        {/* Shipping or Non-shipping */}
-        <Radio.Group
-          onChange={(evt) => setIsShipping(evt.target.value)}
-          value={isShipping}
-          disabled={loading}
-        >
-          <Radio value={true}>Shipping</Radio>
-          <Radio value={false}>Non-shippin</Radio>
-        </Radio.Group>
+      {/* Shipping or Non-shipping */}
+      <Radio.Group
+        onChange={(evt) => setIsShipping(evt.target.value)}
+        value={isShipping}
+        disabled={loading}
+        className="update-product__input"
+      >
+        <Radio value={true}>Shipping</Radio>
+        <Radio value={false}>Non-shippin</Radio>
+      </Radio.Group>
 
-        <div className="update-product__images">
-          {existingImages.map((image, idx) => (
-            <div key={idx} className="update-product__images__item">
-              <ImageFadeIn
-                transition={1000}
-                src={image.url}
-                alt={product.title}
-              />
-              <Button
-                onClick={() =>
-                  setExistingImages((prev) =>
-                    prev.filter((img) => img.key !== image.key)
-                  )
-                }
-                size="small"
-                type="dashed"
-                shape="circle"
-                icon={<DeleteOutlined />}
-              />
-            </div>
-          ))}
-        </div>
+      <div className="update-product__images">
+        {existingImages.map((image, idx) => (
+          <div key={idx} className="update-product__images__item">
+            <ImageFadeIn
+              transition={1000}
+              src={image.url}
+              alt={product.title}
+            />
+            <Button
+              onClick={() =>
+                setExistingImages((prev) =>
+                  prev.filter((img) => img.key !== image.key)
+                )
+              }
+              size="small"
+              type="dashed"
+              shape="circle"
+              icon={<DeleteOutlined />}
+            />
+          </div>
+        ))}
+      </div>
 
-        {/* Upload image */}
-        <ImageUploader
-          fileList={fileList}
-          setFileList={setFileList}
-          fileListLength={4}
-          preview={preview}
-          setPreview={setPreview}
-          disabled={loading}
-        />
+      {/* Upload image */}
+      <ImageUploader
+        fileList={fileList}
+        setFileList={setFileList}
+        fileListLength={4}
+        preview={preview}
+        setPreview={setPreview}
+        disabled={loading}
+        className="update-product__input"
+      />
 
-        <Button
-          htmlType="submit"
-          type="primary"
-          loading={loading}
-          disabled={!validationPassed()}
-        >
-          Update
-        </Button>
-      </Space>
+      <Button
+        htmlType="submit"
+        type="primary"
+        loading={loading}
+        disabled={!validationPassed()}
+        className="update-product__button"
+      >
+        Update
+      </Button>
     </form>
   );
 };

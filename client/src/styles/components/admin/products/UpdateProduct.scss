@@ -1,6 +1,27 @@
 .update-product {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+
+  &__title {
+    margin-bottom: 1rem;
+  }
+
+  &__input {
+    margin-bottom: 1rem;
+
+    textarea {
+      margin: 0;
+    }
+  }
+
+  &__button {
+    align-self: flex-start;
+  }
+
   &__images {
     display: flex;
+    margin-bottom: 1rem;
 
     &__item {
       width: 120px;

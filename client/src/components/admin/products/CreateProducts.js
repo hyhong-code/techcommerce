@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Typography, Space, Input, Select, Radio, Button, message } from "antd";
+import { Typography, Input, Select, Radio, Button, message } from "antd";
 
 import { listCategories } from "../../../redux/actions/category";
 import { listSubs } from "../../../redux/actions/sub";
@@ -144,139 +144,148 @@ const CreateProducts = () => {
 
   return (
     <form className="create-products" onSubmit={handleCreateProduct}>
-      <Space direction="vertical" size="middle">
-        <Title level={2}>Create Product</Title>
+      <Title level={2}>Create Product</Title>
 
-        {/* Product Name */}
-        <Input
-          placeholder="Enter a name"
-          allowClear
-          onChange={(evt) => setName(evt.target.value)}
-          value={name}
-          disabled={loading}
-          autoFocus
-        />
+      {/* Product Name */}
+      <Input
+        placeholder="Enter a name"
+        allowClear
+        onChange={(evt) => setName(evt.target.value)}
+        value={name}
+        disabled={loading}
+        autoFocus
+        className="create-products__input"
+      />
 
-        {/* Product Description */}
-        <TextArea
-          placeholder="Enter a description"
-          allowClear
-          onChange={(evt) => setDescription(evt.target.value)}
-          value={description}
-          disabled={loading}
-        />
+      {/* Product Description */}
+      <TextArea
+        placeholder="Enter a description"
+        allowClear
+        onChange={(evt) => setDescription(evt.target.value)}
+        value={description}
+        disabled={loading}
+        className="create-products__input"
+      />
 
-        {/* Product Price */}
-        <Input
-          placeholder="Enter a price"
-          type="number"
-          allowClear
-          onChange={(evt) => setPrice(evt.target.value)}
-          value={price}
-          prefix={<span style={{ color: "#d9d9d9" }}>$</span>}
-          disabled={loading}
-        />
+      {/* Product Price */}
+      <Input
+        placeholder="Enter a price"
+        type="number"
+        allowClear
+        onChange={(evt) => setPrice(evt.target.value)}
+        value={price}
+        prefix={<span style={{ color: "#d9d9d9" }}>$</span>}
+        disabled={loading}
+        className="create-products__input"
+      />
 
-        {/* Product Quantity */}
-        <Input
-          placeholder="Enter quantity"
-          type="number"
-          allowClear
-          onChange={(evt) => setQuantity(evt.target.value)}
-          value={quantity}
-          disabled={loading}
-        />
+      {/* Product Quantity */}
+      <Input
+        placeholder="Enter quantity"
+        type="number"
+        allowClear
+        onChange={(evt) => setQuantity(evt.target.value)}
+        value={quantity}
+        disabled={loading}
+        className="create-products__input"
+      />
 
-        {/* Product brand select */}
-        <Select
-          placeholder="Select a brand"
-          onChange={handleBrandChange}
-          value={selectedBrand}
-          disabled={loading}
-        >
-          {PRODUCT_BRANDS.map((brand) => (
-            <Option key={brand} value={brand}>
-              {brand}
+      {/* Product brand select */}
+      <Select
+        placeholder="Select a brand"
+        onChange={handleBrandChange}
+        value={selectedBrand}
+        disabled={loading}
+        className="create-products__input"
+      >
+        {PRODUCT_BRANDS.map((brand) => (
+          <Option key={brand} value={brand}>
+            {brand}
+          </Option>
+        ))}
+      </Select>
+
+      {/* Product color select */}
+      <Select
+        placeholder="Select a color"
+        onChange={handleColorChange}
+        value={selectedColor}
+        disabled={loading}
+        className="create-products__input"
+      >
+        {PRODUCT_COLORS.map((color) => (
+          <Option key={color} value={color}>
+            {color}
+          </Option>
+        ))}
+      </Select>
+
+      {/* Product category select */}
+      <Select
+        placeholder="Select a category"
+        onChange={handleCategoryChange}
+        value={selectedCategorySlug}
+        disabled={loading}
+        className="create-products__input"
+      >
+        {categories?.map((category) => (
+          <Option key={category._id} value={category.slug}>
+            {category.name}
+          </Option>
+        ))}
+      </Select>
+
+      {/* Product sub category multi-select */}
+      <Select
+        mode="multiple"
+        allowClear
+        placeholder="Please select sub categories"
+        style={{ width: "100%" }}
+        value={selectedSubSlugs}
+        onChange={handleSubsChange}
+        disabled={loading}
+        className="create-products__input"
+      >
+        {subs
+          ?.filter((sub) => sub.parent === selectedCategoryId)
+          .map((sub) => (
+            <Option key={sub._id} value={sub.slug}>
+              {sub.name}
             </Option>
           ))}
-        </Select>
+      </Select>
 
-        {/* Product color select */}
-        <Select
-          placeholder="Select a color"
-          onChange={handleColorChange}
-          value={selectedColor}
-          disabled={loading}
-        >
-          {PRODUCT_COLORS.map((color) => (
-            <Option key={color} value={color}>
-              {color}
-            </Option>
-          ))}
-        </Select>
+      {/* Shipping or Non-shipping */}
+      <Radio.Group
+        onChange={(evt) => setIsShipping(evt.target.value)}
+        value={isShipping}
+        disabled={loading}
+        className="create-products__input"
+      >
+        <Radio value={true}>Shipping</Radio>
+        <Radio value={false}>Non-shippin</Radio>
+      </Radio.Group>
 
-        {/* Product category select */}
-        <Select
-          placeholder="Select a category"
-          onChange={handleCategoryChange}
-          value={selectedCategorySlug}
-          disabled={loading}
-        >
-          {categories?.map((category) => (
-            <Option key={category._id} value={category.slug}>
-              {category.name}
-            </Option>
-          ))}
-        </Select>
+      {/* Upload image */}
+      <ImageUploader
+        fileList={fileList}
+        setFileList={setFileList}
+        fileListLength={4}
+        preview={preview}
+        setPreview={setPreview}
+        disabled={loading}
+        className="create-products__input"
+      />
 
-        {/* Product sub category multi-select */}
-        <Select
-          mode="multiple"
-          allowClear
-          placeholder="Please select sub categories"
-          style={{ width: "100%" }}
-          value={selectedSubSlugs}
-          onChange={handleSubsChange}
-          disabled={loading}
-        >
-          {subs
-            ?.filter((sub) => sub.parent === selectedCategoryId)
-            .map((sub) => (
-              <Option key={sub._id} value={sub.slug}>
-                {sub.name}
-              </Option>
-            ))}
-        </Select>
-
-        {/* Shipping or Non-shipping */}
-        <Radio.Group
-          onChange={(evt) => setIsShipping(evt.target.value)}
-          value={isShipping}
-          disabled={loading}
-        >
-          <Radio value={true}>Shipping</Radio>
-          <Radio value={false}>Non-shippin</Radio>
-        </Radio.Group>
-
-        {/* Upload image */}
-        <ImageUploader
-          fileList={fileList}
-          setFileList={setFileList}
-          fileListLength={4}
-          preview={preview}
-          setPreview={setPreview}
-          disabled={loading}
-        />
-
-        <Button
-          htmlType="submit"
-          type="primary"
-          loading={loading}
-          disabled={!validationPassed()}
-        >
-          Create
-        </Button>
-      </Space>
+      <Button
+        htmlType="submit"
+        type="primary"
+        loading={loading}
+        disabled={!validationPassed()}
+        className="create-products__button"
+      >
+        Create
+      </Button>
     </form>
   );
 };

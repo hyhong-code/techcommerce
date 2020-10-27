@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { SearchOutlined } from "@ant-design/icons";
-import { Space, Typography, Input } from "antd";
+import { Typography, Input } from "antd";
 
 import { listSubs } from "../../../redux/actions/sub";
 import { listCategories } from "../../../redux/actions/category";

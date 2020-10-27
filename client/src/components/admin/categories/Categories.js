@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { listCategories } from "../../../redux/actions/category";
 import CreateCategory from "./CreateCategory";
 import CategoryTag from "./CategoryTag";
-import { Typography, Space, Input } from "antd";
+import { Typography, Input } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import useFilter from "../../../hooks/useFilter";
 const { Title } = Typography;

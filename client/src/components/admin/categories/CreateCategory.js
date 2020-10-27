@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { useDispatch } from "react-redux";
-import { Typography, Input, Button, message, Space } from "antd";
+import { Typography, Input, Button, message } from "antd";
 
 import formatErrorMsg from "../../../utils/formatErrorMsg";
 import { createCategory } from "../../../redux/actions/category";

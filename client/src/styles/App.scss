@@ -40,26 +40,6 @@ $color-danger: #ff4d4f;
   }
 }
 
-// ui
-@import "./components/ui/Header.scss";
-@import "./components/ui/ImageUploader.scss";
-
-// User components
-@import "./components/user/Password.scss";
-
-// Admin components
-@import "./components/admin/categories/Categories.scss";
-@import "./components/admin/categories/UpdateCategory.scss";
-@import "./components/admin/categories/CategoryTag.scss";
-@import "./components/admin/subs/Subs.scss";
-@import "./components/admin/subs/SubTag.scss";
-@import "./components/admin/products/CreateProducts.scss";
-@import "./components/admin/products/Products.scss";
-@import "./components/admin/products/ProductCard.scss";
-@import "./components/admin/products/UpdateProduct.scss";
-@import "./components/admin/categories/CreateCategory.scss";
-@import "./components/admin/subs/CreateSub.scss";
-
 // Auth pages
 @import "./pages/Register.scss";
 @import "./pages/RegisterComplete.scss";
@@ -71,3 +51,25 @@ $color-danger: #ff4d4f;
 
 // Admin page
 @import "./pages/admin/Admin.scss";
+
+// User components
+@import "./components/user/Password.scss";
+
+// Admin components
+@import "./components/admin/categories/Categories.scss";
+@import "./components/admin/categories/CreateCategory.scss";
+@import "./components/admin/categories/UpdateCategory.scss";
+@import "./components/admin/categories/CategoryTag.scss";
+
+@import "./components/admin/subs/Subs.scss";
+@import "./components/admin/subs/CreateSub.scss";
+@import "./components/admin/subs/SubTag.scss";
+
+@import "./components/admin/products/Products.scss";
+@import "./components/admin/products/CreateProducts.scss";
+@import "./components/admin/products/UpdateProduct.scss";
+@import "./components/admin/products/ProductCard.scss";
+
+// ui
+@import "./components/ui/Header.scss";
+@import "./components/ui/ImageUploader.scss";

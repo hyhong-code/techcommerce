@@ -11,6 +11,7 @@ const ImageUploader = ({
   setPreview,
   fileListLength = 4,
   disabled = false,
+  className,
 }) => {
   const { previewVisible, previewImage, previewTitle } = preview;
 
@@ -35,7 +36,7 @@ const ImageUploader = ({
     setPreview((prev) => ({ ...prev, previewVisible: false }));
 
   return (
-    <div className="image-uploader">
+    <div className={`image-uploader ${className || ""}`}>
       <Upload
         disabled={disabled}
         action={getBase64Url}
