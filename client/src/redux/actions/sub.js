@@ -68,7 +68,7 @@ export const deleteSub = (slug) => async (dispatch) => {
       payload: slug,
     });
   } catch (error) {
-    console.error(`[❌ updateSub]`, error);
+    console.error(`[❌ deleteSub]`, error);
     throw error;
   }
 };

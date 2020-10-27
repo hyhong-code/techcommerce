@@ -1,8 +1,8 @@
-import { auth, googleAuthProvider } from "../../services/firebase";
+import axios from "axios";
 
+import { auth, googleAuthProvider } from "../../services/firebase";
 import { USER_LOADED, USER_LOGGED_OUT } from "./index";
 import setTokenHeader from "../../utils/setTokenHeader";
-import axios from "axios";
 
 /**
  * Load user into redux state, store access token into localStorage
@@ -41,6 +41,7 @@ export const register = (email) => async (dispatch) => {
     localStorage.setItem("SIGN_UP_EMAIL", email);
   } catch (error) {
     dispatch(logout());
+    console.error(`[❌ register]`, error);
     throw error;
   }
 };
@@ -72,6 +73,7 @@ export const completeRegister = ({ email, emailLink, password }) => async (
     }
   } catch (error) {
     dispatch(logout());
+    console.error(`[❌ completeRegister]`, error);
     throw error;
   }
 };
@@ -85,6 +87,7 @@ export const login = ({ email, password }) => async (dispatch) => {
     await dispatch(loadUser(user));
   } catch (error) {
     dispatch(logout());
+    console.error(`[❌ login]`, error);
     throw error;
   }
 };
@@ -98,6 +101,7 @@ export const loginWithGoogle = () => async (dispatch) => {
     await dispatch(loadUser(user));
   } catch (error) {
     dispatch(logout());
+    console.error(`[❌ loginWithGoogle]`, error);
     throw error;
   }
 };
@@ -119,6 +123,7 @@ export const logout = () => async (dispatch) => {
     // Sign out from firebase
     await auth.signOut();
   } catch (error) {
+    console.error(`[❌ logout]`, error);
     console.error(error);
   }
 };
@@ -135,6 +140,7 @@ export const forgotPassword = (email) => async (dispatch) => {
     await auth.sendPasswordResetEmail(email, passwordResetConfig);
   } catch (error) {
     dispatch(logout());
+    console.error(`[❌ forgotPassword]`, error);
     throw error;
   }
 };
@@ -147,6 +153,7 @@ export const updatePassword = (newPassword) => async (dispatch) => {
     await auth.currentUser.updatePassword(newPassword);
   } catch (error) {
     dispatch(logout());
+    console.error(`[❌ updatePassword]`, error);
     throw error;
   }
 };
@@ -159,6 +166,7 @@ export const checkIsAdmin = async () => {
     setTokenHeader(localStorage.getItem("ACCESS_TOKEN"));
     await axios.get(`${process.env.REACT_APP_API}/users/is-admin`);
   } catch (error) {
+    console.error(`[❌ checkIsAdmin]`, error);
     throw error;
   }
 };

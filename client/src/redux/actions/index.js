@@ -2,21 +2,21 @@
 export const USER_LOGGED_OUT = "USER_LOGGED_OUT";
 export const USER_LOADED = "USER_LOADED";
 
-// Category
+// Categories
 export const CATEGORY_CREATED = "CATEGORY_CREATED";
 export const CATEGORY_FETCHED = "CATEGORY_FETCHED";
 export const CATEGORY_UPDATED = "CATEGORY_UPDATED";
 export const CATEGORY_DELETED = "CATEGORY_DELETED";
 export const CATEGORY_LISTED = "CATEGORY_LISTED";
 
-// Sub
+// Sub categories
 export const SUB_CREATED = "SUB_CREATED";
 export const SUB_FETCHED = "SUB_FETCHED";
 export const SUB_UPDATED = "SUB_UPDATED";
 export const SUB_DELETED = "SUB_DELETED";
 export const SUB_LISTED = "SUB_LISTED";
 
-// Product
+// Products
 export const PRODUCT_CREATED = "PRODUCT_CREATED";
 export const PRODUCT_FETCHED = "PRODUCT_FETCHED";
 export const PRODUCT_UPDATED = "PRODUCT_UPDATED";

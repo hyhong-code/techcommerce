@@ -22,6 +22,7 @@ export const createProduct = (formdata) => async (dispatch) => {
       payload: res.data.product,
     });
   } catch (error) {
+    console.error(`[❌ createProduct]`, error);
     throw error;
   }
 };
@@ -37,8 +38,10 @@ export const getProduct = (slug) => async (dispatch) => {
       payload: res.data.product,
     });
   } catch (error) {
+    console.error(`[❌ getProduct]`, error);
     throw error;
   }
+
   dispatch({
     type: CLEAR_UPDATE_LOADING,
   });
@@ -52,6 +55,7 @@ export const deleteProduct = (slug) => async (dispatch) => {
       payload: slug,
     });
   } catch (error) {
+    console.error(`[❌ deleteProduct]`, error);
     throw error;
   }
 };
@@ -68,6 +72,7 @@ export const updateProduct = (slug, formdata) => async (dispatch) => {
       payload: res.data.product,
     });
   } catch (error) {
+    console.error(`[❌ updateProduct]`, error);
     throw error;
   }
 };
@@ -81,6 +86,7 @@ export const listProducts = () => async (dispatch) => {
       payload: res.data.products,
     });
   } catch (error) {
+    console.error(`[❌ listProducts]`, error);
     throw error;
   }
 };
