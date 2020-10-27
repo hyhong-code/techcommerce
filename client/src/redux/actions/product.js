@@ -96,10 +96,12 @@ export const listProducts = () => async (dispatch) => {
   }
 };
 
-export const listBestSellings = (limit = 10) => async (dispatch) => {
+export const listBestSellings = ({ limit = 10, skip = 0 }) => async (
+  dispatch
+) => {
   try {
     const res = await axios.get(
-      `${process.env.REACT_APP_API}/products?type=best-selling&order=desc&limit=${limit}`
+      `${process.env.REACT_APP_API}/products?type=best-selling&order=desc&skip=${skip}&limit=${limit}`
     );
 
     dispatch({
@@ -119,10 +121,12 @@ export const clearBestSellings = () => (dispatch) => {
   dispatch({ type: CLEAR_BEST_SELLINGS });
 };
 
-export const listNewArrival = (limit = 10) => async (dispatch) => {
+export const listNewArrival = ({ limit = 10, skip = 0 }) => async (
+  dispatch
+) => {
   try {
     const res = await axios.get(
-      `${process.env.REACT_APP_API}/products?type=new-arrival&order=desc&limit=${limit}`
+      `${process.env.REACT_APP_API}/products?type=new-arrival&order=desc&skip=${skip}&limit=${limit}`
     );
 
     dispatch({

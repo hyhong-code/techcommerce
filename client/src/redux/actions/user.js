@@ -23,7 +23,7 @@ export const loadUser = (user) => async (dispatch) => {
     dispatch({ type: USER_LOADED, payload: res.data.user });
   } catch (error) {
     dispatch(logout());
-    console.log("❌ LOAD_USER_ERROR", error);
+    console.error("❌ LOAD_USER_ERROR", error);
   }
 };
 

@@ -7,7 +7,6 @@ import { getProduct } from "../redux/actions/product";
 
 const Product = () => {
   const params = useParams();
-  console.log(params.slug);
 
   const dispatch = useDispatch();
 

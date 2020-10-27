@@ -13,8 +13,10 @@ const NewArrivals = () => {
   const [page, setPage] = useState(1);
 
   useEffect(() => {
-    dispatch(listNewArrival(4));
-  }, [dispatch]);
+    dispatch(
+      listNewArrival({ limit: NUM_PER_PAGE, skip: (page - 1) * NUM_PER_PAGE })
+    );
+  }, [dispatch, page]);
 
   const { latestArrivals, latestArrivalsLoading, productCount } = useSelector(
     ({ product }) => product

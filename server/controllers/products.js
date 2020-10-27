@@ -189,6 +189,10 @@ exports.listProducts = async (req, res, next) => {
   try {
     const limit = parseInt(req.query.limit) || 10;
     const order = req.query.order && req.query.order === "asc" ? 1 : -1;
+    const skip =
+      req.query.skip && !isNaN(Number(req.query.skip))
+        ? Number(req.query.skip)
+        : 0;
 
     const sort = {};
     switch (req.query.type) {
@@ -202,7 +206,7 @@ exports.listProducts = async (req, res, next) => {
         break;
     }
 
-    const products = await Product.find().limit(limit).sort(sort);
+    const products = await Product.find().skip(skip).limit(limit).sort(sort);
     const count = await Product.countDocuments();
     res.status(200).json({ products, count });
   } catch (error) {
