@@ -1,0 +1,14 @@
+.home {
+  &__lead {
+    background-color: #eee;
+    padding: 4rem;
+    margin-bottom: 2rem;
+  }
+
+  &__products {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 1rem;
+    justify-items: center;
+  }
+}

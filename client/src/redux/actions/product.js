@@ -5,10 +5,10 @@ import {
   PRODUCT_DELETED,
   PRODUCT_FETCHED,
   PRODUCTS_LISTED,
+  SET_LIST_PRODUCTS_LOADING,
   PRODUCT_UPDATED,
-  CLEAR_EDITING_PRODUCT,
-  SET_UPDATE_LOADING,
-  CLEAR_UPDATE_LOADING,
+  CLEAR_CURRENT_PRODUCT,
+  SET_CURRENT_PRODUCT_LOADING,
 } from "../actions";
 
 export const createProduct = (formdata) => async (dispatch) => {
@@ -41,10 +41,6 @@ export const getProduct = (slug) => async (dispatch) => {
     console.error(`[❌ getProduct]`, error);
     throw error;
   }
-
-  dispatch({
-    type: CLEAR_UPDATE_LOADING,
-  });
 };
 
 export const deleteProduct = (slug) => async (dispatch) => {
@@ -79,6 +75,8 @@ export const updateProduct = (slug, formdata) => async (dispatch) => {
 
 export const listProducts = () => async (dispatch) => {
   try {
+    dispatch({ type: SET_LIST_PRODUCTS_LOADING });
+
     const res = await axios.get(`${process.env.REACT_APP_API}/products`);
 
     dispatch({
@@ -91,11 +89,11 @@ export const listProducts = () => async (dispatch) => {
   }
 };
 
-export const clearEditingProduct = () => (dispatch) => {
+export const leaveCurrentProduct = () => (dispatch) => {
   dispatch({
-    type: CLEAR_EDITING_PRODUCT,
+    type: CLEAR_CURRENT_PRODUCT,
   });
   dispatch({
-    type: SET_UPDATE_LOADING,
+    type: SET_CURRENT_PRODUCT_LOADING,
   });
 };

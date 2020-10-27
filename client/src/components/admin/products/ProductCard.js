@@ -65,7 +65,10 @@ const ProductCard = ({ product }) => {
           />,
         ]}
       >
-        <Meta title={product.title} description={product.description} />
+        <Meta
+          title={`${product.title} - $${product.price}`}
+          description={product.description}
+        />
       </Card>
     </Fragment>
   );

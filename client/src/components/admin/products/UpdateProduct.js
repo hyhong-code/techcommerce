@@ -10,7 +10,7 @@ import { listSubs } from "../../../redux/actions/sub";
 import {
   updateProduct,
   getProduct,
-  clearEditingProduct,
+  leaveCurrentProduct,
 } from "../../../redux/actions/product";
 import ImageUploader from "../../ui/ImageUploader";
 import useImageUploader from "../../../hooks/useImageUploader";
@@ -35,7 +35,7 @@ const UpdateProduct = () => {
     dispatch(listSubs());
 
     return () => {
-      dispatch(clearEditingProduct());
+      dispatch(leaveCurrentProduct());
     };
   }, [dispatch, params.slug]);
 
@@ -48,8 +48,8 @@ const UpdateProduct = () => {
   ] = useSelector(({ category, sub, product }) => [
     category.categories,
     sub.subs,
-    product.currentUpdatingProduct,
-    product.currentUpdatingLoading,
+    product.currentProduct,
+    product.currentProductLoading,
   ]);
 
   // Pre populate form states

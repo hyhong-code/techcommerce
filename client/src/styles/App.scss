@@ -14,6 +14,8 @@ $lg: 1200px; // <=1200px Desktops
 
 $color-warning: #ffc53d;
 $color-danger: #ff4d4f;
+$color-success: #73d13d;
+$color-cyan: #36cfc9;
 
 // Mixins
 @mixin container {
@@ -46,6 +48,9 @@ $color-danger: #ff4d4f;
 @import "./pages/Login.scss";
 @import "./pages/ForgotPassword.scss";
 
+// Home page
+@import "./pages/home.scss";
+
 // User page
 @import "./pages/user/User.scss";
 
@@ -69,6 +74,9 @@ $color-danger: #ff4d4f;
 @import "./components/admin/products/CreateProducts.scss";
 @import "./components/admin/products/UpdateProduct.scss";
 @import "./components/admin/products/ProductCard.scss";
+
+// Home components
+@import "./components/home/ProductCard.scss";
 
 // ui
 @import "./components/ui/Header.scss";

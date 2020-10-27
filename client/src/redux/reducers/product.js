@@ -4,15 +4,16 @@ import {
   PRODUCT_UPDATED,
   PRODUCT_DELETED,
   PRODUCTS_LISTED,
-  CLEAR_EDITING_PRODUCT,
-  SET_UPDATE_LOADING,
-  CLEAR_UPDATE_LOADING,
+  CLEAR_CURRENT_PRODUCT,
+  SET_CURRENT_PRODUCT_LOADING,
+  SET_LIST_PRODUCTS_LOADING,
 } from "../actions";
 
 const INITIAL_STATE = {
   products: [],
-  currentUpdatingProduct: null,
-  currentUpdatingLoading: true,
+  listProductsLoading: false,
+  currentProduct: null,
+  currentProductLoading: true,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -27,7 +28,8 @@ export default (state = INITIAL_STATE, action) => {
     case PRODUCT_FETCHED:
       return {
         ...state,
-        currentUpdatingProduct: payload,
+        currentProduct: payload,
+        currentProductLoading: false,
       };
 
     case PRODUCT_UPDATED:
@@ -36,25 +38,19 @@ export default (state = INITIAL_STATE, action) => {
         products: state.products.map((product) =>
           product._id === payload._id ? payload : product
         ),
-        currentUpdatingProduct: payload,
+        currentProduct: payload,
       };
 
-    case CLEAR_EDITING_PRODUCT:
+    case CLEAR_CURRENT_PRODUCT:
       return {
         ...state,
-        currentUpdatingProduct: null,
+        currentProduct: null,
       };
 
-    case SET_UPDATE_LOADING:
+    case SET_CURRENT_PRODUCT_LOADING:
       return {
         ...state,
-        currentUpdatingLoading: true,
-      };
-
-    case CLEAR_UPDATE_LOADING:
-      return {
-        ...state,
-        currentUpdatingLoading: false,
+        currentProductLoading: true,
       };
 
     case PRODUCT_DELETED:
@@ -63,10 +59,17 @@ export default (state = INITIAL_STATE, action) => {
         products: state.products.filter((product) => product.slug !== payload),
       };
 
+    case SET_LIST_PRODUCTS_LOADING:
+      return {
+        ...state,
+        listProductsLoading: true,
+      };
+
     case PRODUCTS_LISTED:
       return {
         ...state,
         products: payload,
+        listProductsLoading: false,
       };
 
     default:

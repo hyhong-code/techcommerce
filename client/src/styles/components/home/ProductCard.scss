@@ -1,0 +1,23 @@
+.product-card {
+  overflow: hidden;
+  max-width: 300px;
+
+  .ant-card-meta-description {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__image {
+    height: 150px;
+    object-fit: cover;
+  }
+
+  &__eye-icon {
+    color: $color-cyan !important;
+  }
+
+  &__cart-icon {
+    color: $color-success !important;
+  }
+}
