@@ -71,7 +71,11 @@ const ProductCard = ({ product }) => {
           description={product.description}
         />
         <div className="admin-product-card__ratings">
-          <Rate disabled value={getAverageProductRating(product.ratings)} />
+          <Rate
+            allowHalf
+            disabled
+            value={getAverageProductRating(product.ratings)}
+          />
           <span className="admin-product-card__ratings__count">
             ({product.ratings.length})
           </span>

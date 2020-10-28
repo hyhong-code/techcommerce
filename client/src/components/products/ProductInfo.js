@@ -167,7 +167,7 @@ const ProductInfo = ({ product }) => {
         onCancel={() => setModalShow(false)}
         title={`Rate ${product.title}`}
       >
-        <Rate value={productRating} onChange={setProductRating} />
+        <Rate allowHalf value={productRating} onChange={setProductRating} />
       </Modal>
     </Fragment>
   );

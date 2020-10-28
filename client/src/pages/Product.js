@@ -70,6 +70,7 @@ const Product = () => {
         </div>
         <div className="product__information__ratings">
           <Rate
+            allowHalf
             value={getAverageProductRating(currentProduct?.ratings)}
             disabled
           />
