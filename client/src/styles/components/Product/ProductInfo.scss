@@ -12,11 +12,15 @@
 
         &__tags {
           display: flex;
-        }
 
-        .ant-tag {
-          &:last-of-type {
-            margin-right: 0;
+          .ant-tag {
+            cursor: pointer;
+          }
+
+          a:last-of-type {
+            .ant-tag {
+              margin-right: 0;
+            }
           }
         }
       }

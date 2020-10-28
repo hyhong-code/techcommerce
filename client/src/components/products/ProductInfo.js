@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
 import { Card, Tag } from "antd";
+import { Link } from "react-router-dom";
 
 import {
   ShoppingCartOutlined,
@@ -55,7 +56,12 @@ const ProductInfo = ({ product }) => {
           {/* Category */}
           <li className="product-info__card__inner__row">
             <span>Category</span>
-            <Tag color={randomTagColor()}>{product?.category.name}</Tag>
+
+            <div className="product-info__card__inner__row__tags">
+              <Link to={`/categories/${product?.category.slug}`}>
+                <Tag color={randomTagColor()}>{product?.category.name}</Tag>
+              </Link>
+            </div>
           </li>
 
           {/* Sub categories */}
@@ -63,9 +69,9 @@ const ProductInfo = ({ product }) => {
             <span>Sub category</span>
             <div className="product-info__card__inner__row__tags">
               {product?.subs.map((sub) => (
-                <Tag color={randomTagColor()} key={sub._id}>
-                  {sub.name}
-                </Tag>
+                <Link to={`/subs/${sub.slug}`} key={sub._id}>
+                  <Tag color={randomTagColor()}>{sub.name}</Tag>
+                </Link>
               ))}
             </div>
           </li>
