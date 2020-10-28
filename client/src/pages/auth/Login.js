@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useHistory } from "react-router-dom";
 
 import { Typography, Input, Button, message } from "antd";
 import { MailOutlined, GoogleOutlined } from "@ant-design/icons";
@@ -16,6 +16,8 @@ const INITIAL_FORM_DATA = {
 
 const Register = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
+  const history = useHistory();
   const [formData, setFormData] = useState(INITIAL_FORM_DATA);
   const { email, password } = formData;
   const [loading, setLoading] = useState();
@@ -31,6 +33,12 @@ const Register = () => {
     setLoading(true);
     try {
       await dispatch(login({ email, password }));
+
+      // Redirect user back to intended page if any
+      if (location.state && location.state.from) {
+        history.push(location.state.from);
+      }
+
       message.success(`Welcome back, ${email.split("@")[0]}!`, 6);
     } catch (error) {
       setLoading(false);

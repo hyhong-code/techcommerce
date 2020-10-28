@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { Card, Tag, Modal, Rate, message } from "antd";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -22,9 +22,12 @@ const hasUserRatedBefore = (productRatings, user) =>
 const ProductInfo = ({ product }) => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation();
   const { user } = useSelector(({ user }) => user);
   const [productRating, setProductRating] = useState(0);
   const [modalShow, setModalShow] = useState(false);
+
+  console.log(location);
 
   useEffect(() => {
     // Prefill user's ratings of this product if any
@@ -62,7 +65,14 @@ const ProductInfo = ({ product }) => {
             <div
               key={3}
               onClick={() =>
-                user ? setModalShow(true) : history.push("/login")
+                user
+                  ? setModalShow(true)
+                  : history.push({
+                      pathname: "/login",
+                      state: {
+                        from: location.pathname, // React router dom state
+                      },
+                    })
               }
             >
               <StarOutlined className="product-info__card__actions--star" />
