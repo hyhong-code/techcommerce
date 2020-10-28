@@ -154,3 +154,20 @@ export const clearCurrentProduct = () => (dispatch) => {
     type: SET_CURRENT_PRODUCT_LOADING,
   });
 };
+
+export const updateRating = (slug, star) => async (dispatch) => {
+  try {
+    const res = await axios.put(
+      `${process.env.REACT_APP_API}/products/ratings/${slug}`,
+      { star }
+    );
+
+    dispatch({
+      type: PRODUCT_UPDATED,
+      payload: res.data.product,
+    });
+  } catch (error) {
+    console.error(`[❌ updateRating]`, error);
+    throw error;
+  }
+};

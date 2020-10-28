@@ -237,11 +237,12 @@ exports.updateRating = async (req, res, next) => {
 
     if (rating) {
       // Update user's rating
-      product = await Product.updateOne(
+      await Product.updateOne(
         { ratings: { $elemMatch: rating } }, // Match the rating object
         { $set: { "ratings.$.star": star } },
-        { new: ture, runValidators: true }
+        { new: true, runValidators: true }
       );
+      product = await Product.findById(product._id);
     } else {
       // Create a new rating
       product = await Product.findByIdAndUpdate(

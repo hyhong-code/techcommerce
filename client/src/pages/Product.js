@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Spin, Tabs, Divider } from "antd";
+import { Spin, Tabs, Divider, Rate } from "antd";
 import { Carousel } from "react-responsive-carousel";
 
 import handleImageError from "../utils/handleImageError";
 import { getProduct, clearCurrentProduct } from "../redux/actions/product";
 import ProductInfo from "../components/products/ProductInfo";
+import getAverageProductRating from "../utils/getAverageProductRating";
 
 const { TabPane } = Tabs;
 
@@ -66,6 +67,15 @@ const Product = () => {
           <h1>
             {currentProduct?.title} - <span>${currentProduct?.price}</span>
           </h1>
+        </div>
+        <div className="product__information__ratings">
+          <Rate
+            value={getAverageProductRating(currentProduct?.ratings)}
+            disabled
+          />
+          <span className="product__information__ratings__count">
+            ({currentProduct?.ratings.length})
+          </span>
         </div>
         <ProductInfo product={currentProduct} />
       </div>

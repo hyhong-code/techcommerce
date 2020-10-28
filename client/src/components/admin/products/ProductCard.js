@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Card, Modal, message } from "antd";
+import { Card, Modal, message, Rate } from "antd";
 import {
   EditOutlined,
   DeleteOutlined,
@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import formatErrorMsg from "../../../utils/formatErrorMsg";
 import { deleteProduct } from "../../../redux/actions/product";
 import ImageFadeIn from "react-image-fade-in";
+import getAverageProductRating from "../../../utils/getAverageProductRating";
 
 const { Meta } = Card;
 const { confirm } = Modal;
@@ -69,6 +70,12 @@ const ProductCard = ({ product }) => {
           title={`${product.title} - $${product.price}`}
           description={product.description}
         />
+        <div className="admin-product-card__ratings">
+          <Rate disabled value={getAverageProductRating(product.ratings)} />
+          <span className="admin-product-card__ratings__count">
+            ({product.ratings.length})
+          </span>
+        </div>
       </Card>
     </Fragment>
   );

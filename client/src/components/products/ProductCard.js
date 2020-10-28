@@ -1,8 +1,10 @@
 import React, { Fragment } from "react";
-import { Card } from "antd";
+import { Card, Rate } from "antd";
 import { EyeOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import ImageFadeIn from "react-image-fade-in";
 import { Link } from "react-router-dom";
+
+import getAverageProductRating from "../../utils/getAverageProductRating";
 
 const { Meta } = Card;
 
@@ -33,6 +35,12 @@ const ProductCard = ({ product }) => {
         title={`${product.title} - $${product.price}`}
         description={product.description}
       />
+      <div className="product-card__ratings">
+        <Rate disabled value={getAverageProductRating(product.ratings)} />
+        <span className="product-card__ratings__count">
+          ({product.ratings.length})
+        </span>
+      </div>
     </Card>
   );
 };

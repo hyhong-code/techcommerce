@@ -19,4 +19,13 @@
   &__delete-icon {
     color: $color-danger !important;
   }
+
+  &__ratings {
+    margin-top: 0.5rem;
+
+    &__count {
+      margin-left: 0.5rem;
+      color: lighten(#000, 25);
+    }
+  }
 }
