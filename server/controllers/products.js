@@ -232,17 +232,21 @@ exports.updateRating = async (req, res, next) => {
 
     // Check if user already left a rating
     const rating = product.ratings.find(
-      (rating) => rating.postedBy.toString() === req.user._id.toString()
+      (r) => r.postedBy.toString() === req.user._id.toString()
     );
 
     if (rating) {
       // Update user's rating
-      await Product.updateOne(
-        { ratings: { $elemMatch: rating } }, // Match the rating object
-        { $set: { "ratings.$.star": star } },
-        { new: true, runValidators: true }
-      );
-      product = await Product.findById(product._id);
+      // await Product.updateOne(
+      //   { ratings: { $elemMatch: rating } }, // Finds the matched rating from the rating array (ratings)
+      //   { $set: { "ratings.$.star": star } }, // What value to update the matched rating
+      //   { new: true, runValidators: true }
+      // );
+      // product = await Product.findById(product._id);
+
+      // Update user's rating
+      rating.star = star;
+      product = await product.save({ validateBeforeSave: true });
     } else {
       // Create a new rating
       product = await Product.findByIdAndUpdate(

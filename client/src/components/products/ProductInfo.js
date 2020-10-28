@@ -27,8 +27,6 @@ const ProductInfo = ({ product }) => {
   const [productRating, setProductRating] = useState(0);
   const [modalShow, setModalShow] = useState(false);
 
-  console.log(location);
-
   useEffect(() => {
     // Prefill user's ratings of this product if any
     user && setProductRating(getUserRating(product.ratings, user));
