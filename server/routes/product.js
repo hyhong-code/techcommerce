@@ -6,6 +6,7 @@ const {
   deleteProduct,
   getProduct,
   updateProduct,
+  updateRating,
 } = require("../controllers/products");
 const auth = require("../middlewares/auth");
 const limitTo = require("../middlewares/limitTo");
@@ -15,6 +16,7 @@ const {
 } = require("../utils/validatiors/product");
 const validate = require("../middlewares/validate");
 
+router.route("/ratings/:slug").put(auth, updateRating);
 router
   .route("/:slug")
   .get(getProduct)

@@ -216,3 +216,46 @@ exports.listProducts = async (req, res, next) => {
       .json({ errors: [{ msg: "Something went wrong, try again later." }] });
   }
 };
+
+exports.updateRating = async (req, res, next) => {
+  try {
+    const { slug } = req.params;
+    const { star } = req.body; // 1 - 5
+
+    // Handle product not found
+    let product = await Product.findOne({ slug });
+    if (!product) {
+      return res
+        .status(404)
+        .json({ errors: [{ msg: `Product with slug ${slug} not found.` }] });
+    }
+
+    // Check if user already left a rating
+    const rating = product.ratings.find(
+      (rating) => rating.postedBy.toString() === req.user._id.toString()
+    );
+
+    if (rating) {
+      // Update user's rating
+      product = await Product.updateOne(
+        { ratings: { $elemMatch: rating } }, // Match the rating object
+        { $set: { "ratings.$.star": star } },
+        { new: ture, runValidators: true }
+      );
+    } else {
+      // Create a new rating
+      product = await Product.findByIdAndUpdate(
+        product._id,
+        { $push: { ratings: { star, postedBy: req.user._id } } },
+        { new: true, runValidators: true }
+      );
+    }
+
+    res.status(200).json({ product });
+  } catch (error) {
+    console.error("[❌ updateRating ERROR]", error);
+    res
+      .status(500)
+      .json({ errors: [{ msg: "Something went wrong, try again later." }] });
+  }
+};
