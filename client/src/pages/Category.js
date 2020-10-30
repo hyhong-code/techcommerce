@@ -27,8 +27,6 @@ const Category = () => {
     { categories },
   ] = useSelector(({ product, category }) => [product, category]);
 
-  console.log(productsByCategory);
-
   return (
     <div className="category">
       {/* Lead */}

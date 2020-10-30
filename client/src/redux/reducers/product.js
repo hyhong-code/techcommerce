@@ -15,6 +15,8 @@ import {
   SIMILAR_PRODUCTS_CLEARED,
   PRODUCTS_BY_CATEOGRY_LISTED,
   PRODUCTS_BY_CATEGORY_CLEARED,
+  PRODUCTS_BY_SUBS_LISTED,
+  PRODUCTS_BY_SUBS_CLEARED,
 } from "../actions";
 
 const INITIAL_STATE = {
@@ -31,6 +33,8 @@ const INITIAL_STATE = {
   similarProductsLoading: true,
   productsByCategory: [],
   productsByCategoryLoading: true,
+  productsBySubs: [],
+  productsBySubsLoading: true,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -146,6 +150,20 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         productsByCategory: [],
         productsByCategoryLoading: true,
+      };
+
+    case PRODUCTS_BY_SUBS_LISTED:
+      return {
+        ...state,
+        productsBySubs: payload,
+        productsBySubsLoading: false,
+      };
+
+    case PRODUCTS_BY_SUBS_CLEARED:
+      return {
+        ...state,
+        productsBySubs: [],
+        productsBySubsLoading: true,
       };
 
     default:
