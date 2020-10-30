@@ -1,16 +1,20 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { Tag } from "antd";
+import { Spin, Tag } from "antd";
 
 import { listSubs } from "../../redux/actions/sub";
 import randomTagColor from "../../utils/randomTagColor";
 
 const Subs = () => {
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    dispatch(listSubs());
+    (async () => {
+      await dispatch(listSubs());
+      setLoading(false);
+    })();
   }, [dispatch]);
 
   const { subs } = useSelector(({ sub }) => sub);
@@ -23,13 +27,17 @@ const Subs = () => {
 
       {/* Tags */}
       <div className="home-subs__tags">
-        {subs?.map((sub) => (
-          <Link to={`/subs/${sub.slug}`} key={sub._id}>
-            <Tag color={randomTagColor()} className="home-subs__tags__item">
-              {sub.name}
-            </Tag>
-          </Link>
-        ))}
+        {!loading ? (
+          subs?.map((sub) => (
+            <Link to={`/subs/${sub.slug}`} key={sub._id}>
+              <Tag color={randomTagColor()} className="home-subs__tags__item">
+                {sub.name}
+              </Tag>
+            </Link>
+          ))
+        ) : (
+          <Spin size="large" />
+        )}
       </div>
     </div>
   );

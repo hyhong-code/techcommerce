@@ -1,0 +1,25 @@
+.category {
+  @include container;
+  @include page-padding-vert;
+
+  &__lead {
+    padding: 2rem;
+    background-color: $color-lightgrey;
+    margin-bottom: 2rem;
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: bold;
+      text-align: center;
+      color: lighten(#000, 25);
+    }
+  }
+
+  &__products {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 2rem;
+    align-items: center;
+    justify-items: center;
+  }
+}

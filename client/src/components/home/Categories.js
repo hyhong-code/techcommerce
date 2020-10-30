@@ -1,16 +1,20 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { Tag } from "antd";
+import { Tag, Spin } from "antd";
 
 import { listCategories } from "../../redux/actions/category";
 import randomTagColor from "../../utils/randomTagColor";
 
 const Categories = () => {
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    dispatch(listCategories());
+    (async () => {
+      await dispatch(listCategories());
+      setLoading(false);
+    })();
   }, [dispatch]);
 
   const { categories } = useSelector(({ category }) => category);
@@ -22,17 +26,22 @@ const Categories = () => {
       </div>
 
       {/* Tags */}
+
       <div className="home-categories__tags">
-        {categories?.map((category) => (
-          <Link to={`/categories/${category.slug}`} key={category._id}>
-            <Tag
-              color={randomTagColor()}
-              className="home-categories__tags__item"
-            >
-              {category.name}
-            </Tag>
-          </Link>
-        ))}
+        {!loading ? (
+          categories?.map((category) => (
+            <Link to={`/categories/${category.slug}`} key={category._id}>
+              <Tag
+                color={randomTagColor()}
+                className="home-categories__tags__item"
+              >
+                {category.name}
+              </Tag>
+            </Link>
+          ))
+        ) : (
+          <Spin size="large" />
+        )}
       </div>
     </div>
   );

@@ -206,7 +206,20 @@ exports.listProducts = async (req, res, next) => {
         break;
     }
 
-    const products = await Product.find().skip(skip).limit(limit).sort(sort);
+    const filterObj = {};
+    if (req.query.category) {
+      const category = await Category.findOne({ slug: req.query.category });
+      filterObj.category = category._id;
+    }
+    if (req.query.sub) {
+      const sub = await Sub.findOne({ slug: req.query.sub });
+      filterObj.subs = sub._id;
+    }
+
+    const products = await Product.find(filterObj)
+      .skip(skip)
+      .limit(limit)
+      .sort(sort);
     const count = await Product.countDocuments();
     res.status(200).json({ products, count });
   } catch (error) {

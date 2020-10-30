@@ -15,6 +15,8 @@ import {
   CLEAR_NEW_ARRIVALS,
   SIMILAR_PRODUCTS_LISTED,
   SIMILAR_PRODUCTS_CLEARED,
+  PRODUCTS_BY_CATEOGRY_LISTED,
+  PRODUCTS_BY_CATEGORY_CLEARED,
 } from "../actions";
 
 export const createProduct = (formdata) => async (dispatch) => {
@@ -192,5 +194,27 @@ export const listSimilarProducts = (slug) => async (dispatch) => {
 export const clearSimilarProducts = () => async (dispatch) => {
   dispatch({
     type: SIMILAR_PRODUCTS_CLEARED,
+  });
+};
+
+export const listProductsByCategory = (slug) => async (dispatch) => {
+  try {
+    const res = await axios.get(
+      `${process.env.REACT_APP_API}/products?category=${slug}`
+    );
+
+    dispatch({
+      type: PRODUCTS_BY_CATEOGRY_LISTED,
+      payload: res.data.products,
+    });
+  } catch (error) {
+    console.error(`[❌ listProductsByCategory]`, error);
+    throw error;
+  }
+};
+
+export const clearProductsByCateogry = () => async (dispatch) => {
+  dispatch({
+    type: PRODUCTS_BY_CATEGORY_CLEARED,
   });
 };

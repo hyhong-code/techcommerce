@@ -11,6 +11,8 @@ import ForgotPassword from "./pages/auth/ForgotPassword";
 import Header from "./components/ui/Header";
 import User from "./pages/user/User";
 import Admin from "./pages/admin/Admin";
+import Category from "./pages/Category";
+import Sub from "./pages/Sub";
 import UserRoute from "./components/routes/UserRoute";
 import AdminRoute from "./components/routes/AdminRoute";
 import PublicRoute from "./components/routes/PublicRoute";
@@ -33,6 +35,8 @@ const App = () => {
         <UserRoute exact path="/user/:subroute" component={User} />
         <AdminRoute path="/admin/:subroute" component={Admin} />
         <Route exact path="/products/:slug" component={Product} />
+        <Route exact path="/subs/:slug" component={Sub} />
+        <Route exact path="/categories/:slug" component={Category} />
         <Route exact path="/" component={Home} />
       </Switch>
       <BackTop />
