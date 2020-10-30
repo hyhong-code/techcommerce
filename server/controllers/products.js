@@ -264,3 +264,32 @@ exports.updateRating = async (req, res, next) => {
       .json({ errors: [{ msg: "Something went wrong, try again later." }] });
   }
 };
+
+exports.listSimilarProducts = async (req, res, next) => {
+  try {
+    const { slug } = req.params;
+
+    // Handle product not exits
+    const product = await Product.findOne({ slug });
+    if (!product) {
+      return res
+        .status(404)
+        .json({ errors: [{ msg: `Product with slug ${slug} not found.` }] });
+    }
+
+    // Find similar products
+    const products = await Product.find({
+      category: product.category._id,
+      _id: { $ne: product._id },
+    })
+      .sort({ createdAt: -1 })
+      .limit(3);
+
+    res.status(200).json({ products });
+  } catch (error) {
+    console.error("[❌ listSimilarProducts ERROR]", error);
+    res
+      .status(500)
+      .json({ errors: [{ msg: "Something went wrong, try again later." }] });
+  }
+};

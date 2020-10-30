@@ -52,3 +52,11 @@ exports.updateValidators = [
     )
     .withMessage("At least an image is required."),
 ];
+
+exports.updateRatingValidators = [
+  body("star")
+    .custom(
+      (star) => !isNaN(Number(star)) && Number(star) > 0 && Number(star) <= 5
+    )
+    .withMessage("Star must be a number and between 0 and 5."),
+];
