@@ -100,10 +100,14 @@ const Product = () => {
         <div className="product__similar__cards">
           {similarProductsLoading ? (
             <LoadingCards />
-          ) : (
+          ) : similarProducts.length ? (
             similarProducts.map((product) => (
               <ProductCard key={product._id} product={product} />
             ))
+          ) : (
+            <p className="product__similar__cards__not-found">
+              No products found.
+            </p>
           )}
         </div>
       </div>

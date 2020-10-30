@@ -1,0 +1,29 @@
+.home-categories {
+  margin-bottom: 4rem;
+
+  &__lead {
+    background-color: $color-lightgrey;
+    padding: 2rem;
+    margin-bottom: 2rem;
+
+    h2 {
+      font-size: 1.5rem;
+      color: lighten(#000, 25);
+      font-weight: bold;
+      text-align: center;
+    }
+  }
+
+  &__tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+
+    &__item {
+      padding: 0.75rem 3rem;
+      border-radius: 10px;
+      margin: 1rem;
+      cursor: pointer;
+    }
+  }
+}

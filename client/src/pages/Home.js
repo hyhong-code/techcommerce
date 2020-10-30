@@ -4,6 +4,8 @@ import { useDispatch } from "react-redux";
 import Typewriter from "../components/ui/Typewriter";
 import NewArrivals from "../components/products/NewArrivals";
 import BestSellings from "../components/products/BestSellings";
+import Categories from "../components/home/Categories";
+import Subs from "../components/home/Subs";
 import { listProducts } from "../redux/actions/product";
 
 const Home = () => {
@@ -27,6 +29,12 @@ const Home = () => {
 
       {/* Best Sellings */}
       <BestSellings />
+
+      {/* Categories Tags */}
+      <Categories />
+
+      {/* Sub category Tags */}
+      <Subs />
     </div>
   );
 };
