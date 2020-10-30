@@ -11,6 +11,8 @@ import {
   LIST_NEW_ARRIVALS,
   CLEAR_BEST_SELLINGS,
   CLEAR_NEW_ARRIVALS,
+  SIMILAR_PRODUCTS_LISTED,
+  SIMILAR_PRODUCTS_CLEARED,
 } from "../actions";
 
 const INITIAL_STATE = {
@@ -23,6 +25,8 @@ const INITIAL_STATE = {
   listProductsLoading: false,
   currentProduct: null,
   currentProductLoading: true,
+  similarProducts: [],
+  similarProductsLoading: true,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -110,6 +114,20 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         latestArrivals: [],
         latestArrivalsLoading: true,
+      };
+
+    case SIMILAR_PRODUCTS_LISTED:
+      return {
+        ...state,
+        similarProducts: payload,
+        similarProductsLoading: false,
+      };
+
+    case SIMILAR_PRODUCTS_CLEARED:
+      return {
+        ...state,
+        similarProducts: [],
+        similarProductsLoading: true,
       };
 
     default:

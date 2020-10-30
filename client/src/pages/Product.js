@@ -5,9 +5,16 @@ import { Spin, Tabs, Divider, Rate } from "antd";
 import { Carousel } from "react-responsive-carousel";
 
 import handleImageError from "../utils/handleImageError";
-import { getProduct, clearCurrentProduct } from "../redux/actions/product";
+import {
+  getProduct,
+  clearCurrentProduct,
+  listSimilarProducts,
+  clearSimilarProducts,
+} from "../redux/actions/product";
 import ProductInfo from "../components/products/ProductInfo";
 import getAverageProductRating from "../utils/getAverageProductRating";
+import LoadingCards from "../components/ui/LoadingCards";
+import ProductCard from "../components/products/ProductCard";
 
 const { TabPane } = Tabs;
 
@@ -17,15 +24,19 @@ const Product = () => {
 
   useEffect(() => {
     dispatch(getProduct(params.slug));
-
+    dispatch(listSimilarProducts(params.slug));
     return () => {
       dispatch(clearCurrentProduct());
+      dispatch(clearSimilarProducts());
     };
   }, [dispatch, params.slug]);
 
-  const { currentProduct, currentProductLoading } = useSelector(
-    ({ product }) => product
-  );
+  const {
+    currentProduct,
+    currentProductLoading,
+    similarProducts,
+    similarProductsLoading,
+  } = useSelector(({ product }) => product);
 
   return currentProductLoading ? (
     <Spin size="large" />
@@ -81,10 +92,20 @@ const Product = () => {
         <ProductInfo product={currentProduct} />
       </div>
 
+      {/* Similar Products */}
       <div className="product__similar">
         <Divider />
         <h2 className="product__similar__title">Similar Products</h2>
         <Divider />
+        <div className="product__similar__cards">
+          {similarProductsLoading ? (
+            <LoadingCards />
+          ) : (
+            similarProducts.map((product) => (
+              <ProductCard key={product._id} product={product} />
+            ))
+          )}
+        </div>
       </div>
     </div>
   );

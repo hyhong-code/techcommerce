@@ -13,6 +13,8 @@ import {
   CLEAR_BEST_SELLINGS,
   LIST_NEW_ARRIVALS,
   CLEAR_NEW_ARRIVALS,
+  SIMILAR_PRODUCTS_LISTED,
+  SIMILAR_PRODUCTS_CLEARED,
 } from "../actions";
 
 export const createProduct = (formdata) => async (dispatch) => {
@@ -170,4 +172,25 @@ export const updateRating = (slug, star) => async (dispatch) => {
     console.error(`[❌ updateRating]`, error);
     throw error;
   }
+};
+
+export const listSimilarProducts = (slug) => async (dispatch) => {
+  try {
+    const res = await axios.get(
+      `${process.env.REACT_APP_API}/products/similar/${slug}`
+    );
+    dispatch({
+      type: SIMILAR_PRODUCTS_LISTED,
+      payload: res.data.products,
+    });
+  } catch (error) {
+    console.error(`[❌ listSimilarProducts]`, error);
+    throw error;
+  }
+};
+
+export const clearSimilarProducts = () => async (dispatch) => {
+  dispatch({
+    type: SIMILAR_PRODUCTS_CLEARED,
+  });
 };
