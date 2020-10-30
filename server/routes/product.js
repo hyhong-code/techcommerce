@@ -8,6 +8,7 @@ const {
   updateProduct,
   updateRating,
   listSimilarProducts,
+  filterProducts,
 } = require("../controllers/products");
 const auth = require("../middlewares/auth");
 const limitTo = require("../middlewares/limitTo");
@@ -23,6 +24,8 @@ router
   .put(auth, updateRatingValidators, validate, updateRating);
 
 router.route("/similar/:slug").get(listSimilarProducts);
+
+router.route("/filter").post(filterProducts);
 
 router
   .route("/:slug")

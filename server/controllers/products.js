@@ -306,3 +306,22 @@ exports.listSimilarProducts = async (req, res, next) => {
       .json({ errors: [{ msg: "Something went wrong, try again later." }] });
   }
 };
+
+exports.filterProducts = async (req, res, next) => {
+  try {
+    const { search } = req.body;
+
+    let products;
+    if (search) {
+      // $text searches all the fields with text:true on Product model
+      products = await Product.find({ $text: req.body.search });
+    }
+
+    return res.status(200).json({ products });
+  } catch (error) {
+    console.error("[❌ filterProducts ERROR]", error);
+    res
+      .status(500)
+      .json({ errors: [{ msg: "Something went wrong, try again later." }] });
+  }
+};

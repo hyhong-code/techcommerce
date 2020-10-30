@@ -17,6 +17,8 @@ import {
   PRODUCTS_BY_CATEGORY_CLEARED,
   PRODUCTS_BY_SUBS_LISTED,
   PRODUCTS_BY_SUBS_CLEARED,
+  FILTERED_PRODUCTS_LISTED,
+  FILTERED_PRODUCTS_CLEARED,
 } from "../actions";
 
 const INITIAL_STATE = {
@@ -35,6 +37,8 @@ const INITIAL_STATE = {
   productsByCategoryLoading: true,
   productsBySubs: [],
   productsBySubsLoading: true,
+  filterProducts: [],
+  filterProductsLoading: true,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -160,6 +164,20 @@ export default (state = INITIAL_STATE, action) => {
       };
 
     case PRODUCTS_BY_SUBS_CLEARED:
+      return {
+        ...state,
+        productsBySubs: [],
+        productsBySubsLoading: true,
+      };
+
+    case FILTERED_PRODUCTS_LISTED:
+      return {
+        ...state,
+        filterProducts: payload,
+        filterProductsLoading: false,
+      };
+
+    case FILTERED_PRODUCTS_CLEARED:
       return {
         ...state,
         productsBySubs: [],
