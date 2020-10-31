@@ -180,8 +180,8 @@ export default (state = INITIAL_STATE, action) => {
     case FILTERED_PRODUCTS_CLEARED:
       return {
         ...state,
-        productsBySubs: [],
-        productsBySubsLoading: true,
+        filterProducts: [],
+        filterProductsLoading: true,
       };
 
     default:

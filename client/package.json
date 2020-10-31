@@ -10,6 +10,7 @@
     "antd": "^4.7.0",
     "axios": "^0.20.0",
     "firebase": "^7.24.0",
+    "lodash": "^4.17.20",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-image-fade-in": "^1.1.3",

@@ -7,10 +7,12 @@ import {
   UserOutlined,
   UserAddOutlined,
   LoginOutlined,
+  ShopOutlined,
 } from "@ant-design/icons";
 import { useSelector, useDispatch } from "react-redux";
 
 import { logout } from "../../redux/actions/user";
+import Search from "./Search";
 const { SubMenu, Item } = Menu;
 
 const Header = () => {
@@ -29,6 +31,12 @@ const Header = () => {
       <Item key="home" icon={<AppstoreOutlined />}>
         <Link to="/">Home</Link>
       </Item>
+
+      <Item key="shop" icon={<ShopOutlined />}>
+        <Link to="/shop">Shop</Link>
+      </Item>
+
+      <Search />
 
       {user && (
         <SubMenu

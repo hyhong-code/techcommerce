@@ -1,4 +1,5 @@
 import axios from "axios";
+import _ from "lodash";
 
 import {
   PRODUCT_CREATED,
@@ -245,11 +246,45 @@ export const clearProductsBySub = () => async (dispatch) => {
   });
 };
 
-export const filterProducts = (search) => async (dispatch) => {
-  try {
+const debouncedRequest = _.debounce(
+  async ({ search, dispatch }) => {
     const res = await axios.post(
       `${process.env.REACT_APP_API}/products/filter`,
-      { search }
+      {
+        search,
+      }
+    );
+
+    dispatch({
+      type: FILTERED_PRODUCTS_LISTED,
+      payload: res.data.products,
+    });
+  },
+  500, // Group request in 500ms intervals
+  { leading: true, trailing: true } // One request immediately, One request after finish
+);
+
+export const filterProducts = (search) => async (dispatch) => {
+  try {
+    await debouncedRequest({ search, dispatch });
+  } catch (error) {
+    console.error(`[❌ filterProducts]`, error);
+    throw error;
+  }
+};
+
+export const clearFilteredProducts = () => (dispatch) => {
+  dispatch({
+    type: FILTERED_PRODUCTS_CLEARED,
+  });
+};
+
+export const listProductsForShopPage = ({ limit = 10, skip = 0 }) => async (
+  dispatch
+) => {
+  try {
+    const res = await axios.get(
+      `${process.env.REACT_APP_API}/products?type=new-arrival&order=desc&skip=${skip}&limit=${limit}`
     );
 
     dispatch({
@@ -257,13 +292,7 @@ export const filterProducts = (search) => async (dispatch) => {
       payload: res.data.products,
     });
   } catch (error) {
-    console.error(`[❌ filterProducts]`, error);
+    console.error(`[❌ listProductsForShopPage]`, error);
     throw error;
   }
-};
-
-export const clearFilteredProducts = () => async (dispatch) => {
-  dispatch({
-    type: FILTERED_PRODUCTS_CLEARED,
-  });
 };
