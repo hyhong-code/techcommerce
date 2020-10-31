@@ -1,6 +1,9 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+import LoadingCard from "../components/ui/LoadingCards";
+import ProductCard from "../components/products/ProductCard";
+
 import {
   listProductsForShopPage,
   clearFilteredProducts,
@@ -26,8 +29,20 @@ const Shop = () => {
 
   return (
     <div className="shop">
-      <div className="shop__control"></div>
-      <div className="shop__products">{JSON.stringify(filterProducts)}</div>
+      <div className="shop__control">Control</div>
+      <div className="shop__products">
+        {!filterProductsLoading ? (
+          filterProducts.length ? (
+            filterProducts.map((product) => (
+              <ProductCard key={product._id} product={product} />
+            ))
+          ) : (
+            <p className="shop__products__not-found">No prodcuts found.</p>
+          )
+        ) : (
+          <LoadingCard count={5} />
+        )}
+      </div>
     </div>
   );
 };

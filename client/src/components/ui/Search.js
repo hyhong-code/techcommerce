@@ -13,12 +13,13 @@ const _Search = () => {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    if (search) {
-      dispatch(filterProducts(search));
-    }
+    dispatch(filterProducts(search));
   }, [search, dispatch]);
 
   const handleSubmit = async (evt) => {
+    if (search) {
+      await dispatch(filterProducts(search));
+    }
     history.push("/shop");
   };
 
