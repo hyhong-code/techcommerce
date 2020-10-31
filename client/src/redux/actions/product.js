@@ -22,6 +22,7 @@ import {
   PRODUCTS_BY_SUBS_CLEARED,
   FILTERED_PRODUCTS_LISTED,
   FILTERED_PRODUCTS_CLEARED,
+  SEARCH_TEXT_CHANGED,
 } from "../actions";
 
 export const createProduct = (formdata) => async (dispatch) => {
@@ -254,7 +255,6 @@ const debouncedRequest = _.debounce(
         search,
       }
     );
-
     dispatch({
       type: FILTERED_PRODUCTS_LISTED,
       payload: res.data.products,
@@ -295,4 +295,11 @@ export const listProductsForShopPage = ({ limit = 10, skip = 0 }) => async (
     console.error(`[❌ listProductsForShopPage]`, error);
     throw error;
   }
+};
+
+export const handleSearchTextChange = (value) => (dispatch) => {
+  dispatch({
+    type: SEARCH_TEXT_CHANGED,
+    payload: value,
+  });
 };

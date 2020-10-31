@@ -7,20 +7,26 @@ import ProductCard from "../components/products/ProductCard";
 import {
   listProductsForShopPage,
   clearFilteredProducts,
+  filterProducts,
 } from "../redux/actions/product";
 
 const Shop = () => {
   const dispatch = useDispatch();
-  const { filterProducts, filterProductsLoading } = useSelector(
+  const { filteredProducts, filteredProductsLoading, searchText } = useSelector(
     ({ product }) => product
   );
 
   useEffect(() => {
-    if (filterProductsLoading) {
+    // If there is search text, filter products base on it
+    if (searchText) {
+      dispatch(filterProducts(searchText));
+    } else {
+      // Otherwise list all products for user
       dispatch(listProductsForShopPage({}));
     }
-  }, [filterProductsLoading, dispatch]);
+  }, [searchText, dispatch]);
 
+  // Clean up filtered products in redux state when moved away from shop page
   useEffect(() => {
     return () => {
       dispatch(clearFilteredProducts());
@@ -31,9 +37,9 @@ const Shop = () => {
     <div className="shop">
       <div className="shop__control">Control</div>
       <div className="shop__products">
-        {!filterProductsLoading ? (
-          filterProducts.length ? (
-            filterProducts.map((product) => (
+        {!filteredProductsLoading ? (
+          filteredProducts.length ? (
+            filteredProducts.map((product) => (
               <ProductCard key={product._id} product={product} />
             ))
           ) : (

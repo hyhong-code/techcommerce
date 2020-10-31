@@ -36,7 +36,11 @@ const Header = () => {
         <Link to="/shop">Shop</Link>
       </Item>
 
-      <Search />
+      {/* Search Input */}
+
+      <div className="header__item--search">
+        <Search />
+      </div>
 
       {user && (
         <SubMenu

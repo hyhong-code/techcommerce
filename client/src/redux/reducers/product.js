@@ -19,6 +19,7 @@ import {
   PRODUCTS_BY_SUBS_CLEARED,
   FILTERED_PRODUCTS_LISTED,
   FILTERED_PRODUCTS_CLEARED,
+  SEARCH_TEXT_CHANGED,
 } from "../actions";
 
 const INITIAL_STATE = {
@@ -37,8 +38,9 @@ const INITIAL_STATE = {
   productsByCategoryLoading: true,
   productsBySubs: [],
   productsBySubsLoading: true,
-  filterProducts: [],
-  filterProductsLoading: true,
+  filteredProducts: [],
+  filteredProductsLoading: true,
+  searchText: "",
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -173,15 +175,21 @@ export default (state = INITIAL_STATE, action) => {
     case FILTERED_PRODUCTS_LISTED:
       return {
         ...state,
-        filterProducts: payload,
-        filterProductsLoading: false,
+        filteredProducts: payload,
+        filteredProductsLoading: false,
       };
 
     case FILTERED_PRODUCTS_CLEARED:
       return {
         ...state,
-        filterProducts: [],
-        filterProductsLoading: true,
+        filteredProducts: [],
+        filteredProductsLoading: true,
+      };
+
+    case SEARCH_TEXT_CHANGED:
+      return {
+        ...state,
+        searchText: payload,
       };
 
     default:

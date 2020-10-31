@@ -1,25 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Input } from "antd";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
-import { filterProducts } from "../../redux/actions/product";
+import { handleSearchTextChange } from "../../redux/actions/product";
 
 const { Search } = Input;
 
 const _Search = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const [search, setSearch] = useState("");
-
-  useEffect(() => {
-    dispatch(filterProducts(search));
-  }, [search, dispatch]);
+  const { searchText } = useSelector(({ product }) => product);
 
   const handleSubmit = async (evt) => {
-    if (search) {
-      await dispatch(filterProducts(search));
-    }
     history.push("/shop");
   };
 
@@ -27,8 +20,8 @@ const _Search = () => {
     <div className="header-search-box">
       <Search
         placeholder="Search products..."
-        value={search}
-        onChange={(evt) => setSearch(evt.target.value)}
+        value={searchText}
+        onChange={(evt) => dispatch(handleSearchTextChange(evt.target.value))}
         onSearch={handleSubmit}
         className="header-search-box__input"
       />

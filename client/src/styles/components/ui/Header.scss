@@ -1,11 +1,7 @@
 .header {
   display: flex;
 
-  &__item--user {
-    margin-left: auto !important;
-  }
-
-  &__item--login {
+  &__item--search {
     margin-left: auto !important;
   }
 }
