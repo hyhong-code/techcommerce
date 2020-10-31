@@ -309,12 +309,13 @@ exports.listSimilarProducts = async (req, res, next) => {
 
 exports.filterProducts = async (req, res, next) => {
   try {
+    console.log(req.body);
     const { search } = req.body;
 
     let products;
     if (search) {
       // $text searches all the fields with text:true on Product model
-      products = await Product.find({ $text: req.body.search });
+      products = await Product.find({ $text: { $search: req.body.search } });
     }
 
     return res.status(200).json({ products });
