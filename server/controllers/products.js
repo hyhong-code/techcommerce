@@ -309,14 +309,20 @@ exports.listSimilarProducts = async (req, res, next) => {
 
 exports.filterProducts = async (req, res, next) => {
   try {
-    const { search } = req.body;
+    const { search, price } = req.body;
 
     let products;
     if (search) {
-      // $text searches all the fields with text:true on Product model
+      // User searched by text: $text searches all the fields with text:true on Product model
       products = await Product.find({ $text: { $search: req.body.search } });
+    } else if (price) {
+      // User filted by price: price - [20,200], a range
+      products = await Product.find({
+        price: { $gte: price[0], $lte: price[1] },
+      }).sort({ createdAt: -1 });
     } else {
-      products = await Product.find();
+      // List all products when user land on shop page
+      products = await Product.find().sort({ createdAt: -1 });
     }
 
     return res.status(200).json({ products });
