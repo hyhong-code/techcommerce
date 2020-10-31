@@ -1,14 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Menu, Slider } from "antd";
+import { DollarCircleOutlined } from "@ant-design/icons";
 
 import LoadingCard from "../components/ui/LoadingCards";
 import ProductCard from "../components/products/ProductCard";
-
 import {
   listProductsForShopPage,
   clearFilteredProducts,
   filterProducts,
 } from "../redux/actions/product";
+
+const { SubMenu } = Menu;
 
 const Shop = () => {
   const dispatch = useDispatch();
@@ -16,10 +19,13 @@ const Shop = () => {
     ({ product }) => product
   );
 
+  //
+  const [price, setPrice] = useState([0, 10000]);
+
   useEffect(() => {
     // If there is search text, filter products base on it
     if (searchText) {
-      dispatch(filterProducts(searchText));
+      dispatch(filterProducts({ search: searchText }));
     } else {
       // Otherwise list all products for user
       dispatch(listProductsForShopPage({}));
@@ -33,9 +39,35 @@ const Shop = () => {
     };
   }, [dispatch]);
 
+  useEffect(() => {
+    dispatch(filterProducts({ price }));
+  }, [price, dispatch]);
+
   return (
     <div className="shop">
-      <div className="shop__control">Control</div>
+      <div className="shop__control">
+        <h1 className="shop__control__title">Search / Filter</h1>
+
+        {/* Price filter */}
+        <Menu
+          mode="inline"
+          defaultOpenKeys={["1", "2"]}
+          className="shop__control__menu"
+        >
+          <SubMenu key="1" title="Price" icon={<DollarCircleOutlined />}>
+            <div className="shop__control__menu__price__slider">
+              <Slider
+                range
+                min={0}
+                max={10000}
+                value={price}
+                onChange={(v) => setPrice(v)}
+                tipFormatter={(v) => `$${v}`}
+              />
+            </div>
+          </SubMenu>
+        </Menu>
+      </div>
       <div className="shop__products">
         {!filteredProductsLoading ? (
           filteredProducts.length ? (
