@@ -279,24 +279,6 @@ export const clearFilteredProducts = () => (dispatch) => {
   });
 };
 
-export const listProductsForShopPage = ({ limit = 10, skip = 0 }) => async (
-  dispatch
-) => {
-  try {
-    const res = await axios.get(
-      `${process.env.REACT_APP_API}/products?type=new-arrival&order=desc&skip=${skip}&limit=${limit}`
-    );
-
-    dispatch({
-      type: FILTERED_PRODUCTS_LISTED,
-      payload: res.data.products,
-    });
-  } catch (error) {
-    console.error(`[❌ listProductsForShopPage]`, error);
-    throw error;
-  }
-};
-
 export const handleSearchTextChange = (value) => (dispatch) => {
   dispatch({
     type: SEARCH_TEXT_CHANGED,

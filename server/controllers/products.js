@@ -250,16 +250,15 @@ exports.updateRating = async (req, res, next) => {
 
     if (rating) {
       // Update user's rating
+      rating.star = star;
+      product = await product.save({ validateBeforeSave: true });
+
       // await Product.updateOne(
       //   { ratings: { $elemMatch: rating } }, // Finds the matched rating from the rating array (ratings)
       //   { $set: { "ratings.$.star": star } }, // What value to update the matched rating
       //   { new: true, runValidators: true }
       // );
       // product = await Product.findById(product._id);
-
-      // Update user's rating
-      rating.star = star;
-      product = await product.save({ validateBeforeSave: true });
     } else {
       // Create a new rating
       product = await Product.findByIdAndUpdate(
@@ -339,9 +338,25 @@ exports.filterProducts = async (req, res, next) => {
     // Filter by stars
     if (stars) {
       filterObj.avgStars = { $gte: stars[0], $lte: stars[1] };
+
+      // Aggregation Pipeline
+      // products = (
+      //   await Product.aggregate([
+      //     {
+      //       $project: {
+      //         document: "$$ROOT", // $$ROOT gets the whole document
+      //         // title:"$title",
+      //         // price:"$price"
+      //         avgStars: { $avg: "$ratings.star" },
+      //       },
+      //     },
+      //     { $match: { avgStars: { $gte: stars[0], $lte: stars[1] } } },
+      //   ])
+      // ).map((product) => product.document);
     }
 
     products = await Product.find(filterObj).sort({ createdAt: -1 });
+
     return res.status(200).json({ products });
   } catch (error) {
     console.error("[❌ filterProducts ERROR]", error);

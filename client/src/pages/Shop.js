@@ -10,7 +10,6 @@ import {
 import LoadingCard from "../components/ui/LoadingCards";
 import ProductCard from "../components/products/ProductCard";
 import {
-  listProductsForShopPage,
   clearFilteredProducts,
   filterProducts,
 } from "../redux/actions/product";
@@ -30,9 +29,10 @@ const Shop = () => {
   const [stars, setStars] = useState([0.5, 5]);
   const [selectedCategories, setSelectedCategories] = useState([]);
 
+  // List categories for checkboxes
   useEffect(() => {
     dispatch(listCategories());
-  }, []);
+  }, [dispatch]);
 
   // Filter product when filter change
   useEffect(() => {
