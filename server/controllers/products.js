@@ -309,31 +309,34 @@ exports.listSimilarProducts = async (req, res, next) => {
 
 exports.filterProducts = async (req, res, next) => {
   try {
-    const { search, price, category } = req.body;
+    console.log("----->", req.body);
 
-    let products;
+    const { search, price, categories } = req.body;
+
+    let filterObj = {};
+
+    // Filter by search text
     if (search) {
-      // User searched by text: $text searches all the fields with text:true on Product model
-      products = await Product.find({ $text: { $search: req.body.search } });
-    } else if (price) {
-      // User filted by price: price - [20,200], a range
-      products = await Product.find({
-        price: { $gte: price[0], $lte: price[1] },
-      }).sort({ createdAt: -1 });
-    } else if (category) {
-      // User filted by category slug
-      const category = await Category.findOne({ slug });
-      if (!category) {
-        return res.status(404).json({
-          errors: [{ msg: `Category with slug ${category} not found.` }],
-        });
-      }
-      products = await Product.find({ category: category._id });
-    } else {
-      // List all products when user land on shop page
-      products = await Product.find().sort({ createdAt: -1 });
+      // $text searches all the fields with text:true on Product model
+      filterObj["$text"] = { $search: req.body.search };
     }
 
+    // Filter by price - [20,200], a range
+    if (price) {
+      filterObj.price = { $gte: price[0], $lte: price[1] };
+    }
+
+    // Filter by category
+    if (categories && categories.length) {
+      const selectedCateogryIds = (
+        await Category.find({
+          slug: { $in: categories },
+        })
+      ).map((cate) => cate._id);
+      filterObj.category = { $in: selectedCateogryIds };
+    }
+
+    products = await Product.find(filterObj).sort({ createdAt: -1 });
     return res.status(200).json({ products });
   } catch (error) {
     console.error("[❌ filterProducts ERROR]", error);

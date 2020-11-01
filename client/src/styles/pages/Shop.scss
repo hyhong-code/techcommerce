@@ -21,6 +21,49 @@
           padding: 0 1rem;
         }
       }
+
+      // Category filter
+      &__categories-check {
+        display: flex;
+        flex-direction: column;
+        padding: 1rem;
+
+        &__item {
+          &:not(:last-of-type) {
+            margin: 0 0 0.5rem 0 !important;
+          }
+
+          &:last-of-type {
+            margin: 0 !important;
+          }
+        }
+      }
+
+      // Star ratings
+      &__stars {
+        display: flex;
+        flex-direction: column;
+        padding: 1rem;
+
+        &--min {
+          display: flex;
+          flex-direction: column;
+          margin-bottom: 1rem;
+
+          p {
+            margin-bottom: 0.75rem;
+          }
+        }
+
+        &--max {
+          display: flex;
+          flex-direction: column;
+
+          p {
+            margin-bottom: 0.75rem;
+          }
+        }
+      }
     }
   }
 

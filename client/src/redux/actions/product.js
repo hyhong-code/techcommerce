@@ -248,19 +248,10 @@ export const clearProductsBySub = () => async (dispatch) => {
 };
 
 const debouncedRequest = _.debounce(
-  async ({ dispatch, search, price }) => {
-    const filter = {};
-    if (search) {
-      filter.search = search; // Filter by search text
-    }
-
-    if (price) {
-      filter.price = price; // Filter by price
-    }
-
+  async ({ dispatch, filterObj }) => {
     const res = await axios.post(
       `${process.env.REACT_APP_API}/products/filter`,
-      filter
+      { ...filterObj }
     );
 
     dispatch({
@@ -268,13 +259,14 @@ const debouncedRequest = _.debounce(
       payload: res.data.products,
     });
   },
+
   500, // Group request in 500ms intervals
   { leading: true, trailing: true } // One request immediately, One request after finish
 );
 
-export const filterProducts = ({ search, price }) => async (dispatch) => {
+export const filterProducts = (filterObj) => async (dispatch) => {
   try {
-    await debouncedRequest({ dispatch, search, price });
+    await debouncedRequest({ dispatch, filterObj });
   } catch (error) {
     console.error(`[❌ filterProducts]`, error);
     throw error;
