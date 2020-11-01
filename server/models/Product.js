@@ -79,6 +79,10 @@ const productSchema = new mongoose.Schema(
         },
       },
     ],
+    avgStars: {
+      type: Number,
+      default: 0.5,
+    },
   },
   { timestamps: true }
 );
@@ -94,6 +98,16 @@ productSchema.pre("validate", function (next) {
 // Populate category and subs
 productSchema.pre(/^find/, function (next) {
   this.populate("category subs");
+  next();
+});
+
+// Modify the avgStars field whenver a new ratings gets added / modified
+productSchema.pre("save", function (next) {
+  if (this.isModified("ratings")) {
+    this.avgStars =
+      this.ratings.reduce((acc, rate) => acc + rate.star, 0) /
+      this.ratings.length;
+  }
   next();
 });
 

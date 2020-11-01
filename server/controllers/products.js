@@ -311,7 +311,7 @@ exports.filterProducts = async (req, res, next) => {
   try {
     console.log("----->", req.body);
 
-    const { search, price, categories } = req.body;
+    const { search, price, categories, stars } = req.body;
 
     let filterObj = {};
 
@@ -334,6 +334,11 @@ exports.filterProducts = async (req, res, next) => {
         })
       ).map((cate) => cate._id);
       filterObj.category = { $in: selectedCateogryIds };
+    }
+
+    // Filter by stars
+    if (stars) {
+      filterObj.avgStars = { $gte: stars[0], $lte: stars[1] };
     }
 
     products = await Product.find(filterObj).sort({ createdAt: -1 });
