@@ -310,7 +310,7 @@ exports.filterProducts = async (req, res, next) => {
   try {
     console.log("----->", req.body);
 
-    const { search, price, categories, stars } = req.body;
+    const { search, price, categories, stars, subs } = req.body;
 
     let filterObj = {};
 
@@ -325,7 +325,7 @@ exports.filterProducts = async (req, res, next) => {
       filterObj.price = { $gte: price[0], $lte: price[1] };
     }
 
-    // Filter by category
+    // Filter by categories
     if (categories && categories.length) {
       const selectedCateogryIds = (
         await Category.find({
@@ -333,6 +333,14 @@ exports.filterProducts = async (req, res, next) => {
         })
       ).map((cate) => cate._id);
       filterObj.category = { $in: selectedCateogryIds };
+    }
+
+    // Filter by subs
+    if (subs && subs.length) {
+      const selectedSubIds = (await Sub.find({ slug: { $in: subs } })).map(
+        (sub) => sub._id
+      );
+      filterObj.subs = { $in: selectedSubIds };
     }
 
     // Apply all filters except for stars

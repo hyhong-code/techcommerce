@@ -5,6 +5,7 @@ import {
   DollarCircleOutlined,
   UnorderedListOutlined,
   StarOutlined,
+  OrderedListOutlined,
 } from "@ant-design/icons";
 
 import LoadingCard from "../components/ui/LoadingCards";
@@ -14,6 +15,7 @@ import {
   filterProducts,
 } from "../redux/actions/product";
 import { listCategories } from "../redux/actions/category";
+import { listSubs } from "../redux/actions/sub";
 
 const { SubMenu } = Menu;
 
@@ -22,16 +24,19 @@ const Shop = () => {
   const [
     { filteredProducts, filteredProductsLoading, searchText },
     { categories },
-  ] = useSelector(({ product, category }) => [product, category]);
+    { subs },
+  ] = useSelector(({ product, category, sub }) => [product, category, sub]);
 
   // State for price
   const [price, setPrice] = useState([0, 5000]);
   const [stars, setStars] = useState([0.5, 5]);
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedSubs, setSelectedSubs] = useState([]);
 
   // List categories for checkboxes
   useEffect(() => {
     dispatch(listCategories());
+    dispatch(listSubs());
   }, [dispatch]);
 
   // Filter product when filter change
@@ -43,9 +48,10 @@ const Shop = () => {
         price,
         stars,
         categories: selectedCategories,
+        subs: selectedSubs,
       })
     );
-  }, [searchText, price, selectedCategories, stars, dispatch]);
+  }, [searchText, price, selectedCategories, stars, selectedSubs, dispatch]);
 
   // Clean up filtered products in redux state when moved away from shop page
   useEffect(() => {
@@ -65,6 +71,15 @@ const Shop = () => {
     }
   };
 
+  // Handle subs change
+  const handleSubsChange = (evt) => {
+    if (selectedSubs.includes(evt.target.value)) {
+      setSelectedSubs((prev) => prev.filter((sub) => sub !== evt.target.value));
+    } else {
+      setSelectedSubs((prev) => [...prev, evt.target.value]);
+    }
+  };
+
   return (
     <div className="shop">
       <div className="shop__control">
@@ -73,7 +88,7 @@ const Shop = () => {
         {/* Price filter */}
         <Menu
           mode="inline"
-          defaultOpenKeys={["1", "2", "3"]}
+          defaultOpenKeys={["1", "2", "3", "4"]}
           className="shop__control__menu"
         >
           <SubMenu key="1" title="Price" icon={<DollarCircleOutlined />}>
@@ -101,6 +116,27 @@ const Shop = () => {
                   className="shop__control__menu__categories-check__item"
                 >
                   {cate.name}
+                </Checkbox>
+              ))}
+            </div>
+          </SubMenu>
+
+          {/* Sub category filter */}
+          <SubMenu
+            key="4"
+            title="Sub Categories"
+            icon={<OrderedListOutlined />}
+          >
+            <div className="shop__control__menu__sub-category">
+              {subs?.map((sub) => (
+                <Checkbox
+                  checked={selectedSubs.includes(sub.slug)}
+                  value={sub.slug}
+                  onChange={handleSubsChange}
+                  key={sub._id}
+                  className="shop__control__menu__categories-check__item"
+                >
+                  {sub.name}
                 </Checkbox>
               ))}
             </div>

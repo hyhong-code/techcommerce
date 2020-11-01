@@ -64,6 +64,11 @@
           }
         }
       }
+
+      // subs filter
+      &__sub-category {
+        padding: 1rem;
+      }
     }
   }
 
@@ -71,7 +76,7 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 1rem;
-    align-items: center;
+    align-items: flex-start;
     justify-items: center;
 
     &__not-found {
