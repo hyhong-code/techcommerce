@@ -310,7 +310,16 @@ exports.filterProducts = async (req, res, next) => {
   try {
     console.log("----->", req.body);
 
-    const { search, price, categories, stars, subs, color, brand } = req.body;
+    const {
+      search,
+      price,
+      categories,
+      stars,
+      subs,
+      color,
+      brand,
+      shipping,
+    } = req.body;
 
     let filterObj = {};
 
@@ -321,9 +330,7 @@ exports.filterProducts = async (req, res, next) => {
     }
 
     // Filter by price - [20,200], a range
-    if (price) {
-      filterObj.price = { $gte: price[0], $lte: price[1] };
-    }
+    filterObj.price = { $gte: price[0], $lte: price[1] };
 
     // Filter by categories
     if (categories && categories.length) {
@@ -352,6 +359,9 @@ exports.filterProducts = async (req, res, next) => {
     if (brand) {
       filterObj.brand = brand;
     }
+
+    // Filter by shipping
+    filterObj.shipping = shipping;
 
     // Apply all filters except for stars
     products = await Product.find(filterObj).sort({ createdAt: -1 });

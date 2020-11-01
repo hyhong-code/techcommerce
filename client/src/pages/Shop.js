@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Menu, Slider, Checkbox, Rate, Select } from "antd";
+import { Menu, Slider, Checkbox, Rate, Select, Button } from "antd";
 import {
   DollarCircleOutlined,
   UnorderedListOutlined,
@@ -8,6 +8,8 @@ import {
   OrderedListOutlined,
   AimOutlined,
   CrownOutlined,
+  CarOutlined,
+  RollbackOutlined,
 } from "@ant-design/icons";
 
 import LoadingCard from "../components/ui/LoadingCards";
@@ -18,6 +20,7 @@ import {
 } from "../redux/actions/product";
 import { listCategories } from "../redux/actions/category";
 import { listSubs } from "../redux/actions/sub";
+import { handleSearchTextChange } from "../redux/actions/product";
 
 const { SubMenu } = Menu;
 const { Option } = Select;
@@ -41,6 +44,7 @@ const Shop = () => {
   const [subsByCategory, setSubsByCategory] = useState([]);
   const [selectedBrand, setSelectedBrand] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
+  const [shipping, setShipping] = useState(true);
 
   // List categories for checkboxes
   useEffect(() => {
@@ -48,6 +52,7 @@ const Shop = () => {
     dispatch(listSubs());
   }, [dispatch]);
 
+  // Changes sub cateogory options when selected category changes
   useEffect(() => {
     if (selectedCategories.length) {
       const selectedCateIds = selectedCategories.map(
@@ -57,8 +62,11 @@ const Shop = () => {
         subs.filter((sub) => selectedCateIds.includes(sub.parent))
       );
     }
-  }, [selectedCategories]);
+  }, [selectedCategories, categories, subs]);
 
+  // Whether display sub categories for a selected cateogry
+  // or all sub cateogries
+  // Re-run every render
   const subsToDisplay = selectedCategories.length ? subsByCategory : subs;
 
   // Filter product when filter change
@@ -73,6 +81,7 @@ const Shop = () => {
         subs: selectedSubs,
         brand: selectedBrand,
         color: selectedColor,
+        shipping,
       })
     );
   }, [
@@ -83,6 +92,7 @@ const Shop = () => {
     selectedSubs,
     selectedBrand,
     selectedColor,
+    shipping,
     dispatch,
   ]);
 
@@ -113,15 +123,34 @@ const Shop = () => {
     }
   };
 
+  // Reset search text and all filters
+  const handleReset = () => {
+    dispatch(handleSearchTextChange(""));
+    setPrice([0, 5000]);
+    setSelectedCategories([]);
+    setSelectedSubs([]);
+    setStars([0.5, 5]);
+    setSelectedBrand("");
+    setSelectedColor("");
+    setShipping(true);
+  };
+
   return (
     <div className="shop">
       <div className="shop__control">
-        <h1 className="shop__control__title">Search / Filter</h1>
+        <h1 className="shop__control__title">Filter Products</h1>
+
+        {/* Reset button */}
+        <div className="shop__control__reset">
+          <Button size="small" onClick={handleReset}>
+            Reset <RollbackOutlined />
+          </Button>
+        </div>
 
         {/* Price filter */}
         <Menu
           mode="inline"
-          defaultOpenKeys={["1", "2", "3", "4", "5", "6"]}
+          defaultOpenKeys={["1", "2", "3"]}
           className="shop__control__menu"
         >
           <SubMenu key="1" title="Price" icon={<DollarCircleOutlined />}>
@@ -235,12 +264,20 @@ const Shop = () => {
           </SubMenu>
 
           {/* Shipping filter */}
-          <SubMenu key="7" title="Color" icon={<CrownOutlined />}>
-            <div className="shop__control__menu__colors"></div>
+          <SubMenu key="7" title="Shipping" icon={<CarOutlined />}>
+            <div className="shop__control__menu__shipping">
+              <Checkbox checked={shipping} onChange={() => setShipping(true)}>
+                Shipping
+              </Checkbox>
+              <Checkbox checked={!shipping} onChange={() => setShipping(false)}>
+                Non-shipping
+              </Checkbox>
+            </div>
           </SubMenu>
         </Menu>
       </div>
 
+      {/* Product cards */}
       <div className="shop__products">
         {!filteredProductsLoading ? (
           filteredProducts.length ? (
