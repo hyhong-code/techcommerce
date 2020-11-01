@@ -66,23 +66,26 @@ const productSchema = new mongoose.Schema(
       type: String,
       enum: ["Apple", "Samsung", "Microsoft", "Lenovo", "ASUS"],
     },
-    ratings: [
-      {
-        star: {
-          type: Number,
-          required: true,
+    ratings: {
+      type: [
+        {
+          star: {
+            type: Number,
+            required: true,
+          },
+          postedBy: {
+            type: mongoose.Schema.ObjectId,
+            ref: "User",
+            required: true,
+          },
         },
-        postedBy: {
-          type: mongoose.Schema.ObjectId,
-          ref: "User",
-          required: true,
-        },
-      },
-    ],
-    avgStars: {
-      type: Number,
-      default: 0.5,
+      ],
+      default: [],
     },
+    // avgStars: {
+    //   type: Number,
+    //   default: 0.5,
+    // },
   },
   { timestamps: true }
 );
@@ -102,13 +105,15 @@ productSchema.pre(/^find/, function (next) {
 });
 
 // Modify the avgStars field whenver a new ratings gets added / modified
-productSchema.pre("save", function (next) {
-  if (this.isModified("ratings")) {
-    this.avgStars =
-      this.ratings.reduce((acc, rate) => acc + rate.star, 0) /
-      this.ratings.length;
-  }
-  next();
-});
+// productSchema.pre("save", function (next) {
+//   if (this.isNew || this.isModified("ratings")) {
+//     console.log("Modified");
+//     console.log(this);
+//     this.avgStars =
+//       this.ratings.reduce((acc, rate) => acc + rate.star, 0) /
+//       this.ratings.length;
+//   }
+//   next();
+// });
 
 module.exports = mongoose.model("Product", productSchema);

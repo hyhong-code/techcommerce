@@ -335,27 +335,35 @@ exports.filterProducts = async (req, res, next) => {
       filterObj.category = { $in: selectedCateogryIds };
     }
 
+    // Apply all filters except for stars
+    products = await Product.find(filterObj).sort({ createdAt: -1 });
+
     // Filter by stars
     if (stars) {
-      filterObj.avgStars = { $gte: stars[0], $lte: stars[1] };
+      // Aggregation Pipeline to find documents that fits the star range
+      const productsFilteredByStars = (
+        await Product.aggregate([
+          {
+            $project: {
+              document: "$$ROOT", // $$ROOT gets the whole document
+              // title:"$title",
+              // price:"$price"
+              avgStars: { $avg: "$ratings.star" },
+            },
+          },
+          { $match: { avgStars: { $gte: stars[0], $lte: stars[1] } } },
+        ])
+      ).map((product) => product.document);
 
-      // Aggregation Pipeline
-      // products = (
-      //   await Product.aggregate([
-      //     {
-      //       $project: {
-      //         document: "$$ROOT", // $$ROOT gets the whole document
-      //         // title:"$title",
-      //         // price:"$price"
-      //         avgStars: { $avg: "$ratings.star" },
-      //       },
-      //     },
-      //     { $match: { avgStars: { $gte: stars[0], $lte: stars[1] } } },
-      //   ])
-      // ).map((product) => product.document);
+      // Filter products by correct star ratings
+      products = products.filter((prod) =>
+        productsFilteredByStars.find(
+          (p) => p._id.toString() === prod._id.toString()
+        )
+      );
+
+      // filterObj.avgStars = { $gte: stars[0], $lte: stars[1] };
     }
-
-    products = await Product.find(filterObj).sort({ createdAt: -1 });
 
     return res.status(200).json({ products });
   } catch (error) {
