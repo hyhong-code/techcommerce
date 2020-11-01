@@ -68,6 +68,28 @@
       // subs filter
       &__sub-category {
         padding: 1rem;
+        max-height: 10rem;
+        overflow-y: scroll;
+        display: flex;
+        flex-direction: column;
+      }
+
+      // brands filter
+      &__brands {
+        padding: 1rem;
+
+        &__select {
+          width: 100%;
+        }
+      }
+
+      // colors filter
+      &__colors {
+        padding: 1rem;
+
+        &__select {
+          width: 100%;
+        }
       }
     }
   }

@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Menu, Slider, Checkbox, Rate } from "antd";
+import { Menu, Slider, Checkbox, Rate, Select } from "antd";
 import {
   DollarCircleOutlined,
   UnorderedListOutlined,
   StarOutlined,
   OrderedListOutlined,
+  AimOutlined,
+  CrownOutlined,
 } from "@ant-design/icons";
 
 import LoadingCard from "../components/ui/LoadingCards";
@@ -18,6 +20,10 @@ import { listCategories } from "../redux/actions/category";
 import { listSubs } from "../redux/actions/sub";
 
 const { SubMenu } = Menu;
+const { Option } = Select;
+
+const BRANDS = ["Apple", "Samsung", "Microsoft", "Lenovo", "ASUS"];
+const COLORS = ["Black", "Brown", "Silver", "White", "Blue"];
 
 const Shop = () => {
   const dispatch = useDispatch();
@@ -33,6 +39,8 @@ const Shop = () => {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedSubs, setSelectedSubs] = useState([]);
   const [subsByCategory, setSubsByCategory] = useState([]);
+  const [selectedBrand, setSelectedBrand] = useState("");
+  const [selectedColor, setSelectedColor] = useState("");
 
   // List categories for checkboxes
   useEffect(() => {
@@ -63,9 +71,20 @@ const Shop = () => {
         stars,
         categories: selectedCategories,
         subs: selectedSubs,
+        brand: selectedBrand,
+        color: selectedColor,
       })
     );
-  }, [searchText, price, selectedCategories, stars, selectedSubs, dispatch]);
+  }, [
+    searchText,
+    price,
+    selectedCategories,
+    stars,
+    selectedSubs,
+    selectedBrand,
+    selectedColor,
+    dispatch,
+  ]);
 
   // Clean up filtered products in redux state when moved away from shop page
   useEffect(() => {
@@ -102,7 +121,7 @@ const Shop = () => {
         {/* Price filter */}
         <Menu
           mode="inline"
-          defaultOpenKeys={["1", "2", "3", "4"]}
+          defaultOpenKeys={["1", "2", "3", "4", "5", "6"]}
           className="shop__control__menu"
         >
           <SubMenu key="1" title="Price" icon={<DollarCircleOutlined />}>
@@ -137,7 +156,7 @@ const Shop = () => {
 
           {/* Sub category filter */}
           <SubMenu
-            key="4"
+            key="3"
             title="Sub Categories"
             icon={<OrderedListOutlined />}
           >
@@ -157,7 +176,7 @@ const Shop = () => {
           </SubMenu>
 
           {/* Star ratings filter */}
-          <SubMenu key="3" title="Stars" icon={<StarOutlined />}>
+          <SubMenu key="4" title="Stars" icon={<StarOutlined />}>
             <div className="shop__control__menu__stars">
               <div className="shop__control__menu__stars--min">
                 <p>Minimium Stars</p>
@@ -177,6 +196,47 @@ const Shop = () => {
                 />
               </div>
             </div>
+          </SubMenu>
+
+          {/* Brand filter */}
+          <SubMenu key="5" title="Brand" icon={<AimOutlined />}>
+            <div className="shop__control__menu__brands">
+              <Select
+                value={selectedBrand || "Select a brand"} // Default value
+                onChange={(value) => setSelectedBrand(value)}
+                className="shop__control__menu__brands__select"
+                allowClear
+              >
+                {BRANDS.map((brand) => (
+                  <Option value={brand} key={brand}>
+                    {brand}
+                  </Option>
+                ))}
+              </Select>
+            </div>
+          </SubMenu>
+
+          {/* Color filter */}
+          <SubMenu key="6" title="Color" icon={<CrownOutlined />}>
+            <div className="shop__control__menu__colors">
+              <Select
+                value={selectedColor || "Select a color"} // Default value
+                onChange={(value) => setSelectedColor(value)}
+                className="shop__control__menu__colors__select"
+                allowClear
+              >
+                {COLORS.map((color) => (
+                  <Option value={color} key={color}>
+                    {color}
+                  </Option>
+                ))}
+              </Select>
+            </div>
+          </SubMenu>
+
+          {/* Shipping filter */}
+          <SubMenu key="7" title="Color" icon={<CrownOutlined />}>
+            <div className="shop__control__menu__colors"></div>
           </SubMenu>
         </Menu>
       </div>

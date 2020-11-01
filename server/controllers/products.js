@@ -310,7 +310,7 @@ exports.filterProducts = async (req, res, next) => {
   try {
     console.log("----->", req.body);
 
-    const { search, price, categories, stars, subs } = req.body;
+    const { search, price, categories, stars, subs, color, brand } = req.body;
 
     let filterObj = {};
 
@@ -341,6 +341,16 @@ exports.filterProducts = async (req, res, next) => {
         (sub) => sub._id
       );
       filterObj.subs = { $in: selectedSubIds };
+    }
+
+    // Filter by color
+    if (color) {
+      filterObj.color = color;
+    }
+
+    // Filter by brand
+    if (brand) {
+      filterObj.brand = brand;
     }
 
     // Apply all filters except for stars
