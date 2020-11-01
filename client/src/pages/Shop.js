@@ -32,12 +32,26 @@ const Shop = () => {
   const [stars, setStars] = useState([0.5, 5]);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedSubs, setSelectedSubs] = useState([]);
+  const [subsByCategory, setSubsByCategory] = useState([]);
 
   // List categories for checkboxes
   useEffect(() => {
     dispatch(listCategories());
     dispatch(listSubs());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (selectedCategories.length) {
+      const selectedCateIds = selectedCategories.map(
+        (cate) => categories.find((c) => c.slug === cate)._id
+      );
+      setSubsByCategory(
+        subs.filter((sub) => selectedCateIds.includes(sub.parent))
+      );
+    }
+  }, [selectedCategories]);
+
+  const subsToDisplay = selectedCategories.length ? subsByCategory : subs;
 
   // Filter product when filter change
   useEffect(() => {
@@ -128,7 +142,7 @@ const Shop = () => {
             icon={<OrderedListOutlined />}
           >
             <div className="shop__control__menu__sub-category">
-              {subs?.map((sub) => (
+              {subsToDisplay?.map((sub) => (
                 <Checkbox
                   checked={selectedSubs.includes(sub.slug)}
                   value={sub.slug}
