@@ -309,7 +309,7 @@ exports.listSimilarProducts = async (req, res, next) => {
 
 exports.filterProducts = async (req, res, next) => {
   try {
-    const { search, price } = req.body;
+    const { search, price, category } = req.body;
 
     let products;
     if (search) {
@@ -320,6 +320,15 @@ exports.filterProducts = async (req, res, next) => {
       products = await Product.find({
         price: { $gte: price[0], $lte: price[1] },
       }).sort({ createdAt: -1 });
+    } else if (category) {
+      // User filted by category slug
+      const category = await Category.findOne({ slug });
+      if (!category) {
+        return res.status(404).json({
+          errors: [{ msg: `Category with slug ${category} not found.` }],
+        });
+      }
+      products = await Product.find({ category: category._id });
     } else {
       // List all products when user land on shop page
       products = await Product.find().sort({ createdAt: -1 });

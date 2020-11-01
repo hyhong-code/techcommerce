@@ -19,8 +19,8 @@ const Shop = () => {
     ({ product }) => product
   );
 
-  //
-  const [price, setPrice] = useState([0, 10000]);
+  // State for price
+  const [price, setPrice] = useState([0, 5000]);
 
   useEffect(() => {
     // If there is search text, filter products base on it
@@ -59,7 +59,7 @@ const Shop = () => {
               <Slider
                 range
                 min={0}
-                max={10000}
+                max={5000}
                 value={price}
                 onChange={(v) => setPrice(v)}
                 tipFormatter={(v) => `$${v}`}
