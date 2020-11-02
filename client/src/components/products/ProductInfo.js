@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { Card, Tag, Modal, Rate, message } from "antd";
+import { Card, Tag, Modal, Rate, message, Tooltip } from "antd";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -10,6 +10,7 @@ import {
 } from "@ant-design/icons";
 import randomTagColor from "../../utils/randomTagColor";
 import { updateRating } from "../../redux/actions/product";
+import { addToCart } from "../../redux/actions/cart";
 
 const { Meta } = Card;
 
@@ -19,11 +20,13 @@ const getUserRating = (productRatings, user) =>
 const hasUserRatedBefore = (productRatings, user) =>
   !!productRatings.find((rating) => rating.postedBy === user._id);
 
+const isItemInCart = (cart, id) => Object.keys(cart).includes(id);
+
 const ProductInfo = ({ product }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
-  const { user } = useSelector(({ user }) => user);
+  const [{ user }, { cart }] = useSelector(({ user, cart }) => [user, cart]);
   const [productRating, setProductRating] = useState(0);
   const [modalShow, setModalShow] = useState(false);
 
@@ -48,10 +51,18 @@ const ProductInfo = ({ product }) => {
         <Card
           actions={[
             // Add to shopping cart
-            <Fragment key={1}>
-              <ShoppingCartOutlined className="product-info__card__actions--cart" />
-              <p>Add to cart</p>
-            </Fragment>,
+            <Tooltip
+              title={
+                isItemInCart(cart, product._id)
+                  ? "Added to cart"
+                  : "Add item to cart"
+              }
+            >
+              <div key={1} onClick={() => dispatch(addToCart(product))}>
+                <ShoppingCartOutlined className="product-info__card__actions--cart" />
+                <p>Add to cart</p>
+              </div>
+            </Tooltip>,
 
             // Add to wishlist
             <Fragment key={2}>

@@ -1,14 +1,21 @@
-import React, { Fragment } from "react";
-import { Card, Rate } from "antd";
+import React from "react";
+import { Card, Rate, Tooltip } from "antd";
 import { EyeOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import ImageFadeIn from "react-image-fade-in";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
+import { addToCart } from "../../redux/actions/cart";
 import getAverageProductRating from "../../utils/getAverageProductRating";
 
 const { Meta } = Card;
 
+const isItemInCart = (cart, id) => Object.keys(cart).includes(id);
+
 const ProductCard = ({ product }) => {
+  const dispatch = useDispatch();
+  const { cart } = useSelector(({ cart }) => cart);
+
   return (
     <Card
       className="product-card"
@@ -25,10 +32,18 @@ const ProductCard = ({ product }) => {
           <EyeOutlined className="product-card__eye-icon" />
           <p>Details</p>
         </Link>,
-        <Fragment key={2}>
-          <ShoppingCartOutlined className="product-card__cart-icon" />
-          <p>Add to cart</p>
-        </Fragment>,
+        <Tooltip
+          title={
+            isItemInCart(cart, product._id)
+              ? "Added to cart"
+              : "Add item to cart"
+          }
+        >
+          <div key={2} onClick={() => dispatch(addToCart(product))}>
+            <ShoppingCartOutlined className="product-card__cart-icon" />
+            <p>Add to cart</p>
+          </div>
+        </Tooltip>,
       ]}
     >
       <Meta

@@ -19,6 +19,7 @@ const _Search = () => {
   return (
     <div className="header-search-box">
       <Search
+        allowClear
         placeholder="Search products..."
         value={searchText}
         onChange={(evt) => dispatch(handleSearchTextChange(evt.target.value))}

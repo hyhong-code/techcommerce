@@ -150,7 +150,7 @@ const Shop = () => {
         {/* Price filter */}
         <Menu
           mode="inline"
-          defaultOpenKeys={["1", "2", "3"]}
+          defaultOpenKeys={["1", "2", "3", "4", "5", "6", "7"]}
           className="shop__control__menu"
         >
           <SubMenu key="1" title="Price" icon={<DollarCircleOutlined />}>
