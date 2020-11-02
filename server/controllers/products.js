@@ -187,7 +187,7 @@ exports.deleteProduct = async (req, res, next) => {
 
 exports.listProducts = async (req, res, next) => {
   try {
-    const limit = parseInt(req.query.limit) || 10;
+    const limit = parseInt(req.query.limit) || 25;
     const order = req.query.order && req.query.order === "asc" ? 1 : -1;
     const skip =
       req.query.skip && !isNaN(Number(req.query.skip))
@@ -367,7 +367,7 @@ exports.filterProducts = async (req, res, next) => {
     products = await Product.find(filterObj).sort({ createdAt: -1 });
 
     // Filter by stars
-    if (stars) {
+    if (stars && (stars[0] !== 0 || stars[1] !== 5)) {
       // Aggregation Pipeline to find documents that fits the star range
       const productsFilteredByStars = (
         await Product.aggregate([

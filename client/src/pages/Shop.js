@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Menu, Slider, Checkbox, Rate, Select, Button } from "antd";
+import { Menu, Slider, Checkbox, Rate, Select, Button, Radio } from "antd";
 import {
   DollarCircleOutlined,
   UnorderedListOutlined,
@@ -207,21 +207,43 @@ const Shop = () => {
           {/* Star ratings filter */}
           <SubMenu key="4" title="Stars" icon={<StarOutlined />}>
             <div className="shop__control__menu__stars">
+              {/* Max stars */}
               <div className="shop__control__menu__stars--min">
                 <p>Minimium Stars</p>
                 <Rate
                   allowHalf
                   value={stars[0]}
-                  onChange={(v) => setStars((prev) => [v, prev[1]])}
+                  onChange={(v) =>
+                    setStars((prev) => {
+                      if (v < 0.5) {
+                        return [0.5, prev[1]];
+                      } else if (v > 5) {
+                        return [5, prev[1]];
+                      } else {
+                        return [v, prev[1]];
+                      }
+                    })
+                  }
                 />
               </div>
 
+              {/* Min stars */}
               <div className="shop__control__menu__stars--max">
                 <p>Maximium Stars</p>
                 <Rate
                   allowHalf
                   value={stars[1]}
-                  onChange={(v) => setStars((prev) => [prev[0], v])}
+                  onChange={(v) =>
+                    setStars((prev) => {
+                      if (v < 0.5) {
+                        return [prev[0], 0.5];
+                      } else if (v > 5) {
+                        return [prev[0], 5];
+                      } else {
+                        return [prev[0], v];
+                      }
+                    })
+                  }
                 />
               </div>
             </div>
@@ -266,12 +288,13 @@ const Shop = () => {
           {/* Shipping filter */}
           <SubMenu key="7" title="Shipping" icon={<CarOutlined />}>
             <div className="shop__control__menu__shipping">
-              <Checkbox checked={shipping} onChange={() => setShipping(true)}>
-                Shipping
-              </Checkbox>
-              <Checkbox checked={!shipping} onChange={() => setShipping(false)}>
-                Non-shipping
-              </Checkbox>
+              <Radio.Group
+                onChange={() => setShipping((prev) => !prev)}
+                value={shipping}
+              >
+                <Radio value={true}>Shipping</Radio>
+                <Radio value={false}>Non-shipping</Radio>
+              </Radio.Group>
             </div>
           </SubMenu>
         </Menu>
