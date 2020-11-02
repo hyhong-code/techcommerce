@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
-import { Menu } from "antd";
+import { Menu, Badge } from "antd";
 import {
   AppstoreOutlined,
   SettingOutlined,
@@ -8,6 +8,7 @@ import {
   UserAddOutlined,
   LoginOutlined,
   ShopOutlined,
+  ShoppingCartOutlined,
 } from "@ant-design/icons";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -18,7 +19,7 @@ const { SubMenu, Item } = Menu;
 const Header = () => {
   const [current, setCurrent] = useState("home");
   const dispatch = useDispatch();
-  const user = useSelector(({ user: { user } }) => user);
+  const [{ user }, { cart }] = useSelector(({ user, cart }) => [user, cart]);
 
   return (
     <Menu
@@ -27,17 +28,24 @@ const Header = () => {
       mode="horizontal"
       className="header"
     >
-      {/* Brand */}
+      {/* Home page */}
       <Item key="home" icon={<AppstoreOutlined />}>
         <Link to="/">Home</Link>
       </Item>
 
+      {/* Shop page */}
       <Item key="shop" icon={<ShopOutlined />}>
         <Link to="/shop">Shop</Link>
       </Item>
 
-      {/* Search Input */}
+      {/* Cart page */}
+      <Item key="cart" icon={<ShoppingCartOutlined />}>
+        <Badge count={Object.keys(cart).length} offset={[10, 0]}>
+          <Link to="/cart">Cart</Link>
+        </Badge>
+      </Item>
 
+      {/* Search Input */}
       <div className="header__item--search">
         <Search />
       </div>
