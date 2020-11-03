@@ -15,6 +15,7 @@ import Category from "./pages/Category";
 import Sub from "./pages/Sub";
 import Shop from "./pages/Shop";
 import Cart from "./pages/Cart";
+import Checkout from "./pages/Checkout";
 import Drawer from "./components/ui/Drawer";
 import UserRoute from "./components/routes/UserRoute";
 import AdminRoute from "./components/routes/AdminRoute";
@@ -37,6 +38,7 @@ const App = () => {
         />
         <PublicRoute exact path="/forgot-password" component={ForgotPassword} />
         <UserRoute exact path="/user/:subroute" component={User} />
+        <UserRoute exact path="/checkout" component={Checkout} />
         <AdminRoute path="/admin/:subroute" component={Admin} />
         <Route exact path="/products/:slug" component={Product} />
         <Route exact path="/subs/:slug" component={Sub} />

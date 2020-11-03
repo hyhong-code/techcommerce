@@ -16,6 +16,7 @@ import {
   CloseOutlined,
 } from "@ant-design/icons";
 import { useHistory, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { changeQty, changeColor, removeProduct } from "../redux/actions/cart";
 
@@ -179,21 +180,17 @@ const Cart = () => {
         <Divider />
 
         {/* Checkout button */}
-        <Button
-          type="primary"
-          disabled={Object.keys(cart) <= 0}
-          onClick={
+        <Link
+          to={
             user
-              ? () => {} // TODO: checkout
-              : () =>
-                  history.push({
-                    pathname: "/login",
-                    state: { from: location.pathname },
-                  })
+              ? "/checkout"
+              : { pathname: "/login", state: { from: location.pathname } }
           }
         >
-          {user ? "Checkout" : "Log in to checkout"}
-        </Button>
+          <Button type="primary" disabled={Object.keys(cart) <= 0}>
+            {user ? "Checkout" : "Log in to checkout"}
+          </Button>
+        </Link>
       </Card>
     </div>
   );

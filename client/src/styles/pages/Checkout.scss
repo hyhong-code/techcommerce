@@ -1,0 +1,17 @@
+.checkout {
+  @include container;
+  @include page-padding-vert;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 1rem;
+
+  &__left {
+  }
+
+  &__right {
+    &__actions {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+}
