@@ -136,7 +136,11 @@ const Cart = () => {
   return (
     <div className="cart">
       {/* Title */}
-      <h1 className="cart__title">Your cart:</h1>
+      <h1 className="cart__title">
+        {Object.keys(cart).length
+          ? "Your cart:"
+          : "Your cart is empty, keep on shopping."}
+      </h1>
       <h2 className="cart__title">Order summary</h2>
 
       {/* Cart table */}
@@ -179,7 +183,7 @@ const Cart = () => {
           disabled={Object.keys(cart) <= 0}
           onClick={
             user
-              ? () => {}
+              ? () => {} // TODO: checkout
               : () =>
                   history.push({
                     pathname: "/login",
