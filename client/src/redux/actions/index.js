@@ -52,3 +52,6 @@ export const SEARCH_TEXT_CHANGED = "SEARCH_TEXT_CHANGED";
 
 // Cart
 export const ADDED_TO_CART = "ADDED_TO_CART";
+export const QTY_CHANGED = "QTY_CHANGED";
+export const COLOR_CHANGED = "COLOR_CHANGED";
+export const REMOVE_PRODUCT = "REMOVE_PRODUCT";

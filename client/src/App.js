@@ -14,6 +14,7 @@ import Admin from "./pages/admin/Admin";
 import Category from "./pages/Category";
 import Sub from "./pages/Sub";
 import Shop from "./pages/Shop";
+import Cart from "./pages/Cart";
 import UserRoute from "./components/routes/UserRoute";
 import AdminRoute from "./components/routes/AdminRoute";
 import PublicRoute from "./components/routes/PublicRoute";
@@ -39,6 +40,7 @@ const App = () => {
         <Route exact path="/subs/:slug" component={Sub} />
         <Route exact path="/categories/:slug" component={Category} />
         <Route exact path="/shop" component={Shop} />
+        <Route exact path="/cart" component={Cart} />
         <Route exact path="/" component={Home} />
       </Switch>
       <BackTop />
