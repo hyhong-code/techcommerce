@@ -3,15 +3,41 @@
     padding-top: 3rem;
   }
 
-  &__image {
-    margin-bottom: 0.5rem;
+  &__item {
+    position: relative;
+    margin-bottom: 1rem;
 
-    img {
-      display: block;
-      height: 150px;
-      width: 100%;
-      object-fit: 100%;
-      border-radius: 3px;
+    &__image {
+      img {
+        display: block;
+        height: 150px;
+        width: 100%;
+        object-fit: 100%;
+        border-radius: 3px;
+      }
+    }
+
+    &__action {
+      &--minus {
+        position: absolute;
+        bottom: 0;
+        right: 2.25rem;
+        color: $color-warning;
+      }
+
+      &--plus {
+        position: absolute;
+        bottom: 0;
+        right: 0.5rem;
+        color: $color-success;
+      }
+
+      &--delete {
+        position: absolute;
+        bottom: 0;
+        left: 0.5rem;
+        color: $color-danger;
+      }
     }
   }
 
