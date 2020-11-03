@@ -5,6 +5,7 @@ import ImageFadeIn from "react-image-fade-in";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
+import { openDrawer } from "../../redux/actions/drawer";
 import { addToCart } from "../../redux/actions/cart";
 import getAverageProductRating from "../../utils/getAverageProductRating";
 
@@ -39,7 +40,13 @@ const ProductCard = ({ product }) => {
               : "Add item to cart"
           }
         >
-          <div key={2} onClick={() => dispatch(addToCart(product))}>
+          <div
+            key={2}
+            onClick={() => {
+              dispatch(addToCart(product));
+              dispatch(openDrawer());
+            }}
+          >
             <ShoppingCartOutlined className="product-card__cart-icon" />
             <p>Add to cart</p>
           </div>

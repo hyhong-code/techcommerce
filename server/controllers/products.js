@@ -308,7 +308,7 @@ exports.listSimilarProducts = async (req, res, next) => {
 
 exports.filterProducts = async (req, res, next) => {
   try {
-    console.log("----->", req.body);
+    console.log("filterProducts ----->", req.body);
 
     const {
       search,

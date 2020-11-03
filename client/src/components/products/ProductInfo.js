@@ -2,12 +2,13 @@ import React, { Fragment, useState, useEffect } from "react";
 import { Card, Tag, Modal, Rate, message, Tooltip } from "antd";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-
 import {
   ShoppingCartOutlined,
   HeartOutlined,
   StarOutlined,
 } from "@ant-design/icons";
+
+import { openDrawer } from "../../redux/actions/drawer";
 import randomTagColor from "../../utils/randomTagColor";
 import { updateRating } from "../../redux/actions/product";
 import { addToCart } from "../../redux/actions/cart";
@@ -58,7 +59,13 @@ const ProductInfo = ({ product }) => {
                   : "Add item to cart"
               }
             >
-              <div key={1} onClick={() => dispatch(addToCart(product))}>
+              <div
+                key={1}
+                onClick={() => {
+                  dispatch(addToCart(product));
+                  dispatch(openDrawer());
+                }}
+              >
                 <ShoppingCartOutlined className="product-info__card__actions--cart" />
                 <p>Add to cart</p>
               </div>

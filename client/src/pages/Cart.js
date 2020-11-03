@@ -8,6 +8,7 @@ import {
   Popconfirm,
   Card,
   Divider,
+  Image,
 } from "antd";
 import {
   CheckCircleOutlined,
@@ -57,7 +58,7 @@ const Cart = () => {
       dataIndex: "image",
       key: "image",
       render: ({ image, alt }) => (
-        <img src={image.url} alt={alt} className="cart__table__image" />
+        <Image src={image.url} alt={alt} className="cart__table__image" />
       ),
     },
     {

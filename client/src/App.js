@@ -15,6 +15,7 @@ import Category from "./pages/Category";
 import Sub from "./pages/Sub";
 import Shop from "./pages/Shop";
 import Cart from "./pages/Cart";
+import Drawer from "./components/ui/Drawer";
 import UserRoute from "./components/routes/UserRoute";
 import AdminRoute from "./components/routes/AdminRoute";
 import PublicRoute from "./components/routes/PublicRoute";
@@ -25,6 +26,7 @@ const App = () => {
   return (
     <Fragment>
       <Header />
+      <Drawer />
       <Switch>
         <PublicRoute exact path="/login" component={Login} />
         <PublicRoute exact path="/register" component={Register} />
