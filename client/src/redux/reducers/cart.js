@@ -22,6 +22,7 @@ export default (state = INITIAL_STATE, action) => {
 
   let newCart;
   switch (type) {
+    // Add to cart
     case ADDED_TO_CART:
       newCart = {
         ...state,
@@ -37,6 +38,7 @@ export default (state = INITIAL_STATE, action) => {
       storeCartToLocalStorage(newCart.cart);
       return newCart;
 
+    // Change quantity
     case QTY_CHANGED:
       newCart = {
         ...state,
@@ -52,6 +54,7 @@ export default (state = INITIAL_STATE, action) => {
       storeCartToLocalStorage(newCart.cart);
       return newCart;
 
+    // Change color
     case COLOR_CHANGED:
       newCart = {
         ...state,
@@ -67,6 +70,7 @@ export default (state = INITIAL_STATE, action) => {
       storeCartToLocalStorage(newCart.cart);
       return newCart;
 
+    // Remove item from cart
     case REMOVE_PRODUCT:
       const { [payload]: removed, ...filteredCart } = state.cart;
       newCart = {

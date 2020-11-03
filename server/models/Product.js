@@ -107,8 +107,6 @@ productSchema.pre(/^find/, function (next) {
 // Modify the avgStars field whenver a new ratings gets added / modified
 // productSchema.pre("save", function (next) {
 //   if (this.isNew || this.isModified("ratings")) {
-//     console.log("Modified");
-//     console.log(this);
 //     this.avgStars =
 //       this.ratings.reduce((acc, rate) => acc + rate.star, 0) /
 //       this.ratings.length;

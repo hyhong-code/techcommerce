@@ -1,7 +1,15 @@
 .cart {
   @include page-padding-vert;
+  @include container;
   display: grid;
-  grid-template-columns: 3fr 1fr;
+  grid-template-columns: 2.5fr 1.25fr;
+  grid-gap: 1rem;
+
+  &__title {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: lighten(#000, 25);
+  }
 
   &__table {
     &__image {
@@ -23,6 +31,38 @@
       &--closed {
         color: $color-danger;
       }
+    }
+  }
+
+  &__checkout {
+    &__title {
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: lighten(#000, 25);
+    }
+
+    &__item {
+      margin-bottom: 0.25rem;
+      position: relative;
+
+      span {
+        font-weight: 500;
+      }
+
+      &::before {
+        content: ".";
+        font-size: 2rem;
+        position: absolute;
+        left: -0.65rem;
+        top: -1.45rem;
+      }
+    }
+
+    &__total {
+      text-align: right;
+      font-size: 1.15rem;
+      font-weight: 500;
+      color: $color-success;
     }
   }
 }

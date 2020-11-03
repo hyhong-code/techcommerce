@@ -40,9 +40,11 @@ const Header = () => {
 
       {/* Cart page */}
       <Item key="cart" icon={<ShoppingCartOutlined />}>
-        <Badge count={Object.keys(cart).length} offset={[10, 0]}>
-          <Link to="/cart">Cart</Link>
-        </Badge>
+        <Link to="/cart">
+          <Badge count={Object.keys(cart).length} offset={[10, 0]}>
+            Cart
+          </Badge>
+        </Link>
       </Item>
 
       {/* Search Input */}
