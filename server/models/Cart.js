@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const cartSchema = new mongoose.Schema(
   {
@@ -34,7 +34,6 @@ const cartSchema = new mongoose.Schema(
     },
     totalAfterDiscount: {
       type: Number,
-      required: true,
       validate: (v) => v >= 0,
     },
     userId: {
@@ -42,17 +41,10 @@ const cartSchema = new mongoose.Schema(
       ref: "User",
       required: true,
       unique: true,
+      index: true,
     },
   },
   { timestamps: true }
 );
-
-// Fill cart total before validation
-cartSchema.pre("validate", function (next) {
-  if (this.isNew || this.isModified("products")) {
-    this.cartTotal = this.products.map((p) => (p.price * p.count).toFixed(2));
-  }
-  next();
-});
 
 module.exports = mongoose.model("Cart", cartSchema);

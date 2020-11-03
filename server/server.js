@@ -10,6 +10,7 @@ const userRouter = require("./routes/user");
 const categoryRouter = require("./routes/categories");
 const subRouter = require("./routes/subs");
 const productRouter = require("./routes/product");
+const cartRouter = require("./routes/cart");
 
 const app = express();
 connectDB();
@@ -24,6 +25,7 @@ app.use("/api/v1/users", userRouter);
 app.use("/api/v1/categories", categoryRouter);
 app.use("/api/v1/subs", subRouter);
 app.use("/api/v1/products", productRouter);
+app.use("/api/v1/carts", cartRouter);
 
 const port = process.env.PORT || 8000;
 app.listen(port, () => console.log(`Server up on port ${port}...`));

@@ -9,6 +9,7 @@ import {
   Card,
   Divider,
   Image,
+  message,
 } from "antd";
 import {
   CheckCircleOutlined,
@@ -16,8 +17,8 @@ import {
   CloseOutlined,
 } from "@ant-design/icons";
 import { useHistory, useLocation } from "react-router-dom";
-import { Link } from "react-router-dom";
 
+import { saveCart } from "../redux/actions/cart";
 import { changeQty, changeColor, removeProduct } from "../redux/actions/cart";
 
 const { Option } = Select;
@@ -135,6 +136,23 @@ const Cart = () => {
     },
   ];
 
+  // Save cart to DB before directing user to checkout page
+  const handleCheckout = async () => {
+    try {
+      if (user) {
+        await dispatch(saveCart());
+        history.push("/checkout");
+      } else {
+        history.push({
+          pathname: "/login",
+          state: { from: location.pathname },
+        });
+      }
+    } catch (error) {
+      message.error(error.message, 6);
+    }
+  };
+
   return (
     <div className="cart">
       {/* Title */}
@@ -180,17 +198,13 @@ const Cart = () => {
         <Divider />
 
         {/* Checkout button */}
-        <Link
-          to={
-            user
-              ? "/checkout"
-              : { pathname: "/login", state: { from: location.pathname } }
-          }
+        <Button
+          type="primary"
+          disabled={Object.keys(cart) <= 0}
+          onClick={handleCheckout}
         >
-          <Button type="primary" disabled={Object.keys(cart) <= 0}>
-            {user ? "Checkout" : "Log in to checkout"}
-          </Button>
-        </Link>
+          {user ? "Checkout" : "Log in to checkout"}
+        </Button>
       </Card>
     </div>
   );
