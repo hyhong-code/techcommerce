@@ -3,6 +3,8 @@ import {
   COLOR_CHANGED,
   QTY_CHANGED,
   REMOVE_PRODUCT,
+  GET_CART,
+  CLEAR_CART_PRICE,
 } from "../actions";
 
 // Re-hydrate cart from local storage or init as empty object
@@ -11,6 +13,8 @@ const getInitialCart = () =>
 
 const INITIAL_STATE = {
   cart: getInitialCart(),
+  cartTotal: 0,
+  totalAfterDiscount: 0,
 };
 
 const storeCartToLocalStorage = (newCart) => {
@@ -79,6 +83,24 @@ export default (state = INITIAL_STATE, action) => {
       };
       storeCartToLocalStorage(newCart.cart);
       return newCart;
+
+    // Get cart from DB
+    case GET_CART:
+      storeCartToLocalStorage(payload.products);
+      return {
+        ...state,
+        cart: payload.products,
+        cartTotal: payload.cartTotal || 0,
+        totalAfterDiscount: payload.totalAfterDiscount || 0,
+      };
+
+    // Clear cart price
+    case CLEAR_CART_PRICE:
+      return {
+        ...state,
+        cartTotal: 0,
+        totalAfterDiscount: 0,
+      };
 
     default:
       return state;

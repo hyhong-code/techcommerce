@@ -1,7 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Input, Button, Divider } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+
+import { getCart, clearCartPrice } from "../redux/actions/cart";
 
 const Checkout = () => {
+  const dispatch = useDispatch();
+  const { cart, cartTotal, totalAfterDiscount } = useSelector(
+    ({ cart }) => cart
+  );
+
+  useEffect(() => {
+    dispatch(getCart());
+    return () => {
+      dispatch(clearCartPrice());
+    };
+  }, [dispatch]);
+
   return (
     <div className="checkout">
       {/* Left side */}

@@ -55,7 +55,8 @@ export const ADDED_TO_CART = "ADDED_TO_CART";
 export const QTY_CHANGED = "QTY_CHANGED";
 export const COLOR_CHANGED = "COLOR_CHANGED";
 export const REMOVE_PRODUCT = "REMOVE_PRODUCT";
-export const SAVE_CART = "SAVE_CART";
+export const GET_CART = "GET_CART";
+export const CLEAR_CART_PRICE = "CLEAR_CART_PRICE";
 
 // Drawer
 export const OPEN_DRAWER = "OPEN_DRAWER";

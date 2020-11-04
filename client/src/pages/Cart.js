@@ -10,6 +10,7 @@ import {
   Divider,
   Image,
   message,
+  Tooltip,
 } from "antd";
 import {
   CheckCircleOutlined,
@@ -198,13 +199,21 @@ const Cart = () => {
         <Divider />
 
         {/* Checkout button */}
-        <Button
-          type="primary"
-          disabled={Object.keys(cart) <= 0}
-          onClick={handleCheckout}
+        <Tooltip
+          title={
+            user && user.role !== "subscriber" && "Only user can checkout."
+          }
         >
-          {user ? "Checkout" : "Log in to checkout"}
-        </Button>
+          <Button
+            type="primary"
+            disabled={
+              Object.keys(cart) <= 0 || !user || user.role !== "subscriber"
+            }
+            onClick={handleCheckout}
+          >
+            {user ? "Checkout" : "Log in to checkout"}
+          </Button>
+        </Tooltip>
       </Card>
     </div>
   );

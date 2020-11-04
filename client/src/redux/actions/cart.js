@@ -2,9 +2,10 @@ import axios from "axios";
 import {
   ADDED_TO_CART,
   COLOR_CHANGED,
+  GET_CART,
   QTY_CHANGED,
   REMOVE_PRODUCT,
-  SAVE_CART,
+  CLEAR_CART_PRICE,
 } from "../actions";
 
 export const addToCart = (product) => async (dispatch, getState) => {
@@ -54,4 +55,24 @@ export const saveCart = () => async (dispatch, getState) => {
     console.error(`[❌ saveCart]`, error);
     throw error;
   }
+};
+
+export const getCart = () => async (dispatch) => {
+  try {
+    const res = await axios.get(`${process.env.REACT_APP_API}/carts`);
+    console.log(res.data);
+    dispatch({
+      type: GET_CART,
+      payload: res.data,
+    });
+  } catch (error) {
+    console.error(`[❌ getCart]`, error);
+    throw error;
+  }
+};
+
+export const clearCartPrice = () => (dispatch) => {
+  dispatch({
+    type: CLEAR_CART_PRICE,
+  });
 };

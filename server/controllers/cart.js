@@ -50,3 +50,38 @@ exports.upsertCart = async (req, res, next) => {
       .json({ errors: [{ msg: "Something went wrong, try again later." }] });
   }
 };
+
+exports.getCart = async (req, res, next) => {
+  try {
+    // Find user's cart
+    const cart = await Cart.findOne({
+      userId: req.user._id,
+    }).lean();
+
+    // Handle user has no cart
+    if (!cart) {
+      return res.status(404).json({ errors: [{ msg: "Cart not found." }] });
+    }
+
+    const { products, cartTotal, totalAfterDiscount } = cart;
+    res.status(200).json({
+      products: products
+        .map((p) => {
+          const { product, ...rest } = p;
+          const { _id, ...restWOId } = rest;
+          return { ...product, ...restWOId };
+        })
+        .reduce((acc, cur) => {
+          acc[cur._id] = cur;
+          return acc;
+        }, {}),
+      cartTotal,
+      totalAfterDiscount,
+    });
+  } catch (error) {
+    console.error("[❌ getCart ERROR]", error);
+    res
+      .status(500)
+      .json({ errors: [{ msg: "Something went wrong, try again later." }] });
+  }
+};
