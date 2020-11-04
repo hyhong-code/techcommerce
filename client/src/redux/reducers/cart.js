@@ -5,6 +5,7 @@ import {
   REMOVE_PRODUCT,
   GET_CART,
   CLEAR_CART_PRICE,
+  CLEAR_CART,
 } from "../actions";
 
 // Re-hydrate cart from local storage or init as empty object
@@ -98,6 +99,16 @@ export default (state = INITIAL_STATE, action) => {
     case CLEAR_CART_PRICE:
       return {
         ...state,
+        cartTotal: 0,
+        totalAfterDiscount: 0,
+      };
+
+    // Clear cart
+    case CLEAR_CART:
+      localStorage.removeItem("cart");
+      return {
+        ...state,
+        cart: getInitialCart(),
         cartTotal: 0,
         totalAfterDiscount: 0,
       };

@@ -3,12 +3,48 @@
   @include page-padding-vert;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-gap: 1rem;
+  grid-gap: 3rem;
 
   &__left {
   }
 
   &__right {
+    &__title {
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: lighten(#000, 25);
+    }
+
+    &__subtitle {
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+    }
+
+    &__product-item {
+      margin-bottom: 0.5rem;
+      position: relative;
+
+      span {
+        font-weight: 500;
+      }
+
+      &::before {
+        content: ".";
+        font-size: 2rem;
+        position: absolute;
+        left: -0.65rem;
+        top: -1.15rem;
+      }
+    }
+
+    &__cart-total {
+      text-align: right;
+      font-size: 1.15rem;
+      font-weight: 500;
+      color: $color-success;
+      margin-bottom: 1rem;
+    }
+
     &__actions {
       display: flex;
       justify-content: space-between;

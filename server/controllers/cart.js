@@ -63,6 +63,7 @@ exports.getCart = async (req, res, next) => {
       return res.status(404).json({ errors: [{ msg: "Cart not found." }] });
     }
 
+    // Formate products into an object
     const { products, cartTotal, totalAfterDiscount } = cart;
     res.status(200).json({
       products: products
@@ -80,6 +81,21 @@ exports.getCart = async (req, res, next) => {
     });
   } catch (error) {
     console.error("[❌ getCart ERROR]", error);
+    res
+      .status(500)
+      .json({ errors: [{ msg: "Something went wrong, try again later." }] });
+  }
+};
+
+exports.removeCart = async (req, res, next) => {
+  try {
+    await Cart.findOneAndDelete({ userId: req.user._id });
+    res.status(200).json({
+      success: true,
+      message: "Cart deleted.",
+    });
+  } catch (error) {
+    console.error("[❌ removeCart ERROR]", error);
     res
       .status(500)
       .json({ errors: [{ msg: "Something went wrong, try again later." }] });

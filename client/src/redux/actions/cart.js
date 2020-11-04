@@ -6,6 +6,7 @@ import {
   QTY_CHANGED,
   REMOVE_PRODUCT,
   CLEAR_CART_PRICE,
+  CLEAR_CART,
 } from "../actions";
 
 export const addToCart = (product) => async (dispatch, getState) => {
@@ -75,4 +76,16 @@ export const clearCartPrice = () => (dispatch) => {
   dispatch({
     type: CLEAR_CART_PRICE,
   });
+};
+
+export const clearCart = () => async (dispatch) => {
+  try {
+    await axios.delete(`${process.env.REACT_APP_API}/carts`);
+    dispatch({
+      type: CLEAR_CART,
+    });
+  } catch (error) {
+    console.error(`[❌ clearCart]`, error);
+    throw error;
+  }
 };
