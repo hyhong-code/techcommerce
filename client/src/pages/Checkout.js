@@ -24,6 +24,7 @@ const Checkout = () => {
     try {
       await dispatch(clearCart());
       history.push("/shop");
+      message.success("Cart is cleared, please continue shopping.", 6);
     } catch (error) {
       message.error(error.message, 6);
     }

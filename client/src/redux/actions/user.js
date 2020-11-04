@@ -170,3 +170,19 @@ export const checkIsAdmin = async () => {
     throw error;
   }
 };
+
+export const updateUserAddress = (address) => async (dispatch) => {
+  try {
+    const res = await axios.put(`${process.env.REACT_APP_API}/users`, {
+      address,
+    });
+    console.log(res.data);
+    dispatch({
+      type: UPDATE_ADDRESS,
+      payload: res.data.user,
+    });
+  } catch (error) {
+    console.error(`[❌ updateUserAddress]`, error);
+    throw error;
+  }
+};

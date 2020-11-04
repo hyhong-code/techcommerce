@@ -1,4 +1,4 @@
-import { USER_LOADED, USER_LOGGED_OUT } from "../actions";
+import { USER_LOADED, USER_LOGGED_OUT, UPDATE_ADDRESS } from "../actions";
 
 const INITIAL_STATE = {
   user: null,
@@ -13,6 +13,9 @@ export default (state = INITIAL_STATE, action) => {
 
     case USER_LOGGED_OUT:
       return { ...state, user: null, isInitializing: false };
+
+    case UPDATE_ADDRESS:
+      return { ...state, user: payload };
 
     default:
       return state;
