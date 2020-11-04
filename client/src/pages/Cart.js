@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   Table,
@@ -31,6 +31,7 @@ const Cart = () => {
   const history = useHistory();
   const location = useLocation();
   const [{ cart }, { user }] = useSelector(({ cart, user }) => [cart, user]);
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
 
   // Table data source
   const dataSource = Object.keys(cart).map((key) => ({
@@ -139,11 +140,14 @@ const Cart = () => {
 
   // Save cart to DB before directing user to checkout page
   const handleCheckout = async () => {
+    setCheckoutLoading(true);
     try {
       if (user) {
         await dispatch(saveCart());
+        setCheckoutLoading(false);
         history.push("/checkout");
       } else {
+        setCheckoutLoading(false);
         history.push({
           pathname: "/login",
           state: { from: location.pathname },
@@ -151,6 +155,7 @@ const Cart = () => {
       }
     } catch (error) {
       message.error(error.message, 6);
+      setCheckoutLoading(false);
     }
   };
 
@@ -205,6 +210,7 @@ const Cart = () => {
           }
         >
           <Button
+            loading={checkoutLoading}
             type="primary"
             disabled={
               Object.keys(cart) <= 0 || !user || user.role !== "subscriber"

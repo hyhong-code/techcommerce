@@ -61,7 +61,6 @@ export const saveCart = () => async (dispatch, getState) => {
 export const getCart = () => async (dispatch) => {
   try {
     const res = await axios.get(`${process.env.REACT_APP_API}/carts`);
-    console.log(res.data);
     dispatch({
       type: GET_CART,
       payload: res.data,

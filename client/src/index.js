@@ -5,6 +5,7 @@ import { Provider as ReduxProvider } from "react-redux";
 
 import App from "./App";
 import store from "./redux/store";
+import "react-quill/dist/quill.snow.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "./styles/App.scss";
 

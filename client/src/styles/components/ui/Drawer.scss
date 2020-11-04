@@ -1,18 +1,22 @@
 .drawer {
+  .ant-drawer-content-wrapper {
+    width: 20rem !important;
+  }
+
   .ant-drawer-body {
     padding-top: 3rem;
   }
 
   &__item {
     position: relative;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
 
     &__image {
       img {
         display: block;
         height: 150px;
         width: 100%;
-        object-fit: 100%;
+        object-fit: cover;
         border-radius: 3px;
       }
     }
@@ -20,21 +24,21 @@
     &__action {
       &--minus {
         position: absolute;
-        bottom: 0;
+        bottom: 0.5rem;
         right: 2.25rem;
         color: $color-warning;
       }
 
       &--plus {
         position: absolute;
-        bottom: 0;
+        bottom: 0.5rem;
         right: 0.5rem;
         color: $color-success;
       }
 
       &--delete {
         position: absolute;
-        bottom: 0;
+        bottom: 0.5rem;
         left: 0.5rem;
         color: $color-danger;
       }

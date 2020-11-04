@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import { auth, googleAuthProvider } from "../../services/firebase";
-import { USER_LOADED, USER_LOGGED_OUT } from "./index";
+import { USER_LOADED, USER_LOGGED_OUT, UPDATE_ADDRESS } from "./index";
 import setTokenHeader from "../../utils/setTokenHeader";
 
 /**
@@ -176,7 +176,6 @@ export const updateUserAddress = (address) => async (dispatch) => {
     const res = await axios.put(`${process.env.REACT_APP_API}/users`, {
       address,
     });
-    console.log(res.data);
     dispatch({
       type: UPDATE_ADDRESS,
       payload: res.data.user,
