@@ -14,30 +14,17 @@ import { changeQty, removeProduct } from "../../redux/actions/cart";
 
 const _Drawer = () => {
   const dispatch = useDispatch();
-  const [{ visible }, { cart }] = useSelector(({ drawer, cart }) => [
-    drawer,
-    cart,
-  ]);
+  const [{ visible }, { cart }] = useSelector(({ drawer, cart }) => [drawer, cart]);
 
   return (
-    <Drawer
-      visible={visible}
-      onClose={() => dispatch(closeDrawr())}
-      className="drawer"
-    >
+    <Drawer visible={visible} onClose={() => dispatch(closeDrawr())} className="drawer">
       {Object.values(cart).map((item) => (
         <div key={item._id} className="drawer__item">
           <Badge.Ribbon
-            text={`${item.title} * ${item.count} - $${(
-              item.price * item.count
-            ).toFixed(2)}`}
+            text={`${item.title} * ${item.count} - $${(item.price * item.count).toFixed(2)}`}
           >
             {/* Product images */}
-            <Image
-              src={item.images[0].url}
-              alt={item.title}
-              className="drawer__item__image"
-            />
+            <Image src={item.images[0].url} alt={item.title} className="drawer__item__image" />
           </Badge.Ribbon>
 
           {/* Minus button */}

@@ -1,5 +1,5 @@
-import React from "react";
 import { Route, Switch } from "react-router-dom";
+import React from "react";
 
 import SideNav from "../../components/admin/SideNav";
 import Categories from "../../components/admin/categories/Categories";

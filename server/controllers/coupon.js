@@ -5,7 +5,7 @@ exports.createCoupon = async (req, res, next) => {
     const { code, expiry } = req.body;
 
     // Handle coupon code already in use
-    let coupon = await Coupon.findOne({ code });
+    let coupon = await Coupon.findOne({ code: code.toUpperCase() });
     if (coupon) {
       return res.status(400).json({ errors: [{ msg: `Coupon code ${code} is already in use.` }] });
     }
@@ -29,7 +29,7 @@ exports.deleteCoupon = async (req, res, next) => {
     const { code } = req.params;
 
     // Handle coupon code not found
-    let coupon = await Coupon.findOne({ code });
+    const coupon = await Coupon.findOne({ code });
     if (!coupon) {
       return res.status(404).json({ errors: [{ msg: `Coupon code ${code} not found.` }] });
     }

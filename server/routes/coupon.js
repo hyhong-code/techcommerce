@@ -9,7 +9,7 @@ const { createCouponValidators } = require("../utils/validatiors/coupon");
 router.route("/:code").delete(auth, limitTo("admin"), deleteCoupon);
 router
   .route("/")
-  .post(auth, limitTo("admin"), createCouponValidators, validate, createCoupon)
-  .get(auth, limitTo("admin", listCoupons));
+  .get(auth, limitTo("admin"), listCoupons)
+  .post(auth, limitTo("admin"), createCouponValidators, validate, createCoupon);
 
 module.exports = router;

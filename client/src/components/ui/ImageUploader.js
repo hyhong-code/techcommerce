@@ -26,14 +26,12 @@ const ImageUploader = ({
     setPreview({
       previewVisible: true,
       previewImage: file.url || file.preview,
-      previewTitle:
-        file.name || file.url.substring(file.url.lastIndexOf("/") + 1),
+      previewTitle: file.name || file.url.substring(file.url.lastIndexOf("/") + 1),
     });
   };
 
   // Cancel Preview
-  const handleCancelPreview = () =>
-    setPreview((prev) => ({ ...prev, previewVisible: false }));
+  const handleCancelPreview = () => setPreview((prev) => ({ ...prev, previewVisible: false }));
 
   return (
     <div className={`image-uploader ${className || ""}`}>
@@ -58,11 +56,7 @@ const ImageUploader = ({
         footer={null}
         onCancel={handleCancelPreview}
       >
-        <img
-          alt={previewTitle}
-          src={previewImage}
-          className="image-uploader__preview-image"
-        />
+        <img alt={previewTitle} src={previewImage} className="image-uploader__preview-image" />
       </Modal>
     </div>
   );

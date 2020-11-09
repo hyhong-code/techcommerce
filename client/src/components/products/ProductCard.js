@@ -33,13 +33,7 @@ const ProductCard = ({ product }) => {
           <EyeOutlined className="product-card__eye-icon" />
           <p>Details</p>
         </Link>,
-        <Tooltip
-          title={
-            isItemInCart(cart, product._id)
-              ? "Added to cart"
-              : "Add item to cart"
-          }
-        >
+        <Tooltip title={isItemInCart(cart, product._id) ? "Added to cart" : "Add item to cart"}>
           <div
             key={2}
             onClick={() => {
@@ -53,19 +47,10 @@ const ProductCard = ({ product }) => {
         </Tooltip>,
       ]}
     >
-      <Meta
-        title={`${product.title} - $${product.price}`}
-        description={product.description}
-      />
+      <Meta title={`${product.title} - $${product.price}`} description={product.description} />
       <div className="product-card__ratings">
-        <Rate
-          allowHalf
-          disabled
-          value={getAverageProductRating(product.ratings)}
-        />
-        <span className="product-card__ratings__count">
-          ({product.ratings.length})
-        </span>
+        <Rate allowHalf disabled value={getAverageProductRating(product.ratings)} />
+        <span className="product-card__ratings__count">({product.ratings.length})</span>
       </div>
     </Card>
   );

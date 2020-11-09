@@ -1,21 +1,75 @@
 .coupons {
   width: 70%;
-  display: flex;
-  flex-direction: column;
 
-  &__title {
-    margin-bottom: 1rem;
+  &__form {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2rem;
+
+    &__title {
+      margin-bottom: 1rem;
+    }
+
+    &__code {
+      margin-bottom: 1rem;
+    }
+
+    &__discount {
+      margin-bottom: 1rem;
+    }
+
+    &__date {
+      margin-bottom: 1rem;
+    }
+
+    &__create-btn {
+      align-self: flex-start;
+    }
   }
 
-  &__code {
-    margin-bottom: 1rem;
+  &__lower {
+    &__title {
+      margin-bottom: 1rem;
+    }
   }
 
-  &__discount {
-    margin-bottom: 1rem;
-  }
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
 
-  &__date {
-    margin-bottom: 1rem;
+    &__item {
+      padding: 0.5rem 1rem;
+      border: 1px solid lighten(#000, 25);
+      position: relative;
+
+      &__code {
+        font-size: 1.25rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        color: lighten(#000, 25);
+        margin-bottom: 0.5rem;
+      }
+
+      &__discount {
+        color: $color-success;
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+      }
+
+      &__expiry {
+        font-size: 0.75rem;
+        color: lighten(#000, 50);
+      }
+
+      &:not(:last-child) {
+        margin-right: 1rem;
+      }
+
+      &__close-btn {
+        position: absolute;
+        right: 3px;
+        top: 3px;
+      }
+    }
   }
 }

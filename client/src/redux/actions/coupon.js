@@ -4,7 +4,7 @@ import { COUPON_CREATED, COUPON_DELETED, COUPON_LISTED } from "../actions";
 
 export const createCoupon = (formData) => async (dispatch) => {
   try {
-    const res = await axios.post(process.env.REACT_APP_API, formData);
+    const res = await axios.post(`${process.env.REACT_APP_API}/coupons`, formData);
 
     dispatch({
       type: COUPON_CREATED,
@@ -18,7 +18,7 @@ export const createCoupon = (formData) => async (dispatch) => {
 
 export const listCoupons = () => async (disaptch) => {
   try {
-    const res = await axios.get(process.env.REACT_APP_API);
+    const res = await axios.get(`${process.env.REACT_APP_API}/coupons`);
 
     disaptch({
       type: COUPON_LISTED,
@@ -32,11 +32,11 @@ export const listCoupons = () => async (disaptch) => {
 
 export const deleteCoupon = (code) => async (dispatch) => {
   try {
-    const res = await axios.delete(`${process.env.REACT_APP_API}/coupons/${code}`);
+    await axios.delete(`${process.env.REACT_APP_API}/coupons/${code}`);
 
     dispatch({
       type: COUPON_DELETED,
-      payload: res.data.coupon,
+      payload: code,
     });
   } catch (error) {
     console.error("[❌ deleteCoupon ERROR]", error);
