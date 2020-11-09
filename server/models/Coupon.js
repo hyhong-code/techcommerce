@@ -19,6 +19,10 @@ const couponSchema = new mongoose.Schema(
     discount: {
       type: Number,
       required: true,
+      validate: {
+        validator: (v) => Number(v) > 0,
+        message: "Discount must be a positive number.",
+      },
     },
   },
   { timestamps: true }

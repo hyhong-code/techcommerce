@@ -15,10 +15,7 @@ const Checkout = () => {
   const [clearCartLoading, setClearCartLoading] = useState(false);
   const [saveAddressLoading, setAddressLoading] = useState(false);
   const [addressConfirmed, setAddressConfirmed] = useState(false);
-  const [
-    { cart, cartTotal, totalAfterDiscount },
-    { user },
-  ] = useSelector(({ cart, user }) => [cart, user]);
+  const [{ cart, cartTotal }, { user }] = useSelector(({ cart, user }) => [cart, user]);
 
   // Fetach cart onload, clean up on leave
   useEffect(() => {
@@ -70,11 +67,7 @@ const Checkout = () => {
         <h2 className="checkout__left__address">Delivery Address</h2>
 
         {/* Address rich text editor */}
-        <ReactQuill
-          value={address}
-          onChange={setAddress}
-          placeholder="Please create an address."
-        />
+        <ReactQuill value={address} onChange={setAddress} placeholder="Please create an address." />
 
         <Button onClick={handleUpdateAddress} loading={saveAddressLoading}>
           Confirm address
@@ -84,10 +77,7 @@ const Checkout = () => {
 
         {/* Coupon */}
         <h2 className="checkout__left__coupon">Got Coupon?</h2>
-        <Input
-          placeholder="Enter coupon..."
-          className="checkout__left__coupon-input"
-        />
+        <Input placeholder="Enter coupon..." className="checkout__left__coupon-input" />
         <Button>Apply coupon</Button>
       </div>
 
@@ -114,11 +104,7 @@ const Checkout = () => {
 
         <div className="checkout__right__actions">
           {/* Clear cart */}
-          <Popconfirm
-            onConfirm={handleClearCart}
-            okText="Clear"
-            title="Clear shopping cart?"
-          >
+          <Popconfirm onConfirm={handleClearCart} okText="Clear" title="Clear shopping cart?">
             <Button icon={<ClearOutlined />} loading={clearCartLoading}>
               Empty Cart
             </Button>
@@ -126,11 +112,7 @@ const Checkout = () => {
 
           {/* Place order */}
           <Tooltip title={!addressConfirmed && "Please confirm your address."}>
-            <Button
-              type="primary"
-              icon={<DollarCircleOutlined />}
-              disabled={!addressConfirmed}
-            >
+            <Button type="primary" icon={<DollarCircleOutlined />} disabled={!addressConfirmed}>
               Place Order
             </Button>
           </Tooltip>

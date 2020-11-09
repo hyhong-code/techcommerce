@@ -6,6 +6,7 @@ import sub from "./sub";
 import product from "./product";
 import cart from "./cart";
 import drawer from "./drawer";
+import coupon from "./coupon";
 
 export default combineReducers({
   user,
@@ -14,4 +15,5 @@ export default combineReducers({
   product,
   cart,
   drawer,
+  coupon,
 });
