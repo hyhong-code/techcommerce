@@ -2,10 +2,9 @@ import axios from "axios";
 
 import { COUPON_CREATED, COUPON_DELETED, COUPON_LISTED } from "../actions";
 
-export const createCoupon = (code, discount) => async (dispatch) => {
+export const createCoupon = (formData) => async (dispatch) => {
   try {
-    const expiry = Date.now();
-    const res = await axios.post(process.env.REACT_APP_API, { code, expiry, discount });
+    const res = await axios.post(process.env.REACT_APP_API, formData);
 
     dispatch({
       type: COUPON_CREATED,

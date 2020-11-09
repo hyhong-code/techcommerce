@@ -1,0 +1,21 @@
+.coupons {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+
+  &__title {
+    margin-bottom: 1rem;
+  }
+
+  &__code {
+    margin-bottom: 1rem;
+  }
+
+  &__discount {
+    margin-bottom: 1rem;
+  }
+
+  &__date {
+    margin-bottom: 1rem;
+  }
+}
