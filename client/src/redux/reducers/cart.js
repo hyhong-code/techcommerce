@@ -6,6 +6,7 @@ import {
   GET_CART,
   CLEAR_CART_PRICE,
   CLEAR_CART,
+  APPLY_COUPON,
 } from "../actions";
 
 // Re-hydrate cart from local storage or init as empty object
@@ -87,6 +88,8 @@ export default (state = INITIAL_STATE, action) => {
 
     // Get cart from DB
     case GET_CART:
+    // Get cart after applying coupon
+    case APPLY_COUPON:
       storeCartToLocalStorage(payload.products);
       return {
         ...state,

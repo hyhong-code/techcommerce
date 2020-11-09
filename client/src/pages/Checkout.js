@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Input, Button, Divider, message, Tooltip, Popconfirm } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { DollarCircleOutlined, ClearOutlined } from "@ant-design/icons";
 import { useHistory } from "react-router-dom";
+import formatErrorMsg from "../utils/formatErrorMsg";
 import ReactQuill from "react-quill";
 
 import { updateUserAddress } from "../redux/actions/user";
-import { getCart, clearCartPrice, clearCart } from "../redux/actions/cart";
+import { getCart, clearCartPrice, clearCart, applyCoupon } from "../redux/actions/cart";
 
 const Checkout = () => {
   const dispatch = useDispatch();
@@ -15,7 +16,12 @@ const Checkout = () => {
   const [clearCartLoading, setClearCartLoading] = useState(false);
   const [saveAddressLoading, setAddressLoading] = useState(false);
   const [addressConfirmed, setAddressConfirmed] = useState(false);
-  const [{ cart, cartTotal }, { user }] = useSelector(({ cart, user }) => [cart, user]);
+  const [{ cart, cartTotal, totalAfterDiscount }, { user }] = useSelector(({ cart, user }) => [
+    cart,
+    user,
+  ]);
+  const [couponCode, setCouponCode] = useState("");
+  const [applyCouponLoading, setApplyCouponLoading] = useState(false);
 
   // Fetach cart onload, clean up on leave
   useEffect(() => {
@@ -24,6 +30,8 @@ const Checkout = () => {
       dispatch(clearCartPrice());
     };
   }, [dispatch]);
+
+  console.log(totalAfterDiscount);
 
   // Pre-fill user's address
   useEffect(() => {
@@ -59,6 +67,27 @@ const Checkout = () => {
     setAddressLoading(false);
   };
 
+  // Apply coupon
+  const handleApplyCoupon = async (evt) => {
+    evt.preventDefault();
+
+    // Handle no coupon code
+    if (!couponCode) {
+      return message.error("No coupon code entered", 6);
+    }
+
+    setApplyCouponLoading(true);
+    try {
+      await dispatch(applyCoupon(couponCode));
+      message.success(`Coupon ${couponCode} has been applied.`);
+    } catch (error) {
+      message.error(formatErrorMsg(error), 6);
+    }
+    setApplyCouponLoading(false);
+  };
+
+  const isCouponApplied = () => Number(totalAfterDiscount) < Number(cartTotal);
+
   return (
     <div className="checkout">
       {/* Left side */}
@@ -77,8 +106,22 @@ const Checkout = () => {
 
         {/* Coupon */}
         <h2 className="checkout__left__coupon">Got Coupon?</h2>
-        <Input placeholder="Enter coupon..." className="checkout__left__coupon-input" />
-        <Button>Apply coupon</Button>
+        <form onSubmit={handleApplyCoupon}>
+          <Input
+            placeholder="Enter coupon..."
+            value={couponCode}
+            disabled={applyCouponLoading || isCouponApplied()}
+            onChange={(evt) => setCouponCode(evt.target.value)}
+            className="checkout__left__coupon-input"
+          />
+          <Button
+            htmlType="submit"
+            disabled={!couponCode || isCouponApplied()}
+            loading={applyCouponLoading}
+          >
+            Apply coupon
+          </Button>
+        </form>
       </div>
 
       {/* Right side */}
@@ -99,8 +142,16 @@ const Checkout = () => {
 
         <Divider />
 
+        {/* Total */}
         <p className="checkout__right__subtitle">Total:</p>
-        <p className="checkout__right__cart-total">${cartTotal}</p>
+        {isCouponApplied() && (
+          <Fragment>
+            {/* Discount */}
+            <p className="checkout__right__cart-total">${cartTotal}</p>
+            <p className="checkout__right__subtitle">Total after discount:</p>
+          </Fragment>
+        )}
+        <p className="checkout__right__cart-total--alt">${totalAfterDiscount}</p>
 
         <div className="checkout__right__actions">
           {/* Clear cart */}

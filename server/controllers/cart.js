@@ -2,6 +2,18 @@ const Cart = require("../models/Cart");
 const Product = require("../models/Product");
 const Coupon = require("../models/Coupon");
 
+const transformProducts = (products) =>
+  products
+    .map((p) => {
+      const { product, ...rest } = p;
+      const { _id, ...restWOId } = rest;
+      return { ...product, ...restWOId };
+    })
+    .reduce((acc, cur) => {
+      acc[cur._id] = cur;
+      return acc;
+    }, {});
+
 exports.upsertCart = async (req, res, next) => {
   try {
     const { cart } = req.body;
@@ -27,12 +39,14 @@ exports.upsertCart = async (req, res, next) => {
     }));
 
     // Create new cart or update cart
+    const total = products.reduce((acc, cur) => acc + cur.price * cur.count, 0).toFixed(2);
     upsertedCart = await Cart.findOneAndUpdate(
       { userId: req.user._id },
       {
         products,
         userId: req.user._id,
-        cartTotal: products.reduce((acc, cur) => acc + cur.price * cur.count, 0).toFixed(2),
+        cartTotal: total,
+        totalAfterDiscount: total,
       },
       { upsert: true, runValidators: true, new: true }
     );
@@ -59,16 +73,7 @@ exports.getCart = async (req, res, next) => {
     // Formate products into an object
     const { products, cartTotal, totalAfterDiscount } = cart;
     res.status(200).json({
-      products: products
-        .map((p) => {
-          const { product, ...rest } = p;
-          const { _id, ...restWOId } = rest;
-          return { ...product, ...restWOId };
-        })
-        .reduce((acc, cur) => {
-          acc[cur._id] = cur;
-          return acc;
-        }, {}),
+      products: transformProducts(products),
       cartTotal,
       totalAfterDiscount,
     });
@@ -113,10 +118,19 @@ exports.applyCoupon = async (req, res, next) => {
     }
 
     // Apply coupon
-    cart.cartTotal -= Number(coupon.discount);
+    cart.totalAfterDiscount = cart.cartTotal - Number(coupon.discount);
     cart = await cart.save({ validateBeforeSave: true });
 
-    res.status(200).json({ cart });
+    // Formate products into an object
+    const { products, cartTotal, totalAfterDiscount } = cart.toObject();
+
+    console.log(cart);
+
+    res.status(200).json({
+      products: transformProducts(products),
+      cartTotal,
+      totalAfterDiscount,
+    });
   } catch (error) {
     console.error("[❌ applyDiscount ERROR]", error);
     res.status(500).json({ errors: [{ msg: "Something went wrong, try again later." }] });

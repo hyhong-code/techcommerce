@@ -7,6 +7,7 @@ import {
   REMOVE_PRODUCT,
   CLEAR_CART_PRICE,
   CLEAR_CART,
+  APPLY_COUPON,
 } from "../actions";
 
 export const addToCart = (product) => async (dispatch, getState) => {
@@ -85,6 +86,22 @@ export const clearCart = () => async (dispatch) => {
     });
   } catch (error) {
     console.error(`[❌ clearCart]`, error);
+    throw error;
+  }
+};
+
+export const applyCoupon = (couponCode) => async (dispatch) => {
+  try {
+    const res = await axios.put(`${process.env.REACT_APP_API}/carts/coupon`, { couponCode });
+
+    console.log(res.data);
+
+    dispatch({
+      type: APPLY_COUPON,
+      payload: res.data,
+    });
+  } catch (error) {
+    console.error(`[❌ applyCoupon]`, error);
     throw error;
   }
 };
