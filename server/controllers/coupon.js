@@ -45,7 +45,7 @@ exports.deleteCoupon = async (req, res, next) => {
 
 exports.listCoupons = async (req, res, next) => {
   try {
-    const coupons = await Coupon.find({});
+    const coupons = await Coupon.find({}).sort({ expiry: 1 });
     return res.status(200).json({ coupons });
   } catch (error) {
     console.error("[❌ listCoupons ERROR]", error);

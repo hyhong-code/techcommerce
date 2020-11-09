@@ -37,9 +37,7 @@ exports.createProduct = async (req, res, next) => {
     }
 
     // Upload Images
-    const uploadPromises = uploadedImages.map((image) =>
-      s3UploadImage(image, "products")
-    );
+    const uploadPromises = uploadedImages.map((image) => s3UploadImage(image, "products"));
     const images = (await Promise.all(uploadPromises)).map((image) => ({
       key: image.Key,
       url: image.Location,
@@ -58,9 +56,7 @@ exports.createProduct = async (req, res, next) => {
     res.status(201).json({ product });
   } catch (error) {
     console.error("[❌ createProduct ERROR]", error);
-    res
-      .status(500)
-      .json({ errors: [{ msg: "Something went wrong, try again later." }] });
+    res.status(500).json({ errors: [{ msg: "Something went wrong, try again later." }] });
   }
 };
 
@@ -71,29 +67,20 @@ exports.getProduct = async (req, res, next) => {
     // Handle product not found
     let product = await Product.findOne({ slug });
     if (!product) {
-      return res
-        .status(404)
-        .json({ errors: [{ msg: `Product with slug ${slug} not found.` }] });
+      return res.status(404).json({ errors: [{ msg: `Product with slug ${slug} not found.` }] });
     }
 
     res.status(200).json({ product });
   } catch (error) {
     console.error("[❌ getProduct ERROR]", error);
-    res
-      .status(500)
-      .json({ errors: [{ msg: "Something went wrong, try again later." }] });
+    res.status(500).json({ errors: [{ msg: "Something went wrong, try again later." }] });
   }
 };
 
 exports.updateProduct = async (req, res, next) => {
   try {
     const { slug } = req.params;
-    const {
-      category: selectedCategory,
-      subs: selectedSubs,
-      newImages,
-      existingImages,
-    } = req.body;
+    const { category: selectedCategory, subs: selectedSubs, newImages, existingImages } = req.body;
 
     // Handle product not found
     let product = await Product.findOne({ slug });
@@ -123,18 +110,15 @@ exports.updateProduct = async (req, res, next) => {
     const deletedImages = product.images.filter(
       (img) => !existingImages.map((i) => i.key).includes(img.key)
     );
-    const deleteImagePromises = deletedImages.map((img) =>
-      s3DeleteImage(img.key)
-    );
+    const deleteImagePromises = deletedImages.map((img) => s3DeleteImage(img.key));
     await Promise.all(deleteImagePromises);
 
     // Upload new images
-    const uploadImagePromises = newImages.map((img) =>
-      s3UploadImage(img, "products")
-    );
-    const imagesToStore = (
-      await Promise.all(uploadImagePromises)
-    ).map((img) => ({ url: img.Location, key: img.Key }));
+    const uploadImagePromises = newImages.map((img) => s3UploadImage(img, "products"));
+    const imagesToStore = (await Promise.all(uploadImagePromises)).map((img) => ({
+      url: img.Location,
+      key: img.Key,
+    }));
 
     // Update product
     Object.entries({
@@ -149,9 +133,7 @@ exports.updateProduct = async (req, res, next) => {
     res.status(200).json({ product });
   } catch (error) {
     console.error("[❌ updateProduct ERROR]", error);
-    res
-      .status(500)
-      .json({ errors: [{ msg: "Something went wrong, try again later." }] });
+    res.status(500).json({ errors: [{ msg: "Something went wrong, try again later." }] });
   }
 };
 
@@ -162,15 +144,11 @@ exports.deleteProduct = async (req, res, next) => {
     // Handle product not found
     let product = await Product.findOne({ slug });
     if (!product) {
-      return res
-        .status(404)
-        .json({ errors: [{ msg: `Product with slug ${slug} not found.` }] });
+      return res.status(404).json({ errors: [{ msg: `Product with slug ${slug} not found.` }] });
     }
 
     // Delete images from S3
-    const deleteImagePromises = product.images.map((image) =>
-      s3DeleteImage(image.key)
-    );
+    const deleteImagePromises = product.images.map((image) => s3DeleteImage(image.key));
     await Promise.all(deleteImagePromises);
 
     // Delete product from DB
@@ -179,9 +157,7 @@ exports.deleteProduct = async (req, res, next) => {
     res.status(200).json({ msg: `${product.title} is successfully deleted.` });
   } catch (error) {
     console.error("[❌ deleteProduct ERROR]", error);
-    res
-      .status(500)
-      .json({ errors: [{ msg: "Something went wrong, try again later." }] });
+    res.status(500).json({ errors: [{ msg: "Something went wrong, try again later." }] });
   }
 };
 
@@ -189,10 +165,7 @@ exports.listProducts = async (req, res, next) => {
   try {
     const limit = parseInt(req.query.limit) || 25;
     const order = req.query.order && req.query.order === "asc" ? 1 : -1;
-    const skip =
-      req.query.skip && !isNaN(Number(req.query.skip))
-        ? Number(req.query.skip)
-        : 0;
+    const skip = req.query.skip && !isNaN(Number(req.query.skip)) ? Number(req.query.skip) : 0;
 
     const sort = {};
     switch (req.query.type) {
@@ -216,17 +189,12 @@ exports.listProducts = async (req, res, next) => {
       filterObj.subs = sub._id;
     }
 
-    const products = await Product.find(filterObj)
-      .skip(skip)
-      .limit(limit)
-      .sort(sort);
+    const products = await Product.find(filterObj).skip(skip).limit(limit).sort(sort);
     const count = await Product.countDocuments();
     res.status(200).json({ products, count });
   } catch (error) {
     console.error("[❌ listProducts ERROR]", error);
-    res
-      .status(500)
-      .json({ errors: [{ msg: "Something went wrong, try again later." }] });
+    res.status(500).json({ errors: [{ msg: "Something went wrong, try again later." }] });
   }
 };
 
@@ -238,15 +206,11 @@ exports.updateRating = async (req, res, next) => {
     // Handle product not found
     let product = await Product.findOne({ slug });
     if (!product) {
-      return res
-        .status(404)
-        .json({ errors: [{ msg: `Product with slug ${slug} not found.` }] });
+      return res.status(404).json({ errors: [{ msg: `Product with slug ${slug} not found.` }] });
     }
 
     // Check if user already left a rating
-    const rating = product.ratings.find(
-      (r) => r.postedBy.toString() === req.user._id.toString()
-    );
+    const rating = product.ratings.find((r) => r.postedBy.toString() === req.user._id.toString());
 
     if (rating) {
       // Update user's rating
@@ -271,9 +235,7 @@ exports.updateRating = async (req, res, next) => {
     res.status(200).json({ product });
   } catch (error) {
     console.error("[❌ updateRating ERROR]", error);
-    res
-      .status(500)
-      .json({ errors: [{ msg: "Something went wrong, try again later." }] });
+    res.status(500).json({ errors: [{ msg: "Something went wrong, try again later." }] });
   }
 };
 
@@ -284,9 +246,7 @@ exports.listSimilarProducts = async (req, res, next) => {
     // Handle product not exits
     const product = await Product.findOne({ slug });
     if (!product) {
-      return res
-        .status(404)
-        .json({ errors: [{ msg: `Product with slug ${slug} not found.` }] });
+      return res.status(404).json({ errors: [{ msg: `Product with slug ${slug} not found.` }] });
     }
 
     // Find similar products
@@ -300,9 +260,7 @@ exports.listSimilarProducts = async (req, res, next) => {
     res.status(200).json({ products });
   } catch (error) {
     console.error("[❌ listSimilarProducts ERROR]", error);
-    res
-      .status(500)
-      .json({ errors: [{ msg: "Something went wrong, try again later." }] });
+    res.status(500).json({ errors: [{ msg: "Something went wrong, try again later." }] });
   }
 };
 
@@ -310,16 +268,7 @@ exports.filterProducts = async (req, res, next) => {
   try {
     console.log("filterProducts ----->", req.body);
 
-    const {
-      search,
-      price,
-      categories,
-      stars,
-      subs,
-      color,
-      brand,
-      shipping,
-    } = req.body;
+    const { search, price, categories, stars, subs, color, brand, shipping } = req.body;
 
     let filterObj = {};
 
@@ -344,9 +293,7 @@ exports.filterProducts = async (req, res, next) => {
 
     // Filter by subs
     if (subs && subs.length) {
-      const selectedSubIds = (await Sub.find({ slug: { $in: subs } })).map(
-        (sub) => sub._id
-      );
+      const selectedSubIds = (await Sub.find({ slug: { $in: subs } })).map((sub) => sub._id);
       filterObj.subs = { $in: selectedSubIds };
     }
 
@@ -385,9 +332,7 @@ exports.filterProducts = async (req, res, next) => {
 
       // Filter products by correct star ratings
       products = products.filter((prod) =>
-        productsFilteredByStars.find(
-          (p) => p._id.toString() === prod._id.toString()
-        )
+        productsFilteredByStars.find((p) => p._id.toString() === prod._id.toString())
       );
 
       // filterObj.avgStars = { $gte: stars[0], $lte: stars[1] };
@@ -396,8 +341,6 @@ exports.filterProducts = async (req, res, next) => {
     return res.status(200).json({ products });
   } catch (error) {
     console.error("[❌ filterProducts ERROR]", error);
-    res
-      .status(500)
-      .json({ errors: [{ msg: "Something went wrong, try again later." }] });
+    res.status(500).json({ errors: [{ msg: "Something went wrong, try again later." }] });
   }
 };

@@ -3,6 +3,7 @@ import { Input, DatePicker, Typography, Button, message, Popconfirm } from "antd
 import { useDispatch, useSelector } from "react-redux";
 import { CloseOutlined } from "@ant-design/icons";
 import moment from "moment";
+import clsx from "clsx";
 
 import { createCoupon, deleteCoupon, listCoupons } from "../../../redux/actions/coupon";
 import formatErrorMsg from "../../../utils/formatErrorMsg";
@@ -23,7 +24,7 @@ const Coupons = () => {
 
   useEffect(() => {
     dispatch(listCoupons());
-  }, []);
+  }, [dispatch]);
 
   const handleCodeChange = (evt) => {
     setFormData((prev) => ({ ...prev, code: evt.target.value }));
@@ -48,8 +49,6 @@ const Coupons = () => {
       if (!code && discount && expiry) {
         return message.error("All fields are required.", 6);
       }
-
-      console.log(expiry.unix(), Date.now());
 
       // Handle invalid date.
       if (expiry.unix() < Math.round(Date.now() / 1000)) {
@@ -139,7 +138,11 @@ const Coupons = () => {
             <div key={coupon._id} className="coupons__list__item">
               <div className="coupons__list__item__code">{coupon.code}</div>
               <div className="coupons__list__item__discount">${coupon.discount}</div>
-              <div className="coupons__list__item__expiry">
+              <div
+                className={clsx("coupons__list__item__expiry", {
+                  "coupons__list__item__expiry--expired": Date.parse(coupon.expiry) < Date.now(),
+                })}
+              >
                 {moment(coupon.expiry).format("LLL")}
               </div>
 

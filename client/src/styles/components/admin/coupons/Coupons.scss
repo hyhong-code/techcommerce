@@ -59,6 +59,10 @@
       &__expiry {
         font-size: 0.75rem;
         color: lighten(#000, 50);
+
+        &--expired {
+          color: $color-danger;
+        }
       }
 
       &:not(:last-child) {
