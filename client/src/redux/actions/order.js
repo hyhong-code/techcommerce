@@ -14,6 +14,7 @@ export const createOrder = (paymentIntent) => async (dispatch) => {
       payload: res.data.order,
     });
 
+    // Empty user's cart from DB and localStorage
     await dispatch(clearCart());
   } catch (error) {
     console.error(`[❌ createOrder]`, error);

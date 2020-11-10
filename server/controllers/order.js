@@ -1,5 +1,6 @@
 const Order = require("../models/Order");
 const Cart = require("../models/Cart");
+const Product = require("../models/Product");
 
 exports.createOrder = async (req, res, next) => {
   try {
@@ -13,16 +14,36 @@ exports.createOrder = async (req, res, next) => {
         .json({ errors: [{ msg: "User's cart not found." }] });
     }
 
-    console.log("cart --->", cart);
-
     // Create order
-    const order = await Order.create({
+    let order = await Order.create({
       products: cart.products, // Copy items in cart to order
       paymentIntent,
       orderedBy: req.user._id,
     });
 
-    console.log("order --->", order);
+    // Populte product info
+    order = await order
+      .populate({
+        path: "products.product",
+        select: "-color -__v",
+      })
+      .execPopulate();
+
+    // Decrement quantity, increment sold
+    const bulkWriteOps = cart.products.map((item) => ({
+      updateOne: {
+        filter: {
+          _id: item.product._id,
+        },
+        update: {
+          $inc: { quantity: -item.count, sold: +item.count },
+        },
+      },
+    }));
+
+    // MongoDB bulkwrite
+    const updates = await Product.bulkWrite(bulkWriteOps);
+    console.log("bulkwrite results --->", updates);
 
     res.status(201).json({ order });
   } catch (error) {

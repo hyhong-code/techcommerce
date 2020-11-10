@@ -11,7 +11,6 @@ import { Link, useHistory } from "react-router-dom";
 import { message, Row, Col, Statistic, Alert } from "antd";
 import { DollarCircleOutlined, CheckCircleOutlined } from "@ant-design/icons";
 
-import { clearCart } from "../redux/actions/cart";
 import { createPaymentIntent, paymentComplete } from "../redux/actions/stripe";
 import { createOrder } from "../redux/actions/order";
 

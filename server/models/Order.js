@@ -55,7 +55,7 @@ orderSchema.pre(/^find/, function (next) {
     path: "products.product",
     select: "-color -_v",
   });
-  next;
+  next();
 });
 
 module.exports = mongoose.model("Order", orderSchema);
