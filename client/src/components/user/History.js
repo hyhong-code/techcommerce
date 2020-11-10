@@ -3,7 +3,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { Typography, Collapse, Tag, List } from "antd";
 import moment from "moment";
 import { Carousel } from "react-responsive-carousel";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 
+import Receipt from "./Receipt";
 import { listUserOrders } from "../../redux/actions/order";
 
 const { Title } = Typography;
@@ -18,6 +20,14 @@ const tagStyles = {
   color: "#eee",
   padding: "2px 8px",
   fontSize: "0.8rem",
+};
+
+const downloadLinkStyles = {
+  margin: "1rem 0 0",
+  display: "inline-block",
+  padding: "6px 10px",
+  borderRadius: "5px",
+  border: "1px solid #1890ff",
 };
 
 const getStatusTagColor = (status) => {
@@ -113,20 +123,31 @@ const History = () => {
                 ))}
               </Carousel>
 
-              {/* Products info list */}
-              <List
-                className="user-history__orders__item-content__list"
-                header={<span style={{ fontWeight: 500 }}>Products Ordered</span>}
-                bordered
-                dataSource={order.products}
-                renderItem={(product) => (
-                  <List.Item>
-                    • {product.product.brand} {product.product.title} ({product.color}) $
-                    {product.product.price}{" "}
-                    <span style={{ fontWeight: 500 }}>X {product.count}</span>
-                  </List.Item>
-                )}
-              />
+              <div className="user-history__orders__item-right">
+                {/* Products info list */}
+                <List
+                  className="user-history__orders__item-content__list"
+                  header={<span style={{ fontWeight: 500 }}>Products Ordered</span>}
+                  bordered
+                  dataSource={order.products}
+                  renderItem={(product) => (
+                    <List.Item>
+                      • {product.product.brand} {product.product.title} ({product.color}) $
+                      {product.product.price}{" "}
+                      <span style={{ fontWeight: 500 }}>X {product.count}</span>
+                    </List.Item>
+                  )}
+                />
+
+                {/* Download Receipt Button */}
+                <PDFDownloadLink
+                  style={downloadLinkStyles}
+                  document={<Receipt order={order} />}
+                  fileName="receipt.pdf"
+                >
+                  Download Receipt
+                </PDFDownloadLink>
+              </div>
             </div>
           </Panel>
         ))}
