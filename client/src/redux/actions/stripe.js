@@ -5,7 +5,6 @@ import { INTENT_CREATED, PAYMENT_COMPLETE } from "../actions";
 export const createPaymentIntent = () => async (dispatch) => {
   try {
     const res = await axios.get(`${process.env.REACT_APP_API}/stripe`);
-    console.log(res.data.clientSecret);
 
     dispatch({
       type: INTENT_CREATED,
