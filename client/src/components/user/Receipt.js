@@ -80,7 +80,7 @@ const Receipt = ({ order }) => {
         <Text style={styles.subtitle}>Order Summary</Text>
 
         {/* Products table */}
-        <Table>
+        <Table data={order.products}>
           {/* Table header */}
           <TableHeader>
             <TableCell>Title</TableCell>
@@ -89,14 +89,12 @@ const Receipt = ({ order }) => {
             <TableCell>Brand</TableCell>
             <TableCell>Color</TableCell>
           </TableHeader>
-        </Table>
 
-        {/* Table body */}
-        <Table data={order.products}>
+          {/* Table body */}
           <TableBody>
             <DataTableCell getContent={(product) => product.product.title} />
             <DataTableCell getContent={(product) => `$${product.product.price}`} />
-            <DataTableCell getContent={(product) => product.product.count} />
+            <DataTableCell getContent={(product) => product.count} />
             <DataTableCell getContent={(product) => product.product.brand} />
             <DataTableCell getContent={(product) => product.color} />
           </TableBody>
@@ -106,7 +104,7 @@ const Receipt = ({ order }) => {
         <Text style={styles.text}>
           {/* Date */}
           <Text>
-            Date: {"               "}
+            Date: {"              "}
             {new Date(order.paymentIntent.created * 1000).toLocaleString()}
           </Text>
           {"\n"}

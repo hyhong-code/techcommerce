@@ -49,3 +49,11 @@ export const listOrders = () => async (dispatch) => {
     throw error;
   }
 };
+
+export const updateOrderStatus = () => async (dispatch) => {
+  try {
+  } catch (error) {
+    console.error(`[❌ updateOrderStatus]`, error);
+    throw error;
+  }
+};

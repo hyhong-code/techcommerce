@@ -78,3 +78,25 @@ exports.listOrders = async (req, res, next) => {
     res.status(500).json({ errors: [{ msg: "Something went wrong, try again later." }] });
   }
 };
+
+/**
+ * Update order status
+ */
+exports.updateOrderStatus = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { orderStatus } = req.body;
+
+    // Update Order
+    const order = await Order.findByIdAndUpdate(
+      id,
+      { orderStatus },
+      { new: true, runValidators: true }
+    );
+
+    res.status(200).json({ order });
+  } catch (error) {
+    console.error("[❌ updateOrderStatus ERROR]", error);
+    res.status(500).json({ errors: [{ msg: "Something went wrong, try again later." }] });
+  }
+};

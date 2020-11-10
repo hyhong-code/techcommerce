@@ -2,11 +2,17 @@ const router = require("express").Router();
 
 const auth = require("../middlewares/auth");
 const limitTo = require("../middlewares/limitTo");
-const { createOrder, listUserOrders, listOrders } = require("../controllers/order");
+const {
+  createOrder,
+  listUserOrders,
+  listOrders,
+  updateOrderStatus,
+} = require("../controllers/order");
 const { createOrderValidators } = require("../utils/validatiors/order");
 const validate = require("../middlewares/validate");
 
 router.route("/me").get(auth, limitTo("subscriber"), listUserOrders);
+router.route("/:id").put(auth, limitTo("admin", updateOrderStatus));
 router
   .route("/")
   .get(auth, limitTo("admin"), listOrders)

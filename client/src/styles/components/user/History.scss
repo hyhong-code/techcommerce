@@ -35,6 +35,11 @@
           height: 50px;
           object-fit: cover;
         }
+
+        .thumbs-wrapper {
+          max-width: 25rem;
+          overflow-x: scroll;
+        }
       }
 
       &__img {
