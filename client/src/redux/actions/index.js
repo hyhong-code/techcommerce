@@ -72,3 +72,4 @@ export const COUPON_DELETED = "COUPON_DELETED";
 
 // Stripe
 export const INTENT_CREATED = "INTENT_CREATED";
+export const PAYMENT_COMPLETE = "PAYMENT_COMPLETE";

@@ -3,9 +3,11 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements, useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import { message } from "antd";
+import { message, Row, Col, Statistic, Alert } from "antd";
+import { DollarCircleOutlined, CheckCircleOutlined } from "@ant-design/icons";
 
-import { createPaymentIntent } from "../redux/actions/stripe";
+import { clearCart } from "../redux/actions/cart";
+import { createPaymentIntent, paymentComplete } from "../redux/actions/stripe";
 
 // Card styles
 const cardStyle = {
@@ -51,6 +53,10 @@ const PaymentForm = () => {
         history.goBack();
       }
     })();
+
+    return () => {
+      dispatch(paymentComplete());
+    };
   }, [dispatch, history]);
 
   // Submit payment
@@ -77,8 +83,10 @@ const PaymentForm = () => {
       message.success("Your payment was successful.", 8);
 
       // Clear cart
+      await dispatch(clearCart());
 
-      // Create order
+      // TODO: Create order
+      // ...
     } catch (error) {
       setError(error.message);
     }
@@ -118,23 +126,66 @@ const PaymentForm = () => {
       </form>
 
       {/* Payment success message */}
-      {paid && (
+      {paid ? (
         <p className="result-message">
           Your payment was successfull.{" "}
           <Link to="/user/history">Go to your order history &rarr;</Link>
         </p>
+      ) : (
+        <Fragment>
+          {/* Demo payment instructions */}
+          <p className="result-message--alt">
+            Please use Stripe demo card number: <span>4242 4242 4242 4242</span>
+            <br />
+            Along with any random MM/YY, CVC, and zip code.
+          </p>
+        </Fragment>
       )}
     </Fragment>
   );
 };
 
-export default () => (
-  <div className="payment">
-    {/* Need to wrap Elemetns provider around useStripe calls */}
-    <Elements stripe={stripePromise}>
-      <h1 className="payment__title">Complete your purchase</h1>
-      {/* Payment form */}
-      <PaymentForm />
-    </Elements>
-  </div>
-);
+export default () => {
+  const { cartTotal, totalAfterDiscount } = useSelector(({ stripe }) => stripe);
+
+  return (
+    <div className="payment">
+      {/* Need to wrap Elemetns provider around useStripe calls */}
+      <Elements stripe={stripePromise}>
+        <h1 className="payment__title">Complete your purchase</h1>
+
+        {/* Statistics */}
+        <div className="payment__stats">
+          <Row gutter={16}>
+            <Col span={12}>
+              <Statistic
+                title="Subtotal"
+                value={`$${cartTotal}`}
+                prefix={<DollarCircleOutlined />}
+              />
+            </Col>
+            <Col span={12}>
+              <Statistic
+                title="Final Payable"
+                value={`$${totalAfterDiscount}`}
+                prefix={<CheckCircleOutlined />}
+              />
+            </Col>
+          </Row>
+        </div>
+
+        {/* Coupon Alert */}
+        {Number(totalAfterDiscount) < Number(cartTotal) && (
+          <Alert
+            className="payment__alert"
+            message={`$${Number(cartTotal) - Number(totalAfterDiscount)} coupon applied!`}
+            type="success"
+          />
+        )}
+
+        {/* Payment form */}
+        <PaymentForm />
+      </Elements>
+    </div>
+  );
+};

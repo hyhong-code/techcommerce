@@ -162,11 +162,17 @@ const Checkout = () => {
           </Popconfirm>
 
           {/* Place order */}
-          <Tooltip title={!addressConfirmed && "Please confirm your address."}>
+          <Tooltip
+            title={
+              !addressConfirmed
+                ? "Please confirm your address."
+                : !Object.keys(cart).length && "Please add some items to cart first"
+            }
+          >
             <Button
               type="primary"
               icon={<DollarCircleOutlined />}
-              disabled={!addressConfirmed}
+              disabled={!addressConfirmed || !Object.keys(cart).length}
               onClick={() => history.push("/payment")}
             >
               Place Order

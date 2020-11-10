@@ -10,6 +10,22 @@
     font-weight: 500;
     color: lighten(#000, 25);
     text-align: center;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  &__stats {
+    margin: 0 auto 1rem;
+    border: 1px solid lighten(#000, 85);
+    padding: 1rem;
+
+    .ant-statistic {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  &__alert {
+    margin-bottom: 2rem;
   }
 }

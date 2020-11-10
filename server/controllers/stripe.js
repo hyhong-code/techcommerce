@@ -11,11 +11,15 @@ exports.createPaymenIntent = async (req, res, next) => {
 
     // Create a payment intent
     const { client_secret } = await stripe.paymentIntents.create({
-      amount: Number(cart.totalAfterDiscount).toFixed(2) * 100,
+      amount: (Number(cart.totalAfterDiscount) * 100).toFixed(0),
       currency: "usd",
     });
 
-    res.status(200).json({ clientSecret: client_secret });
+    res.status(200).json({
+      clientSecret: client_secret,
+      cartTotal: cart.cartTotal,
+      totalAfterDiscount: cart.totalAfterDiscount,
+    });
   } catch (error) {
     console.error("[❌ paymentIntend ERROR]", error);
     res.status(500).json({ errors: [{ msg: "Something went wrong, try again later." }] });

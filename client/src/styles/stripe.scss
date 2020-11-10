@@ -24,6 +24,19 @@
   margin-top: 1rem;
   line-height: 22px;
   font-size: 16px;
+
+  &--alt {
+    font-size: 0.8rem;
+    color: lighten(#000, 25);
+    text-align: center;
+    margin-top: 1rem;
+    line-height: 18px;
+
+    span {
+      color: $color-success;
+      font-weight: 500;
+    }
+  }
 }
 
 .result-message a {
