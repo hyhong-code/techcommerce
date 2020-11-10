@@ -31,19 +31,14 @@ const orderSchema = new mongoose.Schema(
     orderStatus: {
       type: String,
       default: "Not processed",
-      enum: [
-        "Not processed",
-        "Processing",
-        "Dispatched",
-        "Cancelled",
-        "Completed",
-      ],
+      enum: ["Not processed", "Processing", "Dispatched", "Cancelled", "Completed"],
       required: true,
     },
     orderedBy: {
       type: mongoose.Schema.ObjectId,
       ref: "User",
       required: true,
+      index: true,
     },
   },
   { timestamps: true }

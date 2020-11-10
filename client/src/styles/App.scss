@@ -81,6 +81,7 @@ $color-lightgrey: #eee;
 
 // User components
 @import "./components/user/Password.scss";
+@import "./components/user/History.scss";
 
 // Admin components
 @import "./components/admin/categories/Categories.scss";

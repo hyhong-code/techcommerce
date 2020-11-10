@@ -1,0 +1,50 @@
+.user-history {
+  &__title {
+    margin-bottom: 1rem;
+  }
+  &__input {
+    margin-bottom: 1rem;
+  }
+
+  &__orders {
+    &__item-header {
+      display: grid;
+      grid-gap: 1rem;
+      grid-template-columns: repeat(5, minmax(max-content, 1fr));
+      justify-items: start;
+
+      &__id,
+      &__quantity,
+      &__price {
+        span {
+          font-weight: 500;
+          margin-left: 0.25rem;
+        }
+      }
+    }
+
+    &__item-content {
+      display: flex;
+      align-items: flex-start;
+
+      .carousel-root {
+        flex: 1;
+        margin-right: 1rem;
+
+        .thumb img {
+          height: 50px;
+          object-fit: cover;
+        }
+      }
+
+      &__img {
+        height: 200px;
+        object-fit: cover;
+      }
+
+      &__list {
+        flex: 1;
+      }
+    }
+  }
+}

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { ORDER_CREATED } from "../actions";
+import { ORDER_CREATED, USER_ORDERS_LISTED, ADMIN_ORDERS_LISTED } from "../actions";
 import { clearCart } from "./cart";
 
 export const createOrder = (paymentIntent) => async (dispatch) => {
@@ -18,6 +18,34 @@ export const createOrder = (paymentIntent) => async (dispatch) => {
     await dispatch(clearCart());
   } catch (error) {
     console.error(`[❌ createOrder]`, error);
+    throw error;
+  }
+};
+
+export const listUserOrders = () => async (dispatch) => {
+  try {
+    const res = await axios.get(`${process.env.REACT_APP_API}/orders/me`);
+
+    dispatch({
+      type: USER_ORDERS_LISTED,
+      payload: res.data.orders,
+    });
+  } catch (error) {
+    console.error(`[❌ listUserOrders]`, error);
+    throw error;
+  }
+};
+
+export const listOrders = () => async (dispatch) => {
+  try {
+    const res = await axios.get(`${process.env.REACT_APP_API}/orders`);
+
+    dispatch({
+      type: ADMIN_ORDERS_LISTED,
+      payload: res.data.orders,
+    });
+  } catch (error) {
+    console.error(`[❌ listOrders]`, error);
     throw error;
   }
 };
