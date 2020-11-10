@@ -8,6 +8,7 @@ import cart from "./cart";
 import drawer from "./drawer";
 import coupon from "./coupon";
 import stripe from "./stripe";
+import order from "./order";
 
 export default combineReducers({
   user,
@@ -18,4 +19,5 @@ export default combineReducers({
   drawer,
   coupon,
   stripe,
+  order,
 });

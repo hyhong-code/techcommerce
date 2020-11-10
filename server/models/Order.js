@@ -49,4 +49,13 @@ const orderSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// Populte product object opon query
+orderSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: "products.product",
+    select: "-color -_v",
+  });
+  next;
+});
+
 module.exports = mongoose.model("Order", orderSchema);
