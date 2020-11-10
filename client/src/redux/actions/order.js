@@ -54,9 +54,11 @@ export const updateOrderStatus = (id, orderStatus) => async (dispatch) => {
   try {
     const res = await axios.put(`${process.env.REACT_APP_API}/orders/${id}`, { orderStatus });
 
+    console.log(res.data.order);
+
     dispatch({
       type: ORDER_UPDATED,
-      payload: res.data,
+      payload: res.data.order,
     });
   } catch (error) {
     console.error(`[❌ updateOrderStatus]`, error);

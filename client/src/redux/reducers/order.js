@@ -23,7 +23,7 @@ export default (state = INITIAL_STATE, action) => {
     case ORDER_UPDATED:
       return {
         ...state,
-        orders: state.orders.filter((order) => order._id !== payload._id),
+        orders: state.orders.map((order) => (order._id === payload._id ? payload : order)),
       };
 
     default:

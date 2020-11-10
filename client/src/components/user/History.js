@@ -7,6 +7,7 @@ import { PDFDownloadLink } from "@react-pdf/renderer";
 
 import Receipt from "./Receipt";
 import { listUserOrders } from "../../redux/actions/order";
+import getStatusTagColor from "../../utils/getStatusTagColor";
 
 const { Title } = Typography;
 const { Panel } = Collapse;
@@ -28,23 +29,6 @@ const downloadLinkStyles = {
   padding: "6px 10px",
   borderRadius: "5px",
   border: "1px solid #1890ff",
-};
-
-const getStatusTagColor = (status) => {
-  switch (status) {
-    case "Not processed":
-      return "blue";
-    case "Processing":
-      return "cyan";
-    case "Dispatched":
-      return "purple";
-    case "Cancelled":
-      return "gold";
-    case "Completed":
-      return "green";
-    default:
-      return undefined;
-  }
 };
 
 const History = () => {

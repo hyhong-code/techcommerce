@@ -1,4 +1,4 @@
-.user-history {
+.admin-orders {
   &__title {
     margin-bottom: 1rem;
   }
@@ -45,6 +45,17 @@
       &__img {
         height: 200px;
         object-fit: cover;
+      }
+
+      &__status {
+        p {
+          margin: 1rem 0 0.5rem;
+          font-weight: 500;
+        }
+
+        .ant-select {
+          width: 100%;
+        }
       }
     }
 
