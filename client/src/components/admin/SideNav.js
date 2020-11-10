@@ -5,9 +5,10 @@ import { Menu } from "antd";
 const { Item } = Menu;
 
 const SIDE_NAV_OPTIONS = [
+  { href: "/admin/orders", label: "Orders" },
   { href: "/admin/categories", label: "Categories" },
   { href: "/admin/subs", label: "Sub Category" },
-  { href: "/admin/product", label: "Product" },
+  { href: "/admin/product", label: "Create Product" },
   { href: "/admin/products", label: "Products" },
   { href: "/admin/coupons", label: "Coupons" },
   { href: "/admin/password", label: "Password" },

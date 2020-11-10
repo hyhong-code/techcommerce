@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { ORDER_CREATED, USER_ORDERS_LISTED, ADMIN_ORDERS_LISTED } from "../actions";
+import { ORDER_CREATED, USER_ORDERS_LISTED, ADMIN_ORDERS_LISTED, ORDER_UPDATED } from "../actions";
 import { clearCart } from "./cart";
 
 export const createOrder = (paymentIntent) => async (dispatch) => {
@@ -50,8 +50,14 @@ export const listOrders = () => async (dispatch) => {
   }
 };
 
-export const updateOrderStatus = () => async (dispatch) => {
+export const updateOrderStatus = (id, orderStatus) => async (dispatch) => {
   try {
+    const res = await axios.put(`${process.env.REACT_APP_API}/orders/${id}`, { orderStatus });
+
+    dispatch({
+      type: ORDER_UPDATED,
+      payload: res.data,
+    });
   } catch (error) {
     console.error(`[❌ updateOrderStatus]`, error);
     throw error;
