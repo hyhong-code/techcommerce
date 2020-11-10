@@ -79,9 +79,6 @@ const PaymentForm = () => {
         }
       );
 
-      console.log("error--->", error);
-      console.log("paymentIntent--->", paymentIntent);
-
       // Handle error
       if (error) throw error;
 

@@ -21,6 +21,10 @@
     color: $color-success !important;
   }
 
+  &__out-of-stock {
+    color: $color-danger !important;
+  }
+
   &__ratings {
     margin-top: 0.5rem;
 

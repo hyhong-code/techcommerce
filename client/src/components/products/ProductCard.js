@@ -1,6 +1,10 @@
 import React from "react";
 import { Card, Rate, Tooltip } from "antd";
-import { EyeOutlined, ShoppingCartOutlined } from "@ant-design/icons";
+import {
+  EyeOutlined,
+  ShoppingCartOutlined,
+  ExclamationCircleOutlined,
+} from "@ant-design/icons";
 import ImageFadeIn from "react-image-fade-in";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -33,24 +37,48 @@ const ProductCard = ({ product }) => {
           <EyeOutlined className="product-card__eye-icon" />
           <p>Details</p>
         </Link>,
-        <Tooltip title={isItemInCart(cart, product._id) ? "Added to cart" : "Add item to cart"}>
-          <div
-            key={2}
-            onClick={() => {
-              dispatch(addToCart(product));
-              dispatch(openDrawer());
-            }}
+        Number(product.quantity) <= 0 ? (
+          <Tooltip title={`Sorry, ${product.title} is out of stock.`}>
+            <div>
+              <ExclamationCircleOutlined className="product-card__out-of-stock" />
+              <p>Out of stock</p>
+            </div>
+          </Tooltip>
+        ) : (
+          <Tooltip
+            title={
+              isItemInCart(cart, product._id)
+                ? "Added to cart"
+                : "Add item to cart"
+            }
           >
-            <ShoppingCartOutlined className="product-card__cart-icon" />
-            <p>Add to cart</p>
-          </div>
-        </Tooltip>,
+            <div
+              key={2}
+              onClick={() => {
+                dispatch(addToCart(product));
+                dispatch(openDrawer());
+              }}
+            >
+              <ShoppingCartOutlined className="product-card__cart-icon" />
+              <p>Add to cart</p>
+            </div>
+          </Tooltip>
+        ),
       ]}
     >
-      <Meta title={`${product.title} - $${product.price}`} description={product.description} />
+      <Meta
+        title={`${product.title} - $${product.price}`}
+        description={product.description}
+      />
       <div className="product-card__ratings">
-        <Rate allowHalf disabled value={getAverageProductRating(product.ratings)} />
-        <span className="product-card__ratings__count">({product.ratings.length})</span>
+        <Rate
+          allowHalf
+          disabled
+          value={getAverageProductRating(product.ratings)}
+        />
+        <span className="product-card__ratings__count">
+          ({product.ratings.length})
+        </span>
       </div>
     </Card>
   );
