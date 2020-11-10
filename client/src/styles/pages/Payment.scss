@@ -1,0 +1,15 @@
+.payment {
+  @include container;
+  @include page-padding-vert;
+  width: 100%;
+  max-width: 60rem;
+  margin: 0 auto;
+
+  &__title {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: lighten(#000, 25);
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+}

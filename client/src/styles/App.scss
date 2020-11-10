@@ -76,6 +76,9 @@ $color-lightgrey: #eee;
 // Admin page
 @import "./pages/admin/Admin.scss";
 
+// Payment page
+@import "./pages/Payment.scss";
+
 // User components
 @import "./components/user/Password.scss";
 
@@ -111,3 +114,6 @@ $color-lightgrey: #eee;
 @import "./components/ui/Typewriter.scss";
 @import "./components/ui/LoadingCards.scss";
 @import "./components/ui/Drawer.scss";
+
+// Stripe
+@import "./stripe.scss";

@@ -31,8 +31,6 @@ const Checkout = () => {
     };
   }, [dispatch]);
 
-  console.log(totalAfterDiscount);
-
   // Pre-fill user's address
   useEffect(() => {
     if (user && user.address) {
@@ -108,7 +106,9 @@ const Checkout = () => {
         <h2 className="checkout__left__coupon">Got Coupon?</h2>
         <form onSubmit={handleApplyCoupon}>
           <Input
-            placeholder="Enter coupon..."
+            placeholder={
+              isCouponApplied() ? "A coupon has been applied." : "Enter a coupon code..."
+            }
             value={couponCode}
             disabled={applyCouponLoading || isCouponApplied()}
             onChange={(evt) => setCouponCode(evt.target.value)}
@@ -163,7 +163,12 @@ const Checkout = () => {
 
           {/* Place order */}
           <Tooltip title={!addressConfirmed && "Please confirm your address."}>
-            <Button type="primary" icon={<DollarCircleOutlined />} disabled={!addressConfirmed}>
+            <Button
+              type="primary"
+              icon={<DollarCircleOutlined />}
+              disabled={!addressConfirmed}
+              onClick={() => history.push("/payment")}
+            >
               Place Order
             </Button>
           </Tooltip>

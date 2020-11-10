@@ -69,3 +69,6 @@ export const CLOSE_DRAWER = "CLOSE_DRAWER";
 export const COUPON_CREATED = "COUPON_CREATED";
 export const COUPON_LISTED = "COUPON_LISTED";
 export const COUPON_DELETED = "COUPON_DELETED";
+
+// Stripe
+export const INTENT_CREATED = "INTENT_CREATED";

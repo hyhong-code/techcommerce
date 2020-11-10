@@ -121,12 +121,9 @@ exports.applyCoupon = async (req, res, next) => {
     cart.totalAfterDiscount = cart.cartTotal - Number(coupon.discount);
     cart = await cart.save({ validateBeforeSave: true });
 
-    // Formate products into an object
     const { products, cartTotal, totalAfterDiscount } = cart.toObject();
-
-    console.log(cart);
-
     res.status(200).json({
+      // Format products into an object
       products: transformProducts(products),
       cartTotal,
       totalAfterDiscount,

@@ -86,9 +86,9 @@ export default (state = INITIAL_STATE, action) => {
       storeCartToLocalStorage(newCart.cart);
       return newCart;
 
-    // Get cart from DB
+    // Get cart from DB | Get cart after applying coupon
     case GET_CART:
-    // Get cart after applying coupon
+    // falls through
     case APPLY_COUPON:
       storeCartToLocalStorage(payload.products);
       return {

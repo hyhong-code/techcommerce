@@ -94,8 +94,6 @@ export const applyCoupon = (couponCode) => async (dispatch) => {
   try {
     const res = await axios.put(`${process.env.REACT_APP_API}/carts/coupon`, { couponCode });
 
-    console.log(res.data);
-
     dispatch({
       type: APPLY_COUPON,
       payload: res.data,

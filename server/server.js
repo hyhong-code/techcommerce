@@ -12,6 +12,7 @@ const subRouter = require("./routes/subs");
 const productRouter = require("./routes/product");
 const cartRouter = require("./routes/cart");
 const couponRouter = require("./routes/coupon");
+const stripeRouter = require("./routes/stripe");
 
 const app = express();
 connectDB();
@@ -28,6 +29,7 @@ app.use("/api/v1/subs", subRouter);
 app.use("/api/v1/products", productRouter);
 app.use("/api/v1/carts", cartRouter);
 app.use("/api/v1/coupons", couponRouter);
+app.use("/api/v1/stripe", stripeRouter);
 
 const port = process.env.PORT || 8000;
 app.listen(port, () => console.log(`Server up on port ${port}...`));

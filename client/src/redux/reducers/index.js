@@ -7,6 +7,7 @@ import product from "./product";
 import cart from "./cart";
 import drawer from "./drawer";
 import coupon from "./coupon";
+import stripe from "./stripe";
 
 export default combineReducers({
   user,
@@ -16,4 +17,5 @@ export default combineReducers({
   cart,
   drawer,
   coupon,
+  stripe,
 });
