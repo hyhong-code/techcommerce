@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import { auth, googleAuthProvider } from "../../services/firebase";
-import { USER_LOADED, USER_LOGGED_OUT, UPDATE_ADDRESS } from "./index";
+import { USER_LOADED, USER_LOGGED_OUT, UPDATE_ADDRESS, ADDED_TO_WISHLIST } from "./index";
 import setTokenHeader from "../../utils/setTokenHeader";
 
 /**
@@ -49,9 +49,7 @@ export const register = (email) => async (dispatch) => {
 /**
  * Complete user registration, then loads user to state
  */
-export const completeRegister = ({ email, emailLink, password }) => async (
-  dispatch
-) => {
+export const completeRegister = ({ email, emailLink, password }) => async (dispatch) => {
   try {
     if (password.length < 8) {
       throw new Error("Password must be at least 8 characters.");
@@ -171,6 +169,9 @@ export const checkIsAdmin = async () => {
   }
 };
 
+/**
+ * Update user's address
+ */
 export const updateUserAddress = (address) => async (dispatch) => {
   try {
     const res = await axios.put(`${process.env.REACT_APP_API}/users`, {
@@ -182,6 +183,24 @@ export const updateUserAddress = (address) => async (dispatch) => {
     });
   } catch (error) {
     console.error(`[❌ updateUserAddress]`, error);
+    throw error;
+  }
+};
+
+/**
+ * Add product to user's wishlist
+ */
+export const addToWishlist = (id) => async (dispatch) => {
+  try {
+    const res = await axios.post(`${process.env.REACT_APP_API}/users/wishlist`, {
+      id,
+    });
+    dispatch({
+      type: ADDED_TO_WISHLIST,
+      payload: res.data.user,
+    });
+  } catch (error) {
+    console.error(`[❌ addToWishlist]`, error);
     throw error;
   }
 };

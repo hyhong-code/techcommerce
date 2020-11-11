@@ -2,16 +2,14 @@ import React, { Fragment, useState, useEffect } from "react";
 import { Card, Tag, Modal, Rate, message, Tooltip } from "antd";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  ShoppingCartOutlined,
-  HeartOutlined,
-  StarOutlined,
-} from "@ant-design/icons";
+import { ShoppingCartOutlined, HeartOutlined, StarOutlined, HeartFilled } from "@ant-design/icons";
 
 import { openDrawer } from "../../redux/actions/drawer";
 import randomTagColor from "../../utils/randomTagColor";
 import { updateRating } from "../../redux/actions/product";
+import { addToWishlist } from "../../redux/actions/user";
 import { addToCart } from "../../redux/actions/cart";
+import formatErrorMsg from "../../utils/formatErrorMsg";
 
 const { Meta } = Card;
 
@@ -22,6 +20,9 @@ const hasUserRatedBefore = (productRatings, user) =>
   !!productRatings.find((rating) => rating.postedBy === user._id);
 
 const isItemInCart = (cart, id) => Object.keys(cart).includes(id);
+
+const isInWishList = (user, product) =>
+  user.wishlist?.length && user.wishlist.map((product) => product._id).includes(product._id);
 
 const ProductInfo = ({ product }) => {
   const dispatch = useDispatch();
@@ -46,19 +47,22 @@ const ProductInfo = ({ product }) => {
     }
   };
 
+  const handleAddToWishlist = async () => {
+    try {
+      await dispatch(addToWishlist(product._id));
+      message.success(`${product.title} added to your wishlist!`);
+    } catch (error) {
+      message.error(formatErrorMsg(error), 6);
+    }
+  };
+
   return (
     <Fragment>
       <div className="product-info">
         <Card
           actions={[
             // Add to shopping cart
-            <Tooltip
-              title={
-                isItemInCart(cart, product._id)
-                  ? "Added to cart"
-                  : "Add item to cart"
-              }
-            >
+            <Tooltip title={isItemInCart(cart, product._id) ? "Added to cart" : "Add item to cart"}>
               <div
                 key={1}
                 onClick={() => {
@@ -72,10 +76,19 @@ const ProductInfo = ({ product }) => {
             </Tooltip>,
 
             // Add to wishlist
-            <Fragment key={2}>
-              <HeartOutlined className="product-info__card__actions--heart" />
-              <p>Add to wishlist</p>
-            </Fragment>,
+            <div key={2} onClick={isInWishList(user, product) ? undefined : handleAddToWishlist}>
+              {isInWishList(user, product) ? (
+                <Fragment>
+                  <HeartFilled className="product-info__card__actions--heart" />
+                  <p>Added to wishlist</p>
+                </Fragment>
+              ) : (
+                <Fragment>
+                  <HeartOutlined className="product-info__card__actions--heart" />
+                  <p>Add to wishlist</p>
+                </Fragment>
+              )}
+            </div>,
 
             // Leave a rating
             <div
@@ -109,11 +122,7 @@ const ProductInfo = ({ product }) => {
             // Product title
             title={product?.title}
             // Product description
-            description={
-              <p className="product-info__card__description">
-                {product?.description}
-              </p>
-            }
+            description={<p className="product-info__card__description">{product?.description}</p>}
           />
           <ul className="product-info__card__inner">
             {/* Price */}

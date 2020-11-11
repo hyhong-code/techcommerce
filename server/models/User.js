@@ -26,11 +26,20 @@ const UserSchema = new mongoose.Schema(
       type: Array,
       default: [],
     },
-    // wishlist: {
-    //   type: [{ type: mongoose.Schema.ObjectId, ref: "Product" }],
-    // },
+    wishlist: {
+      type: [{ type: mongoose.Schema.ObjectId, ref: "Product", required: true }],
+      default: [],
+    },
   },
   { timestamps: true }
 );
+
+// Populte wishlist products upon query
+UserSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: "wishlist",
+  });
+  next();
+});
 
 module.exports = mongoose.model("User", UserSchema);
