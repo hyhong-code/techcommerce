@@ -1,11 +1,13 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Button, message, Popconfirm } from "antd";
+import { Button, message, Popconfirm, Typography } from "antd";
 import { Link } from "react-router-dom";
-import { CloseOutlined } from "@ant-design/icons";
+import { DeleteOutlined } from "@ant-design/icons";
 
 import formatErrorMsg from "../../utils/formatErrorMsg";
 import { removeFromWishlist } from "../../redux/actions/user";
+
+const { Title } = Typography;
 
 const Wishlist = () => {
   const dispatch = useDispatch();
@@ -22,34 +24,40 @@ const Wishlist = () => {
 
   return (
     <div className="user-wishlist">
-      {user.wishlist.map((product) => (
-        <div className="user-wishlist__item">
-          {/* Product image */}
-          <img
-            src={product.images[0].url}
-            alt={product.title}
-            className="user-wishlist__item__img"
-          />
+      <Title level={2} className="user-wishlist__title">
+        Your Wishlist
+      </Title>
 
-          {/* Link to the product */}
-          <div className="user-wishlist__item__content">
-            <Link to={`/products/${product.slug}`}>{product.title}</Link>
-          </div>
-
-          {/* Delete button */}
-          <Popconfirm
-            title={`Remove ${product.title} from wishlist?`}
-            onConfirm={() => handleRemoveFromWishlist(product)}
-          >
-            <Button
-              type="ghost"
-              icon={<CloseOutlined />}
-              size="small"
-              className="user-wishlist__item__close"
+      <div className="user-wishlist__inner">
+        {user.wishlist.map((product) => (
+          <div className="user-wishlist__item">
+            {/* Product image */}
+            <img
+              src={product.images[0].url}
+              alt={product.title}
+              className="user-wishlist__item__img"
             />
-          </Popconfirm>
-        </div>
-      ))}
+
+            {/* Link to the product */}
+            <div className="user-wishlist__item__content">
+              <Link to={`/products/${product.slug}`}>{product.title}</Link>
+            </div>
+
+            {/* Delete button */}
+            <Popconfirm
+              title={`Remove ${product.title} from wishlist?`}
+              onConfirm={() => handleRemoveFromWishlist(product)}
+            >
+              <Button
+                type="ghost"
+                icon={<DeleteOutlined />}
+                size="small"
+                className="user-wishlist__item__close"
+              />
+            </Popconfirm>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

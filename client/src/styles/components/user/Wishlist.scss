@@ -1,7 +1,9 @@
 .user-wishlist {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(auto, 1fr));
-  grid-gap: 1rem;
+  &__inner {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(auto, 1fr));
+    grid-gap: 1rem;
+  }
 
   &__item {
     border: 1px solid lighten(#000, 85);
