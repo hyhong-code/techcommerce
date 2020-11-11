@@ -62,6 +62,7 @@ export const GET_CART = "GET_CART";
 export const CLEAR_CART_PRICE = "CLEAR_CART_PRICE";
 export const CLEAR_CART = "CLEAR_CART";
 export const APPLY_COUPON = "APPLY_COUPON";
+export const SET_PAYMENT_METHOD = "SET_PAYMENT_METHOD";
 
 // Drawer
 export const OPEN_DRAWER = "OPEN_DRAWER";

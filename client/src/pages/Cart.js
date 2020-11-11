@@ -139,11 +139,11 @@ const Cart = () => {
   ];
 
   // Save cart to DB before directing user to checkout page
-  const handleCheckout = async () => {
+  const handleCheckout = async (isCashOnDelivery = false) => {
     setCheckoutLoading(true);
     try {
       if (user) {
-        await dispatch(saveCart());
+        await dispatch(saveCart(isCashOnDelivery));
         setCheckoutLoading(false);
         history.push("/checkout");
       } else {
@@ -215,11 +215,32 @@ const Cart = () => {
             disabled={
               Object.keys(cart) <= 0 || !user || user.role !== "subscriber"
             }
-            onClick={handleCheckout}
+            onClick={() => handleCheckout()}
           >
             {user ? "Checkout" : "Log in to checkout"}
           </Button>
         </Tooltip>
+
+        {/* Cash on delivery checkout option */}
+        {user && (
+          <Tooltip
+            title={
+              user && user.role !== "subscriber" && "Only user can checkout."
+            }
+          >
+            <Button
+              loading={checkoutLoading}
+              type="dashed"
+              style={{ display: "block", marginTop: "0.5rem" }}
+              disabled={
+                Object.keys(cart) <= 0 || !user || user.role !== "subscriber"
+              }
+              onClick={() => handleCheckout(true)}
+            >
+              Cash on delivery
+            </Button>
+          </Tooltip>
+        )}
       </Card>
     </div>
   );

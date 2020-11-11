@@ -7,6 +7,7 @@ import {
   CLEAR_CART_PRICE,
   CLEAR_CART,
   APPLY_COUPON,
+  SET_PAYMENT_METHOD,
 } from "../actions";
 
 // Re-hydrate cart from local storage or init as empty object
@@ -17,6 +18,7 @@ const INITIAL_STATE = {
   cart: getInitialCart(),
   cartTotal: 0,
   totalAfterDiscount: 0,
+  isCashOnDelivery: false,
 };
 
 const storeCartToLocalStorage = (newCart) => {
@@ -114,6 +116,14 @@ export default (state = INITIAL_STATE, action) => {
         cart: getInitialCart(),
         cartTotal: 0,
         totalAfterDiscount: 0,
+        isCashOnDelivery: false,
+      };
+
+    // Set Payment Method
+    case SET_PAYMENT_METHOD:
+      return {
+        ...state,
+        isCashOnDelivery: payload,
       };
 
     default:

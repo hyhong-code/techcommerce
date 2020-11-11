@@ -3,11 +3,17 @@ import { Input, Button, Divider, message, Tooltip, Popconfirm } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { DollarCircleOutlined, ClearOutlined } from "@ant-design/icons";
 import { useHistory } from "react-router-dom";
-import formatErrorMsg from "../utils/formatErrorMsg";
 import ReactQuill from "react-quill";
 
 import { updateUserAddress } from "../redux/actions/user";
-import { getCart, clearCartPrice, clearCart, applyCoupon } from "../redux/actions/cart";
+import {
+  getCart,
+  clearCartPrice,
+  clearCart,
+  applyCoupon,
+} from "../redux/actions/cart";
+import { createOrder } from "../redux/actions/order";
+import formatErrorMsg from "../utils/formatErrorMsg";
 
 const Checkout = () => {
   const dispatch = useDispatch();
@@ -16,10 +22,10 @@ const Checkout = () => {
   const [clearCartLoading, setClearCartLoading] = useState(false);
   const [saveAddressLoading, setAddressLoading] = useState(false);
   const [addressConfirmed, setAddressConfirmed] = useState(false);
-  const [{ cart, cartTotal, totalAfterDiscount }, { user }] = useSelector(({ cart, user }) => [
-    cart,
-    user,
-  ]);
+  const [
+    { cart, cartTotal, totalAfterDiscount, isCashOnDelivery },
+    { user },
+  ] = useSelector(({ cart, user }) => [cart, user]);
   const [couponCode, setCouponCode] = useState("");
   const [applyCouponLoading, setApplyCouponLoading] = useState(false);
 
@@ -84,7 +90,23 @@ const Checkout = () => {
     setApplyCouponLoading(false);
   };
 
+  // Returns whether coupon is applied for the cart
   const isCouponApplied = () => Number(totalAfterDiscount) < Number(cartTotal);
+
+  // Place a card order or cash on delivery order
+  const handlePlaceOrder = async () => {
+    if (!isCashOnDelivery) {
+      history.push("/payment");
+    } else {
+      try {
+        await dispatch(createOrder());
+        message.success("Order successfully created!", 6);
+        history.push("/user/history");
+      } catch (error) {
+        message.error(formatErrorMsg(error), 6);
+      }
+    }
+  };
 
   return (
     <div className="checkout">
@@ -94,9 +116,20 @@ const Checkout = () => {
         <h2 className="checkout__left__address">Delivery Address</h2>
 
         {/* Address rich text editor */}
-        <ReactQuill value={address} onChange={setAddress} placeholder="Please create an address." />
+        <ReactQuill
+          value={address}
+          onChange={(v) => {
+            setAddressConfirmed(false);
+            setAddress(v);
+          }}
+          placeholder="Please create an address."
+        />
 
-        <Button onClick={handleUpdateAddress} loading={saveAddressLoading}>
+        <Button
+          onClick={handleUpdateAddress}
+          loading={saveAddressLoading}
+          disabled={addressConfirmed}
+        >
           Confirm address
         </Button>
 
@@ -107,7 +140,9 @@ const Checkout = () => {
         <form onSubmit={handleApplyCoupon}>
           <Input
             placeholder={
-              isCouponApplied() ? "A coupon has been applied." : "Enter a coupon code..."
+              isCouponApplied()
+                ? "A coupon has been applied."
+                : "Enter a coupon code..."
             }
             value={couponCode}
             disabled={applyCouponLoading || isCouponApplied()}
@@ -151,11 +186,17 @@ const Checkout = () => {
             <p className="checkout__right__subtitle">Total after discount:</p>
           </Fragment>
         )}
-        <p className="checkout__right__cart-total--alt">${totalAfterDiscount}</p>
+        <p className="checkout__right__cart-total--alt">
+          ${totalAfterDiscount}
+        </p>
 
         <div className="checkout__right__actions">
           {/* Clear cart */}
-          <Popconfirm onConfirm={handleClearCart} okText="Clear" title="Clear shopping cart?">
+          <Popconfirm
+            onConfirm={handleClearCart}
+            okText="Clear"
+            title="Clear shopping cart?"
+          >
             <Button icon={<ClearOutlined />} loading={clearCartLoading}>
               Empty Cart
             </Button>
@@ -166,14 +207,15 @@ const Checkout = () => {
             title={
               !addressConfirmed
                 ? "Please confirm your address."
-                : !Object.keys(cart).length && "Please add some items to cart first"
+                : !Object.keys(cart).length &&
+                  "Please add some items to cart first"
             }
           >
             <Button
               type="primary"
               icon={<DollarCircleOutlined />}
               disabled={!addressConfirmed || !Object.keys(cart).length}
-              onClick={() => history.push("/payment")}
+              onClick={handlePlaceOrder}
             >
               Place Order
             </Button>

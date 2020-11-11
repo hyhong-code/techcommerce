@@ -1,4 +1,9 @@
-import { ORDER_CREATED, USER_ORDERS_LISTED, ADMIN_ORDERS_LISTED, ORDER_UPDATED } from "../actions";
+import {
+  ORDER_CREATED,
+  USER_ORDERS_LISTED,
+  ADMIN_ORDERS_LISTED,
+  ORDER_UPDATED,
+} from "../actions";
 
 const INITIAL_STATE = {
   orders: [],
@@ -23,7 +28,9 @@ export default (state = INITIAL_STATE, action) => {
     case ORDER_UPDATED:
       return {
         ...state,
-        orders: state.orders.map((order) => (order._id === payload._id ? payload : order)),
+        orders: state.orders.map((order) =>
+          order._id === payload._id ? payload : order
+        ),
       };
 
     default:

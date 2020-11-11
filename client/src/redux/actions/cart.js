@@ -8,6 +8,7 @@ import {
   CLEAR_CART_PRICE,
   CLEAR_CART,
   APPLY_COUPON,
+  SET_PAYMENT_METHOD,
 } from "../actions";
 
 export const addToCart = (product) => async (dispatch, getState) => {
@@ -49,10 +50,18 @@ export const removeProduct = (id) => async (dispatch) => {
   });
 };
 
-export const saveCart = () => async (dispatch, getState) => {
+export const saveCart = (isCashOnDelivery = false) => async (
+  dispatch,
+  getState
+) => {
   try {
     const { cart } = await getState().cart;
     await axios.put(`${process.env.REACT_APP_API}/carts`, { cart });
+
+    dispatch({
+      type: SET_PAYMENT_METHOD,
+      payload: isCashOnDelivery,
+    });
   } catch (error) {
     console.error(`[❌ saveCart]`, error);
     throw error;
@@ -92,7 +101,9 @@ export const clearCart = () => async (dispatch) => {
 
 export const applyCoupon = (couponCode) => async (dispatch) => {
   try {
-    const res = await axios.put(`${process.env.REACT_APP_API}/carts/coupon`, { couponCode });
+    const res = await axios.put(`${process.env.REACT_APP_API}/carts/coupon`, {
+      couponCode,
+    });
 
     dispatch({
       type: APPLY_COUPON,

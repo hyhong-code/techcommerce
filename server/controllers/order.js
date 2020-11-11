@@ -1,3 +1,5 @@
+const { v4: uuidv4 } = require("uuid");
+
 const Order = require("../models/Order");
 const Cart = require("../models/Cart");
 const Product = require("../models/Product");
@@ -12,7 +14,9 @@ exports.createOrder = async (req, res, next) => {
     // Handle cart not found
     const cart = await Cart.findOne({ userId: req.user._id }).lean();
     if (!cart) {
-      return res.status(404).json({ errors: [{ msg: "User's cart not found." }] });
+      return res
+        .status(404)
+        .json({ errors: [{ msg: "User's cart not found." }] });
     }
 
     // Create order
@@ -49,7 +53,72 @@ exports.createOrder = async (req, res, next) => {
     res.status(201).json({ order });
   } catch (error) {
     console.error("[❌ createOrder ERROR]", error);
-    res.status(500).json({ errors: [{ msg: "Something went wrong, try again later." }] });
+    res
+      .status(500)
+      .json({ errors: [{ msg: "Something went wrong, try again later." }] });
+  }
+};
+
+/**
+ * Create an cash on delivery order
+ */
+exports.createCashOrder = async (req, res, next) => {
+  try {
+    // Handle cart not found
+    const cart = await Cart.findOne({ userId: req.user._id }).lean();
+    if (!cart) {
+      return res
+        .status(404)
+        .json({ errors: [{ msg: "User's cart not found." }] });
+    }
+
+    // Create a custom paymentIntent
+    const paymentIntent = {
+      id: uuidv4(),
+      amount: Number(cart.totalAfterDiscount) * 100,
+      currency: "usd",
+      status: "cash_on_delivery",
+      payment_method_types: ["cash"],
+      created: Date.now(),
+    };
+
+    // Create order
+    let order = await Order.create({
+      products: cart.products, // Copy items in cart to order
+      paymentIntent,
+      orderedBy: req.user._id,
+    });
+
+    // Populte product info
+    order = await order
+      .populate({
+        path: "products.product",
+        select: "-color -__v",
+      })
+      .execPopulate();
+
+    // Decrement quantity, increment sold
+    const bulkWriteOps = cart.products.map((item) => ({
+      updateOne: {
+        filter: {
+          _id: item.product._id,
+        },
+        update: {
+          $inc: { quantity: -item.count, sold: +item.count },
+        },
+      },
+    }));
+
+    // MongoDB bulkwrite
+    const updates = await Product.bulkWrite(bulkWriteOps);
+    console.log("bulkwrite results --->", updates);
+
+    res.status(201).json({ order });
+  } catch (error) {
+    console.error("[❌ createOrder ERROR]", error);
+    res
+      .status(500)
+      .json({ errors: [{ msg: "Something went wrong, try again later." }] });
   }
 };
 
@@ -58,11 +127,15 @@ exports.createOrder = async (req, res, next) => {
  */
 exports.listUserOrders = async (req, res, next) => {
   try {
-    const orders = await Order.find({ orderedBy: req.user._id }).sort({ createdAt: -1 });
+    const orders = await Order.find({ orderedBy: req.user._id }).sort({
+      createdAt: -1,
+    });
     res.status(200).json({ orders });
   } catch (error) {
     console.error("[❌ listUserOrders ERROR]", error);
-    res.status(500).json({ errors: [{ msg: "Something went wrong, try again later." }] });
+    res
+      .status(500)
+      .json({ errors: [{ msg: "Something went wrong, try again later." }] });
   }
 };
 
@@ -75,7 +148,9 @@ exports.listOrders = async (req, res, next) => {
     res.status(200).json({ orders });
   } catch (error) {
     console.error("[❌ listOrders ERROR]", error);
-    res.status(500).json({ errors: [{ msg: "Something went wrong, try again later." }] });
+    res
+      .status(500)
+      .json({ errors: [{ msg: "Something went wrong, try again later." }] });
   }
 };
 
@@ -97,6 +172,8 @@ exports.updateOrderStatus = async (req, res, next) => {
     res.status(200).json({ order });
   } catch (error) {
     console.error("[❌ updateOrderStatus ERROR]", error);
-    res.status(500).json({ errors: [{ msg: "Something went wrong, try again later." }] });
+    res
+      .status(500)
+      .json({ errors: [{ msg: "Something went wrong, try again later." }] });
   }
 };
