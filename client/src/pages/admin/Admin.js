@@ -9,6 +9,7 @@ import UpdateProduct from "../../components/admin/products/UpdateProduct";
 import CreateProducts from "../../components/admin/products/CreateProducts";
 import Coupons from "../../components/admin/coupons/Coupons";
 import Orders from "../../components/admin/orders/Orders";
+import Password from "../../components/user/Password";
 
 const Admin = () => {
   return (
@@ -25,6 +26,7 @@ const Admin = () => {
           <Route exact path="/admin/product" component={CreateProducts} />
           <Route exact path="/admin/coupons" component={Coupons} />
           <Route exact path="/admin/orders" component={Orders} />
+          <Route exact path="/admin/password" component={Password} />
         </Switch>
       </div>
     </div>
