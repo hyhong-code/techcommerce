@@ -1,4 +1,10 @@
-import { USER_LOADED, USER_LOGGED_OUT, UPDATE_ADDRESS, ADDED_TO_WISHLIST } from "../actions";
+import {
+  USER_LOADED,
+  USER_LOGGED_OUT,
+  UPDATE_ADDRESS,
+  ADDED_TO_WISHLIST,
+  REMOVE_FROM_WISHLIST,
+} from "../actions";
 
 const INITIAL_STATE = {
   user: null,
@@ -10,6 +16,7 @@ export default (state = INITIAL_STATE, action) => {
   switch (type) {
     case USER_LOADED:
     case ADDED_TO_WISHLIST:
+    case REMOVE_FROM_WISHLIST:
       return { ...state, user: payload, isInitializing: false };
 
     case USER_LOGGED_OUT:

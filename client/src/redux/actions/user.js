@@ -1,7 +1,13 @@
 import axios from "axios";
 
 import { auth, googleAuthProvider } from "../../services/firebase";
-import { USER_LOADED, USER_LOGGED_OUT, UPDATE_ADDRESS, ADDED_TO_WISHLIST } from "./index";
+import {
+  USER_LOADED,
+  USER_LOGGED_OUT,
+  UPDATE_ADDRESS,
+  ADDED_TO_WISHLIST,
+  REMOVE_FROM_WISHLIST,
+} from "./index";
 import setTokenHeader from "../../utils/setTokenHeader";
 
 /**
@@ -201,6 +207,22 @@ export const addToWishlist = (id) => async (dispatch) => {
     });
   } catch (error) {
     console.error(`[❌ addToWishlist]`, error);
+    throw error;
+  }
+};
+
+/**
+ * Remove product from user's wishlist
+ */
+export const removeFromWishlist = (id) => async (dispatch) => {
+  try {
+    const res = await axios.delete(`${process.env.REACT_APP_API}/users/wishlist/${id}`);
+    dispatch({
+      type: REMOVE_FROM_WISHLIST,
+      payload: res.data.user,
+    });
+  } catch (error) {
+    console.error(`[❌ removeFromWishlist]`, error);
     throw error;
   }
 };

@@ -7,7 +7,7 @@ import { ShoppingCartOutlined, HeartOutlined, StarOutlined, HeartFilled } from "
 import { openDrawer } from "../../redux/actions/drawer";
 import randomTagColor from "../../utils/randomTagColor";
 import { updateRating } from "../../redux/actions/product";
-import { addToWishlist } from "../../redux/actions/user";
+import { addToWishlist, removeFromWishlist } from "../../redux/actions/user";
 import { addToCart } from "../../redux/actions/cart";
 import formatErrorMsg from "../../utils/formatErrorMsg";
 
@@ -22,7 +22,7 @@ const hasUserRatedBefore = (productRatings, user) =>
 const isItemInCart = (cart, id) => Object.keys(cart).includes(id);
 
 const isInWishList = (user, product) =>
-  user.wishlist?.length && user.wishlist.map((product) => product._id).includes(product._id);
+  user?.wishlist?.length && user.wishlist.map((product) => product._id).includes(product._id);
 
 const ProductInfo = ({ product }) => {
   const dispatch = useDispatch();
@@ -56,6 +56,15 @@ const ProductInfo = ({ product }) => {
     }
   };
 
+  const handleRemoveFromWishlist = async () => {
+    try {
+      await dispatch(removeFromWishlist(product._id));
+      message.success(`${product.title} removed from your wishlist!`);
+    } catch (error) {
+      message.error(formatErrorMsg(error), 6);
+    }
+  };
+
   return (
     <Fragment>
       <div className="product-info">
@@ -76,11 +85,14 @@ const ProductInfo = ({ product }) => {
             </Tooltip>,
 
             // Add to wishlist
-            <div key={2} onClick={isInWishList(user, product) ? undefined : handleAddToWishlist}>
+            <div
+              key={2}
+              onClick={isInWishList(user, product) ? handleRemoveFromWishlist : handleAddToWishlist}
+            >
               {isInWishList(user, product) ? (
                 <Fragment>
                   <HeartFilled className="product-info__card__actions--heart" />
-                  <p>Added to wishlist</p>
+                  <p>Remove from wishlist</p>
                 </Fragment>
               ) : (
                 <Fragment>
