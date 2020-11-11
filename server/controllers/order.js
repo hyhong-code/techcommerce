@@ -87,6 +87,7 @@ exports.createCashOrder = async (req, res, next) => {
       products: cart.products, // Copy items in cart to order
       paymentIntent,
       orderedBy: req.user._id,
+      orderStatus: "Cash on delivery",
     });
 
     // Populte product info

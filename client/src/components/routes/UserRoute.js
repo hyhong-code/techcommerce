@@ -11,7 +11,7 @@ const UserRoute = ({ component: Component, ...rest }) => {
   ) : user && user.role === "subscriber" ? (
     <Route {...rest} component={Component} />
   ) : user && user.role === "admin" ? (
-    <Redirect to="/admin/categories" />
+    <Redirect to="/admin/orders" />
   ) : (
     !user && <Redirect to="/login" />
   );

@@ -24,7 +24,7 @@ const tagStyles = {
 };
 
 const downloadLinkStyles = {
-  margin: "1rem 0 0",
+  margin: "0.5rem 0 0",
   display: "inline-block",
   padding: "6px 10px",
   borderRadius: "5px",
@@ -65,17 +65,25 @@ const History = () => {
                 {/* Number of Items */}
                 <span className="user-history__orders__item-header__quantity">
                   Items:{" "}
-                  <span>{order.products.reduce((acc, cur) => acc + Number(cur.count), 0)}</span>
+                  <span>
+                    {order.products.reduce(
+                      (acc, cur) => acc + Number(cur.count),
+                      0
+                    )}
+                  </span>
                 </span>
 
                 {/* Total Price */}
                 <span className="user-history__orders__item-header__price">
                   Total:{" "}
                   <span>
-                    {(Number(order.paymentIntent.amount) / 100).toLocaleString("en-US", {
-                      style: "currency",
-                      currency: "USD",
-                    })}
+                    {(Number(order.paymentIntent.amount) / 100).toLocaleString(
+                      "en-US",
+                      {
+                        style: "currency",
+                        currency: "USD",
+                      }
+                    )}
                   </span>
                 </span>
 
@@ -101,7 +109,8 @@ const History = () => {
                       alt={product.product.title}
                     />
                     <p style={tagStyles}>
-                      {product.product.brand} {product.product.title} ({product.color})
+                      {product.product.brand} {product.product.title} (
+                      {product.color})
                     </p>
                   </div>
                 ))}
@@ -111,17 +120,27 @@ const History = () => {
                 {/* Products info list */}
                 <List
                   className="user-history__orders__item-content__list"
-                  header={<span style={{ fontWeight: 500 }}>Products Ordered</span>}
+                  header={
+                    <span style={{ fontWeight: 500 }}>Products Ordered</span>
+                  }
                   bordered
                   dataSource={order.products}
                   renderItem={(product) => (
                     <List.Item>
-                      • {product.product.brand} {product.product.title} ({product.color}) $
-                      {product.product.price}{" "}
+                      • {product.product.brand} {product.product.title} (
+                      {product.color}) ${product.product.price}{" "}
                       <span style={{ fontWeight: 500 }}>X {product.count}</span>
                     </List.Item>
                   )}
                 />
+
+                {/* Payment method */}
+                <p style={{ marginTop: "0.5rem" }}>
+                  Payment method:{" "}
+                  <span style={{ fontWeight: 500 }}>
+                    {order.paymentIntent.payment_method_types[0].toUpperCase()}
+                  </span>
+                </p>
 
                 {/* Download Receipt Button */}
                 <PDFDownloadLink

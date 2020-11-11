@@ -62,7 +62,7 @@ const Header = () => {
           {/* Dashboard Link*/}
           <Item key="dashboard">
             <Link
-              to={user.role === "admin" ? "/admin/categories" : "/user/history"}
+              to={user.role === "admin" ? "/admin/orders" : "/user/history"}
             >
               Dashboard
             </Link>

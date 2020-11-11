@@ -12,7 +12,14 @@ const { Title } = Typography;
 const { Panel } = Collapse;
 const { Option } = Select;
 
-const STATUS_OPTIONS = ["Not processed", "Processing", "Dispatched", "Cancelled", "Completed"];
+const STATUS_OPTIONS = [
+  "Not processed",
+  "Processing",
+  "Dispatched",
+  "Cancelled",
+  "Completed",
+  "Cash on delivery",
+];
 
 const tagStyles = {
   position: "absolute",
@@ -69,17 +76,25 @@ const Orders = () => {
                 {/* Number of Items */}
                 <span className="admin-orders__orders__item-header__quantity">
                   Items:{" "}
-                  <span>{order.products.reduce((acc, cur) => acc + Number(cur.count), 0)}</span>
+                  <span>
+                    {order.products.reduce(
+                      (acc, cur) => acc + Number(cur.count),
+                      0
+                    )}
+                  </span>
                 </span>
 
                 {/* Total Price */}
                 <span className="admin-orders__orders__item-header__price">
                   Total:{" "}
                   <span>
-                    {(Number(order.paymentIntent.amount) / 100).toLocaleString("en-US", {
-                      style: "currency",
-                      currency: "USD",
-                    })}
+                    {(Number(order.paymentIntent.amount) / 100).toLocaleString(
+                      "en-US",
+                      {
+                        style: "currency",
+                        currency: "USD",
+                      }
+                    )}
                   </span>
                 </span>
 
@@ -105,7 +120,8 @@ const Orders = () => {
                       alt={product.product.title}
                     />
                     <p style={tagStyles}>
-                      {product.product.brand} {product.product.title} ({product.color})
+                      {product.product.brand} {product.product.title} (
+                      {product.color})
                     </p>
                   </div>
                 ))}
@@ -115,25 +131,36 @@ const Orders = () => {
                 {/* Products info list */}
                 <List
                   className="admin-orders__orders__item-content__list"
-                  header={<span style={{ fontWeight: 500 }}>Products Ordered</span>}
+                  header={
+                    <span style={{ fontWeight: 500 }}>Products Ordered</span>
+                  }
                   bordered
                   dataSource={order.products}
                   renderItem={(product) => (
                     <List.Item>
-                      • {product.product.brand} {product.product.title} ({product.color}) $
-                      {product.product.price}{" "}
+                      • {product.product.brand} {product.product.title} (
+                      {product.color}) ${product.product.price}{" "}
                       <span style={{ fontWeight: 500 }}>X {product.count}</span>
                     </List.Item>
                   )}
                 />
 
-                {/* Update order status dropdown */}
+                {/* Payment method */}
+                <p style={{ marginTop: "0.5rem" }}>
+                  Payment method:{" "}
+                  <span style={{ fontWeight: 500 }}>
+                    {order.paymentIntent.payment_method_types[0].toUpperCase()}
+                  </span>
+                </p>
 
+                {/* Update order status dropdown */}
                 <div className="admin-orders__orders__item-content__status">
                   <p>Change Order Status:</p>
                   <Select
                     defaultValue={order.orderStatus}
-                    onChange={(orderStatus) => handleStatusChange(order._id, orderStatus)}
+                    onChange={(orderStatus) =>
+                      handleStatusChange(order._id, orderStatus)
+                    }
                   >
                     {STATUS_OPTIONS.map((option) => (
                       <Option key={option} value={option}>

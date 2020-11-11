@@ -10,6 +10,8 @@ const getStatusTagColor = (status) => {
       return "gold";
     case "Completed":
       return "green";
+    case "Cash on delivery":
+      return "volcano";
     default:
       return undefined;
   }
