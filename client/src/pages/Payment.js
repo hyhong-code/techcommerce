@@ -1,11 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
-import {
-  Elements,
-  useStripe,
-  useElements,
-  CardElement,
-} from "@stripe/react-stripe-js";
+import { Elements, useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { message, Row, Col, Statistic, Alert } from "antd";
@@ -13,6 +8,7 @@ import { DollarCircleOutlined, CheckCircleOutlined } from "@ant-design/icons";
 
 import { createPaymentIntent, paymentComplete } from "../redux/actions/stripe";
 import { createOrder } from "../redux/actions/order";
+import SEOHead from "../components/SEOHead";
 
 // Card styles
 const cardStyle = {
@@ -69,15 +65,12 @@ const PaymentForm = () => {
     evt.preventDefault();
     setProcessing(true);
     try {
-      const { error, paymentIntent } = await stripe.confirmCardPayment(
-        clientSecret,
-        {
-          payment_method: {
-            card: elements.getElement(CardElement),
-            billing_details: {},
-          },
-        }
-      );
+      const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: elements.getElement(CardElement),
+          billing_details: {},
+        },
+      });
 
       // Handle error
       if (error) throw error;
@@ -103,14 +96,15 @@ const PaymentForm = () => {
 
   return (
     <Fragment>
+      <SEOHead
+        title={`Payment | ${process.env.REACT_APP_APP_NAME}`}
+        description="Complete your order."
+      />
+
       {/* Stripe form */}
       <form id="payment-form" className="stripe-form" onSubmit={handleSubmit}>
         {/* Stripe card input */}
-        <CardElement
-          id="card-element"
-          options={cardStyle}
-          onChange={handleChange}
-        />
+        <CardElement id="card-element" options={cardStyle} onChange={handleChange} />
 
         {/* Stripe pay button */}
         <button
@@ -184,9 +178,7 @@ export default () => {
         {Number(totalAfterDiscount) < Number(cartTotal) && (
           <Alert
             className="payment__alert"
-            message={`$${
-              Number(cartTotal) - Number(totalAfterDiscount)
-            } coupon applied!`}
+            message={`$${Number(cartTotal) - Number(totalAfterDiscount)} coupon applied!`}
             type="success"
           />
         )}

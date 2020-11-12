@@ -12,15 +12,12 @@ import {
   message,
   Tooltip,
 } from "antd";
-import {
-  CheckCircleOutlined,
-  CloseCircleOutlined,
-  CloseOutlined,
-} from "@ant-design/icons";
+import { CheckCircleOutlined, CloseCircleOutlined, CloseOutlined } from "@ant-design/icons";
 import { useHistory, useLocation } from "react-router-dom";
 
 import { saveCart } from "../redux/actions/cart";
 import { changeQty, changeColor, removeProduct } from "../redux/actions/cart";
+import SEOHead from "../components/SEOHead";
 
 const { Option } = Select;
 
@@ -96,12 +93,7 @@ const Cart = () => {
       dataIndex: "count",
       key: "count",
       render: ({ count, id, qty }) => (
-        <InputNumber
-          value={count}
-          min={1}
-          max={qty}
-          onChange={(v) => dispatch(changeQty(id, v))}
-        />
+        <InputNumber value={count} min={1} max={qty} onChange={(v) => dispatch(changeQty(id, v))} />
       ),
     },
     {
@@ -127,12 +119,7 @@ const Cart = () => {
           okText="Delete"
           cancelText="Cancel"
         >
-          <Button
-            size="small"
-            shape="circle"
-            type="ghost"
-            icon={<CloseOutlined />}
-          />
+          <Button size="small" shape="circle" type="ghost" icon={<CloseOutlined />} />
         </Popconfirm>
       ),
     },
@@ -161,20 +148,16 @@ const Cart = () => {
 
   return (
     <div className="cart">
+      <SEOHead title={`Cart | ${process.env.REACT_APP_APP_NAME}`} />
+
       {/* Title */}
       <h1 className="cart__title">
-        {Object.keys(cart).length
-          ? "Your cart:"
-          : "Your cart is empty, keep on shopping."}
+        {Object.keys(cart).length ? "Your cart:" : "Your cart is empty, keep on shopping."}
       </h1>
       <h2 className="cart__title">Order summary</h2>
 
       {/* Cart table */}
-      <Table
-        dataSource={dataSource}
-        columns={columns}
-        className="cart__table"
-      />
+      <Table dataSource={dataSource} columns={columns} className="cart__table" />
 
       {/* Checkout card */}
       <Card className="cart__checkout">
@@ -204,17 +187,11 @@ const Cart = () => {
         <Divider />
 
         {/* Checkout button */}
-        <Tooltip
-          title={
-            user && user.role !== "subscriber" && "Only user can checkout."
-          }
-        >
+        <Tooltip title={user && user.role !== "subscriber" && "Only user can checkout."}>
           <Button
             loading={checkoutLoading}
             type="primary"
-            disabled={
-              Object.keys(cart) <= 0 || !user || user.role !== "subscriber"
-            }
+            disabled={Object.keys(cart) <= 0 || !user || user.role !== "subscriber"}
             onClick={() => handleCheckout()}
           >
             {user ? "Checkout" : "Log in to checkout"}
@@ -223,18 +200,12 @@ const Cart = () => {
 
         {/* Cash on delivery checkout option */}
         {user && (
-          <Tooltip
-            title={
-              user && user.role !== "subscriber" && "Only user can checkout."
-            }
-          >
+          <Tooltip title={user && user.role !== "subscriber" && "Only user can checkout."}>
             <Button
               loading={checkoutLoading}
               type="dashed"
               style={{ display: "block", marginTop: "0.5rem" }}
-              disabled={
-                Object.keys(cart) <= 0 || !user || user.role !== "subscriber"
-              }
+              disabled={Object.keys(cart) <= 0 || !user || user.role !== "subscriber"}
               onClick={() => handleCheckout(true)}
             >
               Cash on delivery

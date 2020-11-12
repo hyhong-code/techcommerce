@@ -14,13 +14,11 @@ import {
 
 import LoadingCard from "../components/ui/LoadingCards";
 import ProductCard from "../components/products/ProductCard";
-import {
-  clearFilteredProducts,
-  filterProducts,
-} from "../redux/actions/product";
+import { clearFilteredProducts, filterProducts } from "../redux/actions/product";
 import { listCategories } from "../redux/actions/category";
 import { listSubs } from "../redux/actions/sub";
 import { handleSearchTextChange } from "../redux/actions/product";
+import SEOHead from "../components/SEOHead";
 
 const { SubMenu } = Menu;
 const { Option } = Select;
@@ -58,9 +56,7 @@ const Shop = () => {
       const selectedCateIds = selectedCategories.map(
         (cate) => categories.find((c) => c.slug === cate)._id
       );
-      setSubsByCategory(
-        subs.filter((sub) => selectedCateIds.includes(sub.parent))
-      );
+      setSubsByCategory(subs.filter((sub) => selectedCateIds.includes(sub.parent)));
     }
   }, [selectedCategories, categories, subs]);
 
@@ -106,9 +102,7 @@ const Shop = () => {
   // Handle categories change
   const handleCategoriesChange = (evt) => {
     if (selectedCategories.includes(evt.target.value)) {
-      setSelectedCategories((prev) =>
-        prev.filter((cate) => cate !== evt.target.value)
-      );
+      setSelectedCategories((prev) => prev.filter((cate) => cate !== evt.target.value));
     } else {
       setSelectedCategories((prev) => [...prev, evt.target.value]);
     }
@@ -137,6 +131,10 @@ const Shop = () => {
 
   return (
     <div className="shop">
+      <SEOHead
+        title={`Shop | ${process.env.REACT_APP_APP_NAME}`}
+        description="Shop all your favorite tech products."
+      />
       <div className="shop__control">
         <h1 className="shop__control__title">Filter Products</h1>
 
@@ -184,11 +182,7 @@ const Shop = () => {
           </SubMenu>
 
           {/* Sub category filter */}
-          <SubMenu
-            key="3"
-            title="Sub Categories"
-            icon={<OrderedListOutlined />}
-          >
+          <SubMenu key="3" title="Sub Categories" icon={<OrderedListOutlined />}>
             <div className="shop__control__menu__sub-category">
               {subsToDisplay?.map((sub) => (
                 <Checkbox
@@ -288,10 +282,7 @@ const Shop = () => {
           {/* Shipping filter */}
           <SubMenu key="7" title="Shipping" icon={<CarOutlined />}>
             <div className="shop__control__menu__shipping">
-              <Radio.Group
-                onChange={() => setShipping((prev) => !prev)}
-                value={shipping}
-              >
+              <Radio.Group onChange={() => setShipping((prev) => !prev)} value={shipping}>
                 <Radio value={true}>Shipping</Radio>
                 <Radio value={false}>Non-shipping</Radio>
               </Radio.Group>
@@ -304,9 +295,7 @@ const Shop = () => {
       <div className="shop__products">
         {!filteredProductsLoading ? (
           filteredProducts.length ? (
-            filteredProducts.map((product) => (
-              <ProductCard key={product._id} product={product} />
-            ))
+            filteredProducts.map((product) => <ProductCard key={product._id} product={product} />)
           ) : (
             <p className="shop__products__not-found">No prodcuts found.</p>
           )

@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import { Provider as ReduxProvider } from "react-redux";
+import SEOHead from "./components/SEOHead";
 
 import App from "./App";
 import store from "./redux/store";
@@ -12,6 +13,7 @@ import "./styles/App.scss";
 ReactDOM.render(
   <ReduxProvider store={store}>
     <BrowserRouter>
+      <SEOHead />
       <App />
     </BrowserRouter>
   </ReduxProvider>,

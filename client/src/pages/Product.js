@@ -15,6 +15,7 @@ import ProductInfo from "../components/products/ProductInfo";
 import getAverageProductRating from "../utils/getAverageProductRating";
 import LoadingCards from "../components/ui/LoadingCards";
 import ProductCard from "../components/products/ProductCard";
+import SEOHead from "../components/SEOHead";
 
 const { TabPane } = Tabs;
 
@@ -42,6 +43,11 @@ const Product = () => {
     <Spin size="large" />
   ) : (
     <div className="product">
+      <SEOHead
+        title={`${currentProduct?.title} | ${process.env.REACT_APP_APP_NAME}`}
+        description={currentProduct?.description}
+      />
+
       {/* Product images carousel */}
       <div className="product__left">
         <div className="product__left__images">
@@ -65,8 +71,8 @@ const Product = () => {
               <p>{currentProduct?.description}</p>
             </TabPane>
             <TabPane tab="Read more" key={2}>
-              For more information about this product, please visit{" "}
-              {currentProduct?.brand} official website.
+              For more information about this product, please visit {currentProduct?.brand} official
+              website.
             </TabPane>
           </Tabs>
         </div>
@@ -80,11 +86,7 @@ const Product = () => {
           </h1>
         </div>
         <div className="product__information__ratings">
-          <Rate
-            allowHalf
-            value={getAverageProductRating(currentProduct?.ratings)}
-            disabled
-          />
+          <Rate allowHalf value={getAverageProductRating(currentProduct?.ratings)} disabled />
           <span className="product__information__ratings__count">
             ({currentProduct?.ratings.length})
           </span>
@@ -101,13 +103,9 @@ const Product = () => {
           {similarProductsLoading ? (
             <LoadingCards />
           ) : similarProducts.length ? (
-            similarProducts.map((product) => (
-              <ProductCard key={product._id} product={product} />
-            ))
+            similarProducts.map((product) => <ProductCard key={product._id} product={product} />)
           ) : (
-            <p className="product__similar__cards__not-found">
-              No products found.
-            </p>
+            <p className="product__similar__cards__not-found">No products found.</p>
           )}
         </div>
       </div>

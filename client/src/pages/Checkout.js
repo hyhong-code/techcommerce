@@ -6,14 +6,10 @@ import { useHistory } from "react-router-dom";
 import ReactQuill from "react-quill";
 
 import { updateUserAddress } from "../redux/actions/user";
-import {
-  getCart,
-  clearCartPrice,
-  clearCart,
-  applyCoupon,
-} from "../redux/actions/cart";
+import { getCart, clearCartPrice, clearCart, applyCoupon } from "../redux/actions/cart";
 import { createOrder } from "../redux/actions/order";
 import formatErrorMsg from "../utils/formatErrorMsg";
+import SEOHead from "../components/SEOHead";
 
 const Checkout = () => {
   const dispatch = useDispatch();
@@ -110,6 +106,8 @@ const Checkout = () => {
 
   return (
     <div className="checkout">
+      <SEOHead title={`Checkout | ${process.env.REACT_APP_APP_NAME}`} />
+
       {/* Left side */}
       <div className="checkout__left">
         {/* Address */}
@@ -140,9 +138,7 @@ const Checkout = () => {
         <form onSubmit={handleApplyCoupon}>
           <Input
             placeholder={
-              isCouponApplied()
-                ? "A coupon has been applied."
-                : "Enter a coupon code..."
+              isCouponApplied() ? "A coupon has been applied." : "Enter a coupon code..."
             }
             value={couponCode}
             disabled={applyCouponLoading || isCouponApplied()}
@@ -186,17 +182,11 @@ const Checkout = () => {
             <p className="checkout__right__subtitle">Total after discount:</p>
           </Fragment>
         )}
-        <p className="checkout__right__cart-total--alt">
-          ${totalAfterDiscount}
-        </p>
+        <p className="checkout__right__cart-total--alt">${totalAfterDiscount}</p>
 
         <div className="checkout__right__actions">
           {/* Clear cart */}
-          <Popconfirm
-            onConfirm={handleClearCart}
-            okText="Clear"
-            title="Clear shopping cart?"
-          >
+          <Popconfirm onConfirm={handleClearCart} okText="Clear" title="Clear shopping cart?">
             <Button icon={<ClearOutlined />} loading={clearCartLoading}>
               Empty Cart
             </Button>
@@ -207,8 +197,7 @@ const Checkout = () => {
             title={
               !addressConfirmed
                 ? "Please confirm your address."
-                : !Object.keys(cart).length &&
-                  "Please add some items to cart first"
+                : !Object.keys(cart).length && "Please add some items to cart first"
             }
           >
             <Button

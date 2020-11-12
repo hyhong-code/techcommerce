@@ -12,18 +12,14 @@ import { Spin } from "antd";
 // import Orders from "../../components/admin/orders/Orders";
 // import Password from "../../components/user/Password";
 
+import SEOHead from "../../components/SEOHead";
+
 const SideNav = lazy(() => import("../../components/admin/SideNav"));
-const Categories = lazy(() =>
-  import("../../components/admin/categories/Categories")
-);
+const Categories = lazy(() => import("../../components/admin/categories/Categories"));
 const Subs = lazy(() => import("../../components/admin/subs/Subs"));
 const Products = lazy(() => import("../../components/admin/products/Products"));
-const UpdateProduct = lazy(() =>
-  import("../../components/admin/products/UpdateProduct")
-);
-const CreateProducts = lazy(() =>
-  import("../../components/admin/products/CreateProducts")
-);
+const UpdateProduct = lazy(() => import("../../components/admin/products/UpdateProduct"));
+const CreateProducts = lazy(() => import("../../components/admin/products/CreateProducts"));
 const Coupons = lazy(() => import("../../components/admin/coupons/Coupons"));
 const Orders = lazy(() => import("../../components/admin/orders/Orders"));
 const Password = lazy(() => import("../../components/user/Password"));
@@ -31,6 +27,11 @@ const Password = lazy(() => import("../../components/user/Password"));
 const Admin = () => {
   return (
     <Suspense fallback={<Spin size="large" />}>
+      <SEOHead
+        title={`Dashboard | ${process.env.REACT_APP_APP_NAME}`}
+        description="Manage the shop."
+      />
+
       <div className="admin">
         <div>
           <SideNav />
@@ -39,11 +40,7 @@ const Admin = () => {
           <Switch>
             <Route exact path="/admin/categories" component={Categories} />
             <Route exact path="/admin/subs" component={Subs} />
-            <Route
-              exact
-              path="/admin/products/:slug"
-              component={UpdateProduct}
-            />
+            <Route exact path="/admin/products/:slug" component={UpdateProduct} />
             <Route exact path="/admin/products" component={Products} />
             <Route exact path="/admin/product" component={CreateProducts} />
             <Route exact path="/admin/coupons" component={Coupons} />
