@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import { BackTop, Spin } from "antd";
 
 // import Home from "./pages/Home";
@@ -52,13 +52,9 @@ const App = () => {
       <Header />
       <Drawer />
       <Switch>
+        <PublicRoute path="/register/complete" component={RegisterComplete} />
         <PublicRoute exact path="/login" component={Login} />
         <PublicRoute exact path="/register" component={Register} />
-        <PublicRoute
-          exact
-          path="/register/complete"
-          component={RegisterComplete}
-        />
         <PublicRoute exact path="/forgot-password" component={ForgotPassword} />
         <UserRoute exact path="/user/:subroute" component={User} />
         <UserRoute exact path="/checkout" component={Checkout} />
@@ -70,6 +66,7 @@ const App = () => {
         <Route exact path="/shop" component={Shop} />
         <Route exact path="/cart" component={Cart} />
         <Route exact path="/" component={Home} />
+        <Redirect from="/*" to="/" />
       </Switch>
       <BackTop />
     </Suspense>
